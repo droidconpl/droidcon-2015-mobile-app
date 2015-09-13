@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Droidcon Poland</string>
+
+    <string name="agenda">Agenda</string>
+    <string name="favourites">Favourites</string>
+    <string name="map_and_info">Map &amp; info</string>
+    <string name="about">About</string>
+    <string name="settings">Settings</string>
+    <string name="drawer_open">Menu open</string>
+    <string name="drawer_close">Menu close</string>
+</resources>
