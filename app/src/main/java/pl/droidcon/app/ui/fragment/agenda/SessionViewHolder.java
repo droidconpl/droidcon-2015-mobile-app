@@ -14,6 +14,23 @@ public class SessionViewHolder extends RecyclerView.ViewHolder implements View.O
     @Bind(R.id.session_title)
     TextView sessionTitle;
 
+
+    @Bind(R.id.session_speaker_first_name)
+    TextView speakerFirstName;
+
+
+    @Bind(R.id.session_speaker_last_name)
+    TextView speakerLastName;
+
+
+    @Bind(R.id.session_speaker_photo)
+    TextView speakerPhoto;
+
+
+    @Bind(R.id.session_date)
+    TextView sessionDate;
+
+
     public SessionViewHolder(View itemView) {
         super(itemView);
 
@@ -27,5 +44,11 @@ public class SessionViewHolder extends RecyclerView.ViewHolder implements View.O
 
     public void attachSession(Session session) {
         sessionTitle.setText(session.sessionTopic);
+
+        speakerFirstName.setText(session.speakerFirstName);
+        speakerLastName.setText(session.speakerLastName);
+
+        speakerPhoto.setText(session.speakerPhoto);
+        sessionDate.setText(session.sessionDate);
     }
 }
