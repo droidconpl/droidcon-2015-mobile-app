@@ -3,6 +3,7 @@
     package="pl.droidcon.app">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".DroidconApp"
@@ -21,6 +22,10 @@
         </activity>
 
         <service android:name=".service.FetchDataService" />
+
+        <service
+            android:name=".service.api.AgendaRetrofitService"
+            android:exported="false" />
     </application>
 
 </manifest>
