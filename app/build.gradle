@@ -30,6 +30,8 @@ android {
 
     packagingOptions {
         exclude 'META-INF/services/javax.annotation.processing.Processor'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
     }
 }
 
@@ -37,9 +39,12 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:23.0.0'
     compile 'com.android.support:design:23.0.0'
+    compile 'com.android.support:recyclerview-v7:21.0.2'
     compile 'com.jakewharton:butterknife:7.0.1'
 
     apt "com.google.dagger:dagger-compiler:2.0.1"
     compile 'org.glassfish:javax.annotation:10.0-b28'
     compile 'com.google.dagger:dagger:2.0.1'
+
+    compile 'com.octo.android.robospice:robospice-retrofit:1.4.11'
 }
