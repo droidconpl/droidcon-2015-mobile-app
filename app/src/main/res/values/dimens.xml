@@ -1,4 +1,5 @@
 <resources>
     <dimen name="screen_edge_margin">16dp</dimen>
 
+    <dimen name="list_element_margin">8dp</dimen>
 </resources>
