@@ -1,5 +1,6 @@
 package pl.droidcon.app.ui.fragment.agenda;
 
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -57,6 +58,7 @@ public class AgendaFragment extends Fragment {
         // use a linear layout manager
         LinearLayoutManager mLayoutManager = new GridLayoutManager(view.getContext(), 2);
         agendaList.setLayoutManager(mLayoutManager);
+        agendaList.addItemDecoration(new SpacesItemDecoration(view.getContext().getResources().getDimension(R.dimen.list_element_margin)));
 
         AgendaRetrofitSpiceRequest contactsRetrofitSpiceRequest = new AgendaRetrofitSpiceRequest();
         spiceManager.execute(contactsRetrofitSpiceRequest, "contacts", DurationInMillis.ALWAYS_RETURNED, new ListAllSessionsListener());
@@ -96,6 +98,31 @@ public class AgendaFragment extends Fragment {
         @Override
         public void onRequestSuccess(AgendaResponse agendaResponse) {
             update(agendaResponse.sessions);
+        }
+    }
+
+    public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
+        private int space;
+
+        public SpacesItemDecoration(float space) {
+            this.space = (int) space;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+            int childPosition = parent.getChildPosition(view);
+
+            if (childPosition % 2 == 0) {
+                // left element
+                outRect.right = (int) (space * 0.5f);
+                outRect.left = space;
+            } else {
+                // right element
+                outRect.right = space;
+                outRect.left = (int) (space * 0.5f);
+            }
+
+            outRect.bottom = space;
         }
     }
 }
