@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -37,19 +38,23 @@ public class SessionViewHolder extends RecyclerView.ViewHolder implements View.O
 
     @Bind(R.id.session_picture)
     ImageView sessionPicture;
+    private Session session;
 
     public SessionViewHolder(View itemView) {
         super(itemView);
 
         ButterKnife.bind(this, itemView);
+        itemView.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-
+        if (session != null)
+            Toast.makeText(v.getContext(), session.sessionDescription, Toast.LENGTH_SHORT).show();
     }
 
     public void attachSession(Session session) {
+        this.session = session;
         sessionTitle.setText(session.sessionTopic);
 
 //        speakerFirstName.setText(session.speakerFirstName);
