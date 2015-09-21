@@ -1,6 +1,4 @@
-package pl.droidcon.app.service.model;
-
-import java.util.Date;
+package pl.droidcon.app.model.api;
 
 public class Session {
 

@@ -2,7 +2,7 @@ package pl.droidcon.app.service.api;
 
 import com.octo.android.robospice.request.retrofit.RetrofitSpiceRequest;
 
-import pl.droidcon.app.service.model.AgendaResponse;
+import pl.droidcon.app.model.api.AgendaResponse;
 
 public class AgendaRetrofitSpiceRequest extends RetrofitSpiceRequest<AgendaResponse, AgendaService> {
     public AgendaRetrofitSpiceRequest() {

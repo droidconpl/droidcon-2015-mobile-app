@@ -1,4 +1,4 @@
-package pl.droidcon.app.ui.fragment.agenda;
+package pl.droidcon.app.ui.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import pl.droidcon.app.R;
-import pl.droidcon.app.service.model.Session;
+import pl.droidcon.app.model.api.Session;
 
 public class AgendaAdapter extends RecyclerView.Adapter<SessionViewHolder> {
 

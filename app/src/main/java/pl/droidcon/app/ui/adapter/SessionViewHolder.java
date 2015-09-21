@@ -1,4 +1,4 @@
-package pl.droidcon.app.ui.fragment.agenda;
+package pl.droidcon.app.ui.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -11,7 +11,7 @@ import com.squareup.picasso.Picasso;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import pl.droidcon.app.R;
-import pl.droidcon.app.service.model.Session;
+import pl.droidcon.app.model.api.Session;
 
 public class SessionViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
