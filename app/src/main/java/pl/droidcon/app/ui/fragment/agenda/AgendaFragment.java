@@ -22,8 +22,9 @@ import java.util.List;
 import pl.droidcon.app.R;
 import pl.droidcon.app.service.api.AgendaRetrofitService;
 import pl.droidcon.app.service.api.AgendaRetrofitSpiceRequest;
-import pl.droidcon.app.service.model.AgendaResponse;
-import pl.droidcon.app.service.model.Session;
+import pl.droidcon.app.model.api.AgendaResponse;
+import pl.droidcon.app.model.api.Session;
+import pl.droidcon.app.ui.adapter.AgendaAdapter;
 
 
 public class AgendaFragment extends Fragment {

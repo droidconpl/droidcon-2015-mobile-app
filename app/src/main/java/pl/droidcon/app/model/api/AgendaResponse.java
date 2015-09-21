@@ -1,4 +1,4 @@
-package pl.droidcon.app.service.model;
+package pl.droidcon.app.model.api;
 
 import java.util.List;
 

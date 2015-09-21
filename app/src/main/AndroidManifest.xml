@@ -21,8 +21,6 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".service.FetchDataService" />
-
         <service
             android:name=".service.api.AgendaRetrofitService"
             android:exported="false" />
