@@ -61,7 +61,7 @@ public class AgendaFragment extends Fragment {
         agendaList.addItemDecoration(new SpacesItemDecoration(view.getContext().getResources().getDimension(R.dimen.list_element_margin)));
 
         AgendaRetrofitSpiceRequest contactsRetrofitSpiceRequest = new AgendaRetrofitSpiceRequest();
-        spiceManager.execute(contactsRetrofitSpiceRequest, "contacts", DurationInMillis.ALWAYS_RETURNED, new ListAllSessionsListener());
+        spiceManager.execute(contactsRetrofitSpiceRequest, "contacts", DurationInMillis.ALWAYS_EXPIRED, new ListAllSessionsListener());
     }
 
     @Override
