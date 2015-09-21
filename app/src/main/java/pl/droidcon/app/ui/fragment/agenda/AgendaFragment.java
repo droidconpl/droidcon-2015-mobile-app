@@ -60,6 +60,11 @@ public class AgendaFragment extends Fragment {
         agendaList.setLayoutManager(mLayoutManager);
         agendaList.addItemDecoration(new SpacesItemDecoration(view.getContext().getResources().getDimension(R.dimen.list_element_margin)));
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         AgendaRetrofitSpiceRequest contactsRetrofitSpiceRequest = new AgendaRetrofitSpiceRequest();
         spiceManager.execute(contactsRetrofitSpiceRequest, "contacts", DurationInMillis.ALWAYS_EXPIRED, new ListAllSessionsListener());
     }
