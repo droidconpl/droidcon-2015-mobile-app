@@ -11,6 +11,8 @@ import com.squareup.picasso.Picasso;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import pl.droidcon.app.R;
+import pl.droidcon.app.model.api.AgendaAndSpeakersResponse;
+import pl.droidcon.app.model.api.AgendaAndSpeakersResponse.AgendaAndSpeakers;
 import pl.droidcon.app.model.api.Session;
 
 public class SessionViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -33,12 +35,11 @@ public class SessionViewHolder extends RecyclerView.ViewHolder implements View.O
 //
 //    @Bind(R.id.session_date)
 //    TextView sessionDate;
-//
-//
 
     @Bind(R.id.session_picture)
     ImageView sessionPicture;
-    private Session session;
+
+    private AgendaAndSpeakers session;
 
     public SessionViewHolder(View itemView) {
         super(itemView);
@@ -49,13 +50,12 @@ public class SessionViewHolder extends RecyclerView.ViewHolder implements View.O
 
     @Override
     public void onClick(View v) {
-        if (session != null)
-            Toast.makeText(v.getContext(), session.sessionDescription, Toast.LENGTH_SHORT).show();
+
     }
 
-    public void attachSession(Session session) {
+    public void attachSession(AgendaAndSpeakers session) {
         this.session = session;
-        sessionTitle.setText(session.sessionTopic);
+        sessionTitle.setText(session.title);
 
 //        speakerFirstName.setText(session.speakerFirstName);
 //        speakerLastName.setText(session.speakerLastName);
@@ -63,6 +63,6 @@ public class SessionViewHolder extends RecyclerView.ViewHolder implements View.O
 //        speakerPhoto.setText(session.speakerPhoto);
 //        sessionDate.setText(session.sessionDate);
 
-        Picasso.with(sessionPicture.getContext()).load(session.speakerPhoto).into(sessionPicture);
+        Picasso.with(sessionPicture.getContext()).load(session.imageUrl).into(sessionPicture);
     }
 }

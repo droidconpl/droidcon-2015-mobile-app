@@ -10,34 +10,31 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
-
-import com.octo.android.robospice.SpiceManager;
-import com.octo.android.robospice.persistence.DurationInMillis;
-import com.octo.android.robospice.persistence.exception.SpiceException;
-import com.octo.android.robospice.request.listener.RequestListener;
-
-import java.util.List;
 
 import pl.droidcon.app.R;
-import pl.droidcon.app.service.api.AgendaRetrofitService;
-import pl.droidcon.app.service.api.AgendaRetrofitSpiceRequest;
-import pl.droidcon.app.model.api.AgendaResponse;
-import pl.droidcon.app.model.api.Session;
+import pl.droidcon.app.model.api.AgendaAndSpeakersResponse;
+import pl.droidcon.app.rx.AgendaFragmentSubscription;
 import pl.droidcon.app.ui.adapter.AgendaAdapter;
+import rx.functions.Action1;
 
 
 public class AgendaFragment extends Fragment {
 
-    private SpiceManager spiceManager = new SpiceManager(AgendaRetrofitService.class);
     private RecyclerView agendaList;
+
+    private AgendaFragmentSubscription agendaFragmentSubscription;
 
     public static AgendaFragment newInstance() {
         Bundle args = new Bundle();
-
         AgendaFragment fragment = new AgendaFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        agendaFragmentSubscription = new AgendaFragmentSubscription();
     }
 
     @Nullable
@@ -49,25 +46,40 @@ public class AgendaFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         agendaList = (RecyclerView) view.findViewById(R.id.agenda_view);
-
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
         agendaList.setHasFixedSize(true);
-
-        // use a linear layout manager
         LinearLayoutManager mLayoutManager = new GridLayoutManager(view.getContext(), 2);
         agendaList.setLayoutManager(mLayoutManager);
         agendaList.addItemDecoration(new SpacesItemDecoration(view.getContext().getResources().getDimension(R.dimen.list_element_margin)));
+    }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        agendaFragmentSubscription.subscribe();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        agendaFragmentSubscription.unSubscribe();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        AgendaRetrofitSpiceRequest contactsRetrofitSpiceRequest = new AgendaRetrofitSpiceRequest();
-        spiceManager.execute(contactsRetrofitSpiceRequest, "contacts", DurationInMillis.ALWAYS_EXPIRED, new ListAllSessionsListener());
+        agendaFragmentSubscription.bind(new Action1<AgendaAndSpeakersResponse>() {
+            @Override
+            public void call(AgendaAndSpeakersResponse agendaResponse) {
+                update(agendaResponse);
+            }
+        });
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        agendaFragmentSubscription.bind(null);
     }
 
     @Override
@@ -75,36 +87,9 @@ public class AgendaFragment extends Fragment {
         super.onSaveInstanceState(outState);
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        spiceManager.start(getActivity());
-    }
-
-    @Override
-    public void onStop() {
-        if (spiceManager.isStarted()) {
-            spiceManager.shouldStop();
-        }
-        super.onStop();
-    }
-
-    public void update(List<Session> sessions) {
-        AgendaAdapter mAdapter = new AgendaAdapter(sessions);
+    public void update(AgendaAndSpeakersResponse agendaResponse) {
+        AgendaAdapter mAdapter = new AgendaAdapter(agendaResponse.agendaAndSpeakers);
         agendaList.setAdapter(mAdapter);
-    }
-
-    class ListAllSessionsListener implements RequestListener<AgendaResponse> {
-
-        @Override
-        public void onRequestFailure(SpiceException spiceException) {
-            Toast.makeText(getContext(), "WILL HANDLE LATER", Toast.LENGTH_SHORT);
-        }
-
-        @Override
-        public void onRequestSuccess(AgendaResponse agendaResponse) {
-            update(agendaResponse.sessions);
-        }
     }
 
     public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
