@@ -1,9 +1,9 @@
 package pl.droidcon.app.ui.fragment.agenda;
 
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,21 +11,46 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
+import javax.inject.Inject;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import pl.droidcon.app.R;
+import pl.droidcon.app.dagger.DroidconInjector;
 import pl.droidcon.app.model.api.AgendaAndSpeakersResponse;
+import pl.droidcon.app.model.common.SessionDay;
+import pl.droidcon.app.model.ui.SwipeRefreshColorSchema;
 import pl.droidcon.app.rx.AgendaFragmentSubscription;
 import pl.droidcon.app.ui.adapter.AgendaAdapter;
+import pl.droidcon.app.ui.decoration.SpacesItemDecoration;
+import pl.droidcon.app.wrapper.SnackbarWrapper;
+import rx.functions.Action0;
 import rx.functions.Action1;
 
 
-public class AgendaFragment extends Fragment {
+public class AgendaFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
-    private RecyclerView agendaList;
+    private static final String SESSION_DAY_KEY = "sessionDay";
+
+    @Bind(R.id.agenda_view)
+    RecyclerView agendaList;
+
+    @Bind(R.id.agenda_fragment_swipe_refresh_layout)
+    SwipeRefreshLayout swipeRefreshLayout;
+
+    @Inject
+    SnackbarWrapper snackbarWrapper;
+    @Inject
+    SwipeRefreshColorSchema swipeRefreshColorSchema;
 
     private AgendaFragmentSubscription agendaFragmentSubscription;
+    private SessionDay sessionDay;
 
-    public static AgendaFragment newInstance() {
+    public static AgendaFragment newInstance(SessionDay sessionDay) {
         Bundle args = new Bundle();
+        args.putSerializable(SESSION_DAY_KEY, sessionDay);
         AgendaFragment fragment = new AgendaFragment();
         fragment.setArguments(args);
         return fragment;
@@ -34,7 +59,10 @@ public class AgendaFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle arguments = getArguments();
+        sessionDay = (SessionDay) arguments.getSerializable(SESSION_DAY_KEY);
         agendaFragmentSubscription = new AgendaFragmentSubscription();
+        DroidconInjector.get().inject(this);
     }
 
     @Nullable
@@ -46,7 +74,9 @@ public class AgendaFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        agendaList = (RecyclerView) view.findViewById(R.id.agenda_view);
+        ButterKnife.bind(this, view);
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setColorSchemeColors(swipeRefreshColorSchema.getColors());
         agendaList.setHasFixedSize(true);
         LinearLayoutManager mLayoutManager = new GridLayoutManager(view.getContext(), 2);
         agendaList.setLayoutManager(mLayoutManager);
@@ -56,7 +86,7 @@ public class AgendaFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        agendaFragmentSubscription.subscribe();
+        agendaFragmentSubscription.subscribe(sessionDay);
     }
 
     @Override
@@ -68,18 +98,13 @@ public class AgendaFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        agendaFragmentSubscription.bind(new Action1<AgendaAndSpeakersResponse>() {
-            @Override
-            public void call(AgendaAndSpeakersResponse agendaResponse) {
-                update(agendaResponse);
-            }
-        });
+        setBinder();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        agendaFragmentSubscription.bind(null);
+        agendaFragmentSubscription.bind(null, null);
     }
 
     @Override
@@ -87,33 +112,38 @@ public class AgendaFragment extends Fragment {
         super.onSaveInstanceState(outState);
     }
 
-    public void update(AgendaAndSpeakersResponse agendaResponse) {
-        AgendaAdapter mAdapter = new AgendaAdapter(agendaResponse.agendaAndSpeakers);
+    public void update(List<AgendaAndSpeakersResponse.AgendaAndSpeakers> agendaResponse) {
+        AgendaAdapter mAdapter = new AgendaAdapter(agendaResponse);
         agendaList.setAdapter(mAdapter);
+        swipeRefreshLayout.setRefreshing(false);
     }
 
-    public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
-        private int space;
-
-        public SpacesItemDecoration(float space) {
-            this.space = (int) space;
+    public void onError() {
+        if (getView() != null) {
+            swipeRefreshLayout.setRefreshing(false);
+            snackbarWrapper.showSnackbar(getView(), R.string.loading_error);
         }
+    }
 
-        @Override
-        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-            int childPosition = parent.getChildPosition(view);
+    @Override
+    public void onRefresh() {
+        swipeRefreshLayout.setRefreshing(true);
+        agendaFragmentSubscription.refresh(sessionDay);
+        setBinder();
+    }
 
-            if (childPosition % 2 == 0) {
-                // left element
-                outRect.right = (int) (space * 0.5f);
-                outRect.left = space;
-            } else {
-                // right element
-                outRect.right = space;
-                outRect.left = (int) (space * 0.5f);
+
+    private void setBinder() {
+        agendaFragmentSubscription.bind(new Action1<List<AgendaAndSpeakersResponse.AgendaAndSpeakers>>() {
+            @Override
+            public void call(List<AgendaAndSpeakersResponse.AgendaAndSpeakers> agendaResponse) {
+                update(agendaResponse);
             }
-
-            outRect.bottom = space;
-        }
+        }, new Action0() {
+            @Override
+            public void call() {
+                onError();
+            }
+        });
     }
 }

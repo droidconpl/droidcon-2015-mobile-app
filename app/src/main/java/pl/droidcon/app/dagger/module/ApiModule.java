@@ -6,6 +6,8 @@ import com.squareup.okhttp.OkHttpClient;
 
 import org.joda.time.DateTime;
 
+import java.util.concurrent.TimeUnit;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -22,7 +24,7 @@ import retrofit.converter.GsonConverter;
 @Module
 public class ApiModule {
 
-    private final static String BASE_URL = "https://raw.githubusercontent.com/droidconpl/droidcon-2015-web/feature/json_model/";
+    private final static String BASE_URL = "https://raw.githubusercontent.com/droidconpl/droidcon-2015-web/master/";
 
     @Provides
     @Singleton
@@ -57,7 +59,11 @@ public class ApiModule {
     @Provides
     @Singleton
     OkHttpClient provideOkHttpClient() {
-        return new OkHttpClient();
+        OkHttpClient okHttpClient = new OkHttpClient();
+        okHttpClient.setConnectTimeout(5, TimeUnit.SECONDS);
+        okHttpClient.setReadTimeout(5, TimeUnit.SECONDS);
+        okHttpClient.setWriteTimeout(5, TimeUnit.SECONDS);
+        return okHttpClient;
     }
 
     @Provides

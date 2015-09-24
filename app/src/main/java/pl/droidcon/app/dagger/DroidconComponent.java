@@ -3,20 +3,24 @@ package pl.droidcon.app.dagger;
 import javax.inject.Singleton;
 
 import dagger.Component;
+import pl.droidcon.app.DroidconApp;
+import pl.droidcon.app.dagger.module.AndroidModule;
 import pl.droidcon.app.dagger.module.ApiModule;
+import pl.droidcon.app.dagger.module.RxModule;
 import pl.droidcon.app.dagger.module.UIModule;
 
 @Singleton
-@Component(modules = {UIModule.class, ApiModule.class})
+@Component(modules = {UIModule.class, ApiModule.class, RxModule.class, AndroidModule.class})
 public interface DroidconComponent extends DroidconGraph {
 
     final class Initializer {
-        private Initializer(){
+        private Initializer() {
 
         }
 
-        public static DroidconComponent init(){
+        public static DroidconComponent init(DroidconApp droidconApp) {
             return DaggerDroidconComponent.builder()
+                    .androidModule(new AndroidModule(droidconApp))
                     .build();
         }
     }

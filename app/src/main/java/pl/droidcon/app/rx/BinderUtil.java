@@ -1,22 +1,18 @@
 package pl.droidcon.app.rx;
 
-
-import android.util.Log;
-
 import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.subscriptions.CompositeSubscription;
 
 public class BinderUtil {
 
-    private final String tag;
     private final CompositeSubscription compositeSubscription = new CompositeSubscription();
 
-    public BinderUtil(Object target) {
-        this.tag = target.getClass().getSimpleName();
+    public BinderUtil() {
     }
 
     public void clear() {
@@ -24,44 +20,47 @@ public class BinderUtil {
     }
 
     public <U> void bindProperty(final Observable<U> observable,
-                                 final Action1<U> setter) {
+                                 final Action1<U> setter,
+                                 final Action0 error) {
         compositeSubscription.add(
-                subscribeSetter(observable, setter, tag));
+                subscribeSetter(observable, setter, error));
     }
 
     private <U> Subscription subscribeSetter(final Observable<U> observable,
-                                                    final Action1<U> setter,
-                                                    final String tag) {
+                                             final Action1<U> setter,
+                                             final Action0 error) {
         return observable
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SetterSubscriber<>(setter, tag));
+                .subscribe(new SetterSubscriber<>(setter, error));
     }
 
     private static class SetterSubscriber<U> extends Subscriber<U> {
-        private final static String TAG = SetterSubscriber.class.getCanonicalName();
 
         private final Action1<U> setter;
-        private final String tag;
+        private final Action0 error;
 
         public SetterSubscriber(final Action1<U> setter,
-                                final String tag) {
+                                final Action0 error) {
             this.setter = setter;
-            this.tag = tag;
+            this.error = error;
         }
 
         @Override
         public void onCompleted() {
-            Log.v(TAG, tag + "." + "onCompleted");
         }
 
         @Override
         public void onError(Throwable e) {
-            Log.e(TAG, tag + "." + "onError", e);
+            if (error != null) {
+                error.call();
+            }
         }
 
         @Override
         public void onNext(U u) {
-            setter.call(u);
+            if (setter != null) {
+                setter.call(u);
+            }
         }
     }
 }

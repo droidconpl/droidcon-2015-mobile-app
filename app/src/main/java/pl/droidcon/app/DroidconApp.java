@@ -12,6 +12,6 @@ public class DroidconApp extends Application {
     public void onCreate() {
         super.onCreate();
         JodaTimeAndroid.init(this);
-        DroidconInjector.init();
+        DroidconInjector.init(this);
     }
 }
