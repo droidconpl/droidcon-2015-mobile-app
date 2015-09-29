@@ -2,6 +2,8 @@ package pl.droidcon.app;
 
 import android.app.Application;
 
+import net.danlew.android.joda.JodaTimeAndroid;
+
 import pl.droidcon.app.dagger.DroidconInjector;
 
 public class DroidconApp extends Application {
@@ -9,6 +11,7 @@ public class DroidconApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        DroidconInjector.init();
+        JodaTimeAndroid.init(this);
+        DroidconInjector.init(this);
     }
 }

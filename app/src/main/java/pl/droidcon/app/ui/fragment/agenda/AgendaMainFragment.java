@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import pl.droidcon.app.R;
+import pl.droidcon.app.model.common.SessionDay;
 import pl.droidcon.app.ui.fragment.BaseFragment;
 
 
@@ -69,7 +70,7 @@ public class AgendaMainFragment extends BaseFragment {
         return TAG;
     }
 
-    private static class AgendaFragmentAdapter extends FragmentPagerAdapter {
+    private class AgendaFragmentAdapter extends FragmentPagerAdapter {
 
         public AgendaFragmentAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
@@ -77,24 +78,18 @@ public class AgendaMainFragment extends BaseFragment {
 
         @Override
         public Fragment getItem(int position) {
-            return AgendaFragment.newInstance();
+            return AgendaFragment.newInstance(SessionDay.values()[position]);
         }
 
         @Override
         public int getCount() {
-            return 2;
+            return SessionDay.values().length;
         }
 
-        //todo
         @Override
         public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case 0:
-                    return "1";
-                case 1:
-                    return "2";
-            }
-            return null;
+            int humanReadable = SessionDay.values()[position].humanReadableDateStringId;
+            return getString(humanReadable);
         }
     }
 }
