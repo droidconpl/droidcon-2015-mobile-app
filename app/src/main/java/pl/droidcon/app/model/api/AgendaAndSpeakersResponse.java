@@ -2,11 +2,15 @@ package pl.droidcon.app.model.api;
 
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.realm.Realm;
+import io.realm.RealmList;
 
 public class AgendaAndSpeakersResponse {
 
@@ -14,21 +18,35 @@ public class AgendaAndSpeakersResponse {
 
     public AgendaAndSpeakersResponse(AgendaResponse agendaResponse, SpeakerResponse speakerResponse, DateTime when) {
         List<Session> sessions = agendaResponse.sessions;
+
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+
+        realm.copyToRealm(sessions);
+        realm.commitTransaction();
+
+
+        Log.d("DDD", "Stored sessions: " + realm.where(Session.class).findAll().size());
+
         List<Speaker> speakers = speakerResponse.speakers;
         for (Session session : sessions) {
-            if (session.date.toLocalDate().equals(when.toLocalDate())) {
-                List<Integer> ids = session.speakers;
+            DateTime sessionTime = new DateTime(session.getDate().getTime());
+
+
+
+            if (sessionTime.toLocalDate().equals(when.toLocalDate())) {
+                RealmList<Speaker> ids = session.getSpeakers();
                 List<Speaker> targetSpeakers = getSpeakers(ids, speakers);
                 agendaAndSpeakers.add(new AgendaAndSpeakers(session, targetSpeakers));
             }
         }
     }
 
-    private List<Speaker> getSpeakers(List<Integer> ids, List<Speaker> source) {
+    private List<Speaker> getSpeakers(RealmList<Speaker> ids, List<Speaker> source) {
         List<Speaker> speakers = new ArrayList<>();
-        for (Integer id : ids) {
+        for (Speaker id : ids) {
             for (Speaker speaker : source) {
-                if (id == speaker.id) {
+                if (id.getId() == speaker.getId()) {
                     speakers.add(speaker);
                 }
             }
@@ -49,7 +67,7 @@ public class AgendaAndSpeakersResponse {
 
         @Override
         public int compareTo(@NonNull AgendaAndSpeakers another) {
-            return session.date.compareTo(another.session.date);
+            return session.getDate().compareTo(another.session.getDate());
         }
     }
 }
