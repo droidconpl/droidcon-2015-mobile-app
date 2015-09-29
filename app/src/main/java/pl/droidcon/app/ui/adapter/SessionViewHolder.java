@@ -59,12 +59,12 @@ public class SessionViewHolder extends RecyclerView.ViewHolder implements View.O
 
     @Override
     public void onClick(View v) {
-        snackbarWrapper.showSnackbar(v,"Click on " + agendaAndSpeakers.session.date);
+        snackbarWrapper.showSnackbar(v,"Click on " + agendaAndSpeakers.session.getDate());
     }
 
     public void attachSession(AgendaAndSpeakers agendaAndSpeakers) {
         this.agendaAndSpeakers = agendaAndSpeakers;
-        sessionTitle.setText(agendaAndSpeakers.session.title);
+        sessionTitle.setText(agendaAndSpeakers.session.getTitle());
 
 //        speakerFirstName.setText(session.speakerFirstName);
 //        speakerLastName.setText(session.speakerLastName);
@@ -73,6 +73,6 @@ public class SessionViewHolder extends RecyclerView.ViewHolder implements View.O
 //        sessionDate.setText(session.sessionDate)
         Speaker speaker = agendaAndSpeakers.speakers.get(0);
 
-        Picasso.with(sessionPicture.getContext()).load(speaker.imageUrl).into(sessionPicture);
+        Picasso.with(sessionPicture.getContext()).load(speaker.getImageUrl()).into(sessionPicture);
     }
 }
