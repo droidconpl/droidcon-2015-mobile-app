@@ -7,6 +7,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,19 +20,27 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import pl.droidcon.app.R;
 import pl.droidcon.app.dagger.DroidconInjector;
-import pl.droidcon.app.model.api.AgendaAndSpeakersResponse;
+import pl.droidcon.app.database.DatabaseManager;
+import pl.droidcon.app.model.api.Session;
 import pl.droidcon.app.model.common.SessionDay;
+import pl.droidcon.app.model.event.NewDataEvent;
 import pl.droidcon.app.model.ui.SwipeRefreshColorSchema;
-import pl.droidcon.app.rx.AgendaFragmentSubscription;
+import pl.droidcon.app.rx.DataSubscription;
 import pl.droidcon.app.ui.adapter.AgendaAdapter;
 import pl.droidcon.app.ui.decoration.SpacesItemDecoration;
 import pl.droidcon.app.wrapper.SnackbarWrapper;
+import rx.Subscriber;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
 import rx.functions.Action1;
+import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
 
 
 public class AgendaFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
+    private static final String TAG = AgendaFragment.class.getSimpleName();
     private static final String SESSION_DAY_KEY = "sessionDay";
 
     @Bind(R.id.agenda_view)
@@ -44,9 +53,16 @@ public class AgendaFragment extends Fragment implements SwipeRefreshLayout.OnRef
     SnackbarWrapper snackbarWrapper;
     @Inject
     SwipeRefreshColorSchema swipeRefreshColorSchema;
+    @Inject
+    DataSubscription dataSubscription;
+    @Inject
+    DatabaseManager databaseManager;
 
-    private AgendaFragmentSubscription agendaFragmentSubscription;
     private SessionDay sessionDay;
+
+    private Subscription newDataEventSubscription;
+    private CompositeSubscription sessionCompositeSubscription;
+    private AgendaAdapter agendaAdapter;
 
     public static AgendaFragment newInstance(SessionDay sessionDay) {
         Bundle args = new Bundle();
@@ -61,7 +77,6 @@ public class AgendaFragment extends Fragment implements SwipeRefreshLayout.OnRef
         super.onCreate(savedInstanceState);
         Bundle arguments = getArguments();
         sessionDay = (SessionDay) arguments.getSerializable(SESSION_DAY_KEY);
-        agendaFragmentSubscription = new AgendaFragmentSubscription();
         DroidconInjector.get().inject(this);
     }
 
@@ -86,25 +101,31 @@ public class AgendaFragment extends Fragment implements SwipeRefreshLayout.OnRef
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        agendaFragmentSubscription.subscribe(sessionDay);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        agendaFragmentSubscription.unSubscribe();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        setBinder();
+        bindNewDataEvent();
+        sessionCompositeSubscription = new CompositeSubscription();
+        getSessions();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        agendaFragmentSubscription.bind(null, null);
+        sessionCompositeSubscription.clear();
+        dataSubscription.unbind(newDataEventSubscription);
     }
 
     @Override
@@ -112,13 +133,7 @@ public class AgendaFragment extends Fragment implements SwipeRefreshLayout.OnRef
         super.onSaveInstanceState(outState);
     }
 
-    public void update(List<AgendaAndSpeakersResponse.AgendaAndSpeakers> agendaResponse) {
-        AgendaAdapter mAdapter = new AgendaAdapter(agendaResponse);
-        agendaList.setAdapter(mAdapter);
-        swipeRefreshLayout.setRefreshing(false);
-    }
-
-    public void onError() {
+    public void showErrorSnackBar() {
         if (getView() != null) {
             swipeRefreshLayout.setRefreshing(false);
             snackbarWrapper.showSnackbar(getView(), R.string.loading_error);
@@ -127,23 +142,59 @@ public class AgendaFragment extends Fragment implements SwipeRefreshLayout.OnRef
 
     @Override
     public void onRefresh() {
-        swipeRefreshLayout.setRefreshing(true);
-        agendaFragmentSubscription.refresh(sessionDay);
-        setBinder();
+        dataSubscription.refresh();
+        bindNewDataEvent();
     }
 
+    private void getSessions() {
+        Subscription sessionSubscription = databaseManager.sessions(sessionDay)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<Session>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.d(TAG, "onCompleted");
+                    }
 
-    private void setBinder() {
-        agendaFragmentSubscription.bind(new Action1<List<AgendaAndSpeakersResponse.AgendaAndSpeakers>>() {
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        showErrorSnackBar();
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+
+                    @Override
+                    public void onNext(List<Session> sessions) {
+                        swipeRefreshLayout.setRefreshing(false);
+                        agendaAdapter = new AgendaAdapter(sessions);
+                        agendaList.setAdapter(agendaAdapter);
+                    }
+                });
+        if (sessionCompositeSubscription != null) {
+            sessionCompositeSubscription.add(sessionSubscription);
+        }
+    }
+
+    private void bindNewDataEvent() {
+        newDataEventSubscription = dataSubscription.bindNewDataEvent(new Action1<NewDataEvent>() {
             @Override
-            public void call(List<AgendaAndSpeakersResponse.AgendaAndSpeakers> agendaResponse) {
-                update(agendaResponse);
+            public void call(NewDataEvent newDataEvent) {
+                Log.d(TAG, "newDataEvent=" + newDataEvent);
+                getSessions();
             }
         }, new Action0() {
             @Override
             public void call() {
-                onError();
+                handleError();
             }
         });
+    }
+
+    private void handleError() {
+        Log.e(TAG, "handling error isRefreshing=" + swipeRefreshLayout.isRefreshing());
+        if (swipeRefreshLayout.isRefreshing()) {
+            showErrorSnackBar();
+        }
+        getSessions();
     }
 }

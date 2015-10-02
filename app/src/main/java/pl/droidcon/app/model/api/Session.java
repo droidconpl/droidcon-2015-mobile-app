@@ -5,12 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-
-import io.realm.RealmList;
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
 
 /*
 {
@@ -26,63 +21,37 @@ import io.realm.annotations.PrimaryKey;
 }
  */
 
-public class Session extends RealmObject {
+public class Session {
 
-    @PrimaryKey
-    private long id;
-    private Date date;
-    private String title;
-    private String description;
-    private double rating;
+    public int id;
+    public DateTime date;
+    public String title;
+    public String description;
+    public double rating;
 
     @SerializedName("people")
-    private RealmList<Speaker> speakers = new RealmList<>();
+    public List<Integer> speakers = new ArrayList<>();
 
-    public long getId() {
-        return id;
+    private List<Speaker> realSpeakerList = new ArrayList<>();
+
+
+    public void setRealSpeakerList(List<Speaker> realSpeakerList) {
+        this.realSpeakerList = realSpeakerList;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public List<Speaker> getRealSpeakerList() {
+        return realSpeakerList;
     }
 
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public double getRating() {
-        return rating;
-    }
-
-    public void setRating(double rating) {
-        this.rating = rating;
-    }
-
-    public RealmList<Speaker> getSpeakers() {
-        return speakers;
-    }
-
-    public void setSpeakers(RealmList<Speaker> speakers) {
-        this.speakers = speakers;
+    @Override
+    public String toString() {
+        return "Session{" +
+                "id=" + id +
+                ", date=" + date +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", rating=" + rating +
+                ", speakers=" + speakers +
+                '}';
     }
 }

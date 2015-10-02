@@ -4,7 +4,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -14,10 +13,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import pl.droidcon.app.R;
 import pl.droidcon.app.dagger.DroidconInjector;
-import pl.droidcon.app.model.api.AgendaAndSpeakersResponse;
-import pl.droidcon.app.model.api.AgendaAndSpeakersResponse.AgendaAndSpeakers;
 import pl.droidcon.app.model.api.Session;
-import pl.droidcon.app.model.api.Speaker;
 import pl.droidcon.app.wrapper.SnackbarWrapper;
 
 public class SessionViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -47,7 +43,7 @@ public class SessionViewHolder extends RecyclerView.ViewHolder implements View.O
     @Inject
     SnackbarWrapper snackbarWrapper;
 
-    AgendaAndSpeakers agendaAndSpeakers;
+    Session session;
 
     public SessionViewHolder(View itemView) {
         super(itemView);
@@ -59,20 +55,21 @@ public class SessionViewHolder extends RecyclerView.ViewHolder implements View.O
 
     @Override
     public void onClick(View v) {
-        snackbarWrapper.showSnackbar(v,"Click on " + agendaAndSpeakers.session.getDate());
+        snackbarWrapper.showSnackbar(v, "Click on " + session.date);
     }
 
-    public void attachSession(AgendaAndSpeakers agendaAndSpeakers) {
-        this.agendaAndSpeakers = agendaAndSpeakers;
-        sessionTitle.setText(agendaAndSpeakers.session.getTitle());
+    public void attachSession(Session session) {
+        this.session = session;
+        sessionTitle.setText(session.title);
 
 //        speakerFirstName.setText(session.speakerFirstName);
 //        speakerLastName.setText(session.speakerLastName);
 //
 //        speakerPhoto.setText(session.speakerPhoto);
 //        sessionDate.setText(session.sessionDate)
-        Speaker speaker = agendaAndSpeakers.speakers.get(0);
 
-        Picasso.with(sessionPicture.getContext()).load(speaker.getImageUrl()).into(sessionPicture);
+        Picasso.with(sessionPicture.getContext())
+                .load(session.getRealSpeakerList().get(0).imageUrl)
+                .into(sessionPicture);
     }
 }
