@@ -21,4 +21,11 @@ public enum SessionDay {
         this.humanReadableDateStringId = humanReadableDateStringId;
         this.when = when;
     }
+
+    @Override
+    public String toString() {
+        return "SessionDay{" +
+                "when=" + when +
+                '}';
+    }
 }
