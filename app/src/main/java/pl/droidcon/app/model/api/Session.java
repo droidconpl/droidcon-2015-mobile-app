@@ -23,7 +23,7 @@ import java.util.List;
 
 public class Session {
 
-    public long id;
+    public int id;
     public DateTime date;
     public String title;
     public String description;
@@ -31,6 +31,17 @@ public class Session {
 
     @SerializedName("people")
     public List<Integer> speakers = new ArrayList<>();
+
+    private List<Speaker> realSpeakerList = new ArrayList<>();
+
+
+    public void setRealSpeakerList(List<Speaker> realSpeakerList) {
+        this.realSpeakerList = realSpeakerList;
+    }
+
+    public List<Speaker> getRealSpeakerList() {
+        return realSpeakerList;
+    }
 
     @Override
     public String toString() {

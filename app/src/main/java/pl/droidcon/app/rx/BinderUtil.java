@@ -1,5 +1,7 @@
 package pl.droidcon.app.rx;
 
+import android.util.Log;
+
 import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
@@ -10,6 +12,8 @@ import rx.subscriptions.CompositeSubscription;
 
 public class BinderUtil {
 
+    private static final String TAG = BinderUtil.class.getSimpleName();
+
     private final CompositeSubscription compositeSubscription = new CompositeSubscription();
 
     public BinderUtil() {
@@ -19,11 +23,16 @@ public class BinderUtil {
         compositeSubscription.clear();
     }
 
-    public <U> void bindProperty(final Observable<U> observable,
-                                 final Action1<U> setter,
-                                 final Action0 error) {
-        compositeSubscription.add(
-                subscribeSetter(observable, setter, error));
+    public void unbind(Subscription subscription) {
+        compositeSubscription.remove(subscription);
+    }
+
+    public <U> Subscription bindProperty(final Observable<U> observable,
+                                         final Action1<U> setter,
+                                         final Action0 error) {
+        Subscription subscription = subscribeSetter(observable, setter, error);
+        compositeSubscription.add(subscription);
+        return subscription;
     }
 
     private <U> Subscription subscribeSetter(final Observable<U> observable,
@@ -47,10 +56,13 @@ public class BinderUtil {
 
         @Override
         public void onCompleted() {
+            Log.d(TAG,"onCompleted");
         }
 
         @Override
         public void onError(Throwable e) {
+            e.printStackTrace();
+            Log.e(TAG, "onError", e);
             if (error != null) {
                 error.call();
             }
@@ -58,6 +70,7 @@ public class BinderUtil {
 
         @Override
         public void onNext(U u) {
+            Log.d(TAG,"onNext="+u);
             if (setter != null) {
                 setter.call(u);
             }

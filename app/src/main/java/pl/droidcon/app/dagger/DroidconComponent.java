@@ -6,11 +6,11 @@ import dagger.Component;
 import pl.droidcon.app.DroidconApp;
 import pl.droidcon.app.dagger.module.AndroidModule;
 import pl.droidcon.app.dagger.module.ApiModule;
-import pl.droidcon.app.dagger.module.RxModule;
+import pl.droidcon.app.dagger.module.LogicModule;
 import pl.droidcon.app.dagger.module.UIModule;
 
 @Singleton
-@Component(modules = {UIModule.class, ApiModule.class, RxModule.class, AndroidModule.class})
+@Component(modules = {UIModule.class, ApiModule.class, LogicModule.class, AndroidModule.class})
 public interface DroidconComponent extends DroidconGraph {
 
     final class Initializer {

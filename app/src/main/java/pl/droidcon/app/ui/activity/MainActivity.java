@@ -16,6 +16,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import pl.droidcon.app.R;
 import pl.droidcon.app.dagger.DroidconInjector;
+import pl.droidcon.app.rx.DataSubscription;
 import pl.droidcon.app.ui.fragment.BaseFragment;
 import pl.droidcon.app.ui.fragment.factory.DrawerFragmentFactory;
 
@@ -31,6 +32,9 @@ public class MainActivity extends BaseActivity {
     @Inject
     DrawerFragmentFactory drawerFragmentFactory;
 
+    @Inject
+    DataSubscription dataSubscription;
+
     private ActionBarDrawerToggle actionBarDrawerToggle;
 
     @Override
@@ -42,6 +46,7 @@ public class MainActivity extends BaseActivity {
         drawerFragmentFactory.restoreState(savedInstanceState, getSupportFragmentManager());
         setupToolbar(toolbar);
         setupNavigationView();
+        dataSubscription.fetchData();
     }
 
     @Override

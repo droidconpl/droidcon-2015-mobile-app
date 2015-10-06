@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Speaker {
 
-    public long id;
+    public int id;
     public String firstName;
     public String lastName;
     public String bio;

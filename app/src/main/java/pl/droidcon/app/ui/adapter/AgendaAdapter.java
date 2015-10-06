@@ -8,13 +8,13 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import pl.droidcon.app.R;
-import pl.droidcon.app.model.api.AgendaAndSpeakersResponse.AgendaAndSpeakers;
+import pl.droidcon.app.model.api.Session;
 
 public class AgendaAdapter extends RecyclerView.Adapter<SessionViewHolder> {
 
-    private List<AgendaAndSpeakers> sessions;
+    private List<Session> sessions;
 
-    public AgendaAdapter(List<AgendaAndSpeakers> sessions) {
+    public AgendaAdapter(List<Session> sessions) {
         this.sessions = sessions;
     }
 
