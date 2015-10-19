@@ -5,6 +5,17 @@
     android:background="@color/primaryColor"
     android:orientation="vertical">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/droidcon_krakow_logo"
+        android:scaleType="centerCrop"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/element_background" />
+
     <TextView
         style="@style/DrawerHeader"
         android:layout_width="wrap_content"
