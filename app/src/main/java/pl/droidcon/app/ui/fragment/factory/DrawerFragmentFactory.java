@@ -13,7 +13,7 @@ import java.util.Map;
 import pl.droidcon.app.R;
 import pl.droidcon.app.ui.fragment.AboutFragment;
 import pl.droidcon.app.ui.fragment.BaseFragment;
-import pl.droidcon.app.ui.fragment.FavouritesFragment;
+import pl.droidcon.app.ui.fragment.schedule.ScheduleMainFragment;
 import pl.droidcon.app.ui.fragment.MapAndInfoFragment;
 import pl.droidcon.app.ui.fragment.SettingsFragment;
 import pl.droidcon.app.ui.fragment.agenda.AgendaMainFragment;
@@ -67,7 +67,7 @@ public class DrawerFragmentFactory {
                 fragment = getFragment(AgendaMainFragment.TAG);
                 break;
             case R.id.drawer_favourites:
-                fragment = getFragment(FavouritesFragment.TAG);
+                fragment = getFragment(ScheduleMainFragment.TAG);
                 break;
             case R.id.drawer_map_and_info:
                 fragment = getFragment(MapAndInfoFragment.TAG);
@@ -84,7 +84,7 @@ public class DrawerFragmentFactory {
 
     private void createFragments() {
         putFragment(AgendaMainFragment.TAG, AgendaMainFragment.newInstance());
-        putFragment(FavouritesFragment.TAG, FavouritesFragment.newInstance());
+        putFragment(ScheduleMainFragment.TAG, ScheduleMainFragment.newInstance());
         putFragment(MapAndInfoFragment.TAG, MapAndInfoFragment.newInstance());
         putFragment(AboutFragment.TAG, AboutFragment.newInstance());
         putFragment(SettingsFragment.TAG, SettingsFragment.newInstance());
@@ -94,8 +94,8 @@ public class DrawerFragmentFactory {
         BaseFragment savedAgendaMainFragment = getSavedFragment(fragmentManager, savedState, AgendaMainFragment.TAG);
         BaseFragment agendaMainFragment = savedAgendaMainFragment == null ? AgendaMainFragment.newInstance() : savedAgendaMainFragment;
 
-        BaseFragment savedFavouritesFragment = getSavedFragment(fragmentManager, savedState, FavouritesFragment.TAG);
-        BaseFragment favouritesFragment = savedFavouritesFragment == null ? FavouritesFragment.newInstance() : savedFavouritesFragment;
+        BaseFragment savedFavouritesFragment = getSavedFragment(fragmentManager, savedState, ScheduleMainFragment.TAG);
+        BaseFragment favouritesFragment = savedFavouritesFragment == null ? ScheduleMainFragment.newInstance() : savedFavouritesFragment;
 
         BaseFragment savedMapAndInfoFragment = getSavedFragment(fragmentManager, savedState, MapAndInfoFragment.TAG);
         BaseFragment mapAndInfoFragment = savedMapAndInfoFragment == null ? MapAndInfoFragment.newInstance() : savedMapAndInfoFragment;
@@ -107,7 +107,7 @@ public class DrawerFragmentFactory {
         BaseFragment settingsFragment = savedSettingsFragment == null ? SettingsFragment.newInstance() : savedSettingsFragment;
 
         putFragment(AgendaMainFragment.TAG, agendaMainFragment);
-        putFragment(FavouritesFragment.TAG, favouritesFragment);
+        putFragment(ScheduleMainFragment.TAG, favouritesFragment);
         putFragment(MapAndInfoFragment.TAG, mapAndInfoFragment);
         putFragment(AboutFragment.TAG, aboutFragment);
         putFragment(SettingsFragment.TAG, settingsFragment);

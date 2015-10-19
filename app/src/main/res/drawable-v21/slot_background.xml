@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="?attr/colorControlHighlight">
+
+    <item android:id="@android:id/mask">
+        <shape>
+            <solid android:color="@color/grey_outline" />
+            <corners android:radius="@dimen/slot_round_size" />
+        </shape>
+    </item>
+    <item android:drawable="@drawable/slot_background_internal" />
+</ripple>

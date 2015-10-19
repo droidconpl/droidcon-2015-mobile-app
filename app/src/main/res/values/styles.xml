@@ -20,4 +20,44 @@
         <item name="android:layout_margin">@dimen/screen_edge_margin</item>
     </style>
 
+    <style name="SlotViewHour">
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">@dimen/screen_edge_margin</item>
+        <item name="android:layout_marginTop">@dimen/screen_edge_margin</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Title</item>
+        <item name="android:textColor">@color/textColorSecondary</item>
+    </style>
+
+    <style name="SlotViewClickableArea">
+        <item name="android:layout_weight">3</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_marginLeft">@dimen/screen_edge_margin</item>
+        <item name="android:layout_marginRight">@dimen/screen_edge_margin</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:background">@drawable/slot_background</item>
+    </style>
+
+    <style name="SlotViewTitle">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_marginLeft">@dimen/screen_edge_margin</item>
+        <item name="android:layout_marginRight">@dimen/screen_edge_margin</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Title</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/textColorHeader</item>
+    </style>
+
+    <style name="SlotStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/list_item_height</item>
+        <item name="android:layout_marginTop">@dimen/list_element_margin</item>
+    </style>
+
 </resources>

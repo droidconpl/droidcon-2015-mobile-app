@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/element_background" />
+
+    <corners android:radius="@dimen/slot_round_size" />
+    <padding
+        android:bottom="@dimen/slot_padding"
+        android:left="@dimen/slot_padding"
+        android:right="@dimen/slot_padding"
+        android:top="@dimen/slot_padding" />
+</shape>
