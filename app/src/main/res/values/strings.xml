@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Droidcon Poland</string>
+    <string name="app_name">Droidcon Krakow 2015</string>
 
     <string name="agenda">Agenda</string>
     <string name="favourites">Favourites</string>
@@ -22,4 +22,7 @@
     <string name="lunch_break">Lunch break</string>
     <string name="session">Session</string>
     <string name="barcamp">Barcamp</string>
+    <string name="date">4th-6th December 2015</string>
+    <string name="more_info">More informations:  </string>
+    <string name="website_link">droidcon.pl/</string>
 </resources>
