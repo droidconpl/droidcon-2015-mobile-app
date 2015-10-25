@@ -48,16 +48,20 @@ public class SpeakerMapper implements Mapper<Speaker, RealmSpeaker> {
         List<Speaker> speakers = new ArrayList<>();
 
         for (RealmSpeaker realmSpeaker : realmSpeakers) {
-            Speaker speaker = new Speaker();
-            speaker.id = realmSpeaker.getId();
-            speaker.firstName = realmSpeaker.getFirstName();
-            speaker.lastName = realmSpeaker.getFirstName();
-            speaker.bio = realmSpeaker.getBio();
-            speaker.imageUrl = realmSpeaker.getImageUrl();
-
-            speakers.add(speaker);
+            speakers.add(fromDB(realmSpeaker));
         }
 
         return speakers;
+    }
+
+    @Override
+    public Speaker fromDB(RealmSpeaker realmSpeaker) {
+        Speaker speaker = new Speaker();
+        speaker.id = realmSpeaker.getId();
+        speaker.firstName = realmSpeaker.getFirstName();
+        speaker.lastName = realmSpeaker.getFirstName();
+        speaker.bio = realmSpeaker.getBio();
+        speaker.imageUrl = realmSpeaker.getImageUrl();
+        return speaker;
     }
 }

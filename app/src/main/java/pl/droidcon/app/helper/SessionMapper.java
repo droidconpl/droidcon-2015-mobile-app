@@ -6,7 +6,6 @@ import org.joda.time.DateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.realm.Realm;
 import io.realm.RealmList;
 import pl.droidcon.app.model.api.Session;
 import pl.droidcon.app.model.db.RealmSession;
@@ -57,17 +56,22 @@ public class SessionMapper implements Mapper<Session, RealmSession> {
     public List<Session> fromDBList(List<RealmSession> realmSessions) {
         List<Session> sessions = new ArrayList<>();
         for (RealmSession realmSession : realmSessions) {
-            Session session = new Session();
-            session.id = realmSession.getId();
-            session.date = new DateTime(realmSession.getDate());
-            session.title = realmSession.getTitle();
-            session.description = realmSession.getDescription();
-            session.rating = realmSession.getRating();
-
-            RealmList<RealmSpeaker> speakers = realmSession.getSpeakers();
-            session.setRealSpeakerList(speakerMapper.fromDBList(speakers));
-            sessions.add(session);
+            sessions.add(fromDB(realmSession));
         }
         return sessions;
+    }
+
+    @Override
+    public Session fromDB(RealmSession realmSession) {
+        Session session = new Session();
+        session.id = realmSession.getId();
+        session.date = new DateTime(realmSession.getDate());
+        session.title = realmSession.getTitle();
+        session.description = realmSession.getDescription();
+        session.rating = realmSession.getRating();
+
+        RealmList<RealmSpeaker> speakers = realmSession.getSpeakers();
+        session.setRealSpeakerList(speakerMapper.fromDBList(speakers));
+        return session;
     }
 }

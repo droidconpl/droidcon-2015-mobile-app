@@ -1,11 +1,22 @@
 package pl.droidcon.app.ui.adapter;
 
+import android.content.res.Resources;
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.StyleSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -13,63 +24,59 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import pl.droidcon.app.R;
 import pl.droidcon.app.dagger.DroidconInjector;
+import pl.droidcon.app.helper.UrlHelper;
 import pl.droidcon.app.model.api.Session;
-import pl.droidcon.app.wrapper.SnackbarWrapper;
+import pl.droidcon.app.model.api.Speaker;
 
-public class SessionViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class SessionViewHolder extends RecyclerView.ViewHolder {
 
-    @Bind(R.id.session_title)
-    TextView sessionTitle;
-
-
-//    @Bind(R.id.session_speaker_first_name)
-//    TextView speakerFirstName;
-//
-//
-//    @Bind(R.id.session_speaker_last_name)
-//    TextView speakerLastName;
-//
-//
-//    @Bind(R.id.session_speaker_photo)
-//    TextView speakerPhoto;
-//
-//
-//    @Bind(R.id.session_date)
-//    TextView sessionDate;
+    private static final String DATE_PATTERN = "EE. HH:mm";
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormat.forPattern(DATE_PATTERN);
 
     @Bind(R.id.session_picture)
     ImageView sessionPicture;
 
+    @Bind(R.id.session_title)
+    TextView sessionTitle;
+    @Bind(R.id.session_date)
+    TextView sessionDate;
+
+
     @Inject
-    SnackbarWrapper snackbarWrapper;
+    Resources resources;
 
     Session session;
 
     public SessionViewHolder(View itemView) {
         super(itemView);
-
         ButterKnife.bind(this, itemView);
         DroidconInjector.get().inject(this);
-        itemView.setOnClickListener(this);
     }
 
-    @Override
-    public void onClick(View v) {
-        snackbarWrapper.showSnackbar(v, "Click on " + session.date);
-    }
 
     public void attachSession(Session session) {
         this.session = session;
-        sessionTitle.setText(session.title);
 
-//        speakerFirstName.setText(session.speakerFirstName);
-//        speakerLastName.setText(session.speakerLastName);
-//
-//        speakerPhoto.setText(session.speakerPhoto);
-//        sessionDate.setText(session.sessionDate)
+        String title = resources.getString(R.string.session_topic, session.title);
+        SpannableString spannableString = new SpannableString(title);
 
-        Picasso.with(sessionPicture.getContext())
-                .load(session.getRealSpeakerList().get(0).imageUrl)
-                .into(sessionPicture);
+        int startIndex = title.indexOf(session.title);
+        int endIndex = startIndex + session.title.length();
+
+        spannableString.setSpan(new StyleSpan(Typeface.BOLD), startIndex, endIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        sessionTitle.setText(spannableString);
+
+        sessionDate.setText(session.date.toString(DATE_TIME_FORMATTER));
+
+        List<Speaker> realSpeakerList = session.getRealSpeakerList();
+        if (realSpeakerList.isEmpty()) {
+            //todo: what to show here:
+            sessionPicture.setImageResource(R.drawable.droidcon_krakow_logo);
+        } else {
+            String url = UrlHelper.url(realSpeakerList.get(0).imageUrl);
+            Picasso.with(sessionPicture.getContext())
+                    .load(url)
+                    .into(sessionPicture);
+        }
     }
 }

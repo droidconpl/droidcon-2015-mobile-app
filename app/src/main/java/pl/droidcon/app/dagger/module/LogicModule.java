@@ -5,6 +5,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import pl.droidcon.app.database.DatabaseManager;
+import pl.droidcon.app.helper.ScheduleMapper;
 import pl.droidcon.app.helper.SessionMapper;
 import pl.droidcon.app.helper.SpeakerMapper;
 import pl.droidcon.app.rx.BinderUtil;
@@ -37,5 +38,10 @@ public class LogicModule {
     @Provides
     public SessionMapper provideSessionMapper(SpeakerMapper speakerMapper) {
         return new SessionMapper(speakerMapper);
+    }
+
+    @Provides
+    public ScheduleMapper provideScheduleMapper(SessionMapper sessionMapper) {
+        return new ScheduleMapper(sessionMapper);
     }
 }
