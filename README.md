@@ -23,7 +23,7 @@ BEST WESTERN PLUS Q Hotel, ul. Wygrana 6, Kraków.
  Call 4 Papers for droidcon Kraków 2015 <strong>will close on 31th October 2015!</strong> 
 So hurry up and register your idea for a talk and wait for our decision. We will contact you back in a couple of days. 
 
-#### [Our Sponsors](http://droidcon.pl/#speakers)
+#### [Our Speakers](http://droidcon.pl/#speakers)
 Take the first glimpse on the lineup.
 
 #### [Our Sponsors](http://droidcon.pl/#sponsors)
