@@ -69,5 +69,14 @@ dependencies {
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.1'
     androidTestCompile 'com.android.support.test:runner:0.4.1'
     androidTestCompile 'com.android.support.test.espresso:espresso-intents:2.2.1'
+    /**
+     * AccessibilityChecks
+     * CountingIdlingResource
+     * DrawerActions
+     * DrawerMatchers
+     * PickerActions (Time and Date picker)
+     * RecyclerViewActions
+     */
+    compile 'junit:junit:4.12'
 
 }

@@ -30,16 +30,8 @@
 
             <TextView
                 android:id="@+id/eventDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="0dp"
-                android:layout_marginTop="5dp"
-                android:fontFamily="sans-serif-light"
-                android:gravity="center_horizontal"
-                android:padding="@dimen/slot_padding"
-                android:text="@string/date"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:text="@string/event_date"
+                style="@style/eventDate" />
         </LinearLayout>
 
         <ImageView
@@ -83,7 +75,7 @@
                 android:layout_marginTop="5dp"
                 android:fontFamily="sans-serif-light"
                 android:gravity="center_horizontal"
-                android:text="@string/description"
+                android:text="@string/event_description"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
         </LinearLayout>
 
@@ -104,7 +96,7 @@
                 android:layout_marginTop="0dp"
                 android:fontFamily="sans-serif-light"
                 android:padding="@dimen/slot_padding"
-                android:text="@string/more_info"
+                android:text="@string/event_more_info_title"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <TextView
@@ -118,7 +110,7 @@
                 android:fontFamily="sans-serif-light"
                 android:padding="@dimen/slot_padding"
                 android:paddingBottom="40dp"
-                android:text="@string/website_link"
+                android:text="@string/event_website_link"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
         </LinearLayout>
     </RelativeLayout>
