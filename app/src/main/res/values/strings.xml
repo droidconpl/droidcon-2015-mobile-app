@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">Droidcon Poland</string>
-
+    <string name="app_name">Droidcon Kraków 2015</string>
+    <!--MENU-->
     <string name="agenda">Agenda</string>
     <string name="favourites">Favourites</string>
     <string name="map_and_info">Map &amp; info</string>
@@ -22,4 +22,8 @@
     <string name="lunch_break">Lunch break</string>
     <string name="session">Session</string>
     <string name="barcamp">Barcamp</string>
+    <string name="event_date">4th-6th December 2015</string>
+    <string name="event_more_info_title">More informations:  </string>
+    <string name="event_website_link">droidcon.pl/</string>
+    <string name="event_description">Want to hear about latest Android technology and talk to experienced Android expert speakers? Be a part of it! Join second edition of droidcon Kraków!</string>
 </resources>
