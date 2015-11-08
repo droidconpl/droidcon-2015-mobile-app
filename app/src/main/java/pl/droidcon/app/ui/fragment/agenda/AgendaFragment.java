@@ -99,41 +99,16 @@ public class AgendaFragment extends Fragment implements SwipeRefreshLayout.OnRef
         agendaList.setLayoutManager(mLayoutManager);
         agendaList.addItemDecoration(new SpacesItemDecoration(view.getContext().getResources().getDimension(R.dimen.list_element_margin)));
         agendaList.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), this));
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
         bindNewDataEvent();
         sessionCompositeSubscription = new CompositeSubscription();
         getSessions();
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
+    public void onDestroyView() {
+        super.onDestroyView();
         sessionCompositeSubscription.clear();
         dataSubscription.unbind(newDataEventSubscription);
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
     }
 
     public void showErrorSnackBar() {
