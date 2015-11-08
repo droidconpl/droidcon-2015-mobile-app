@@ -60,6 +60,18 @@
         <item name="android:layout_marginTop">@dimen/list_element_margin</item>
     </style>
 
+    <style name="eventDate">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:layout_marginBottom">0dp</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:padding">@dimen/slot_padding</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+    </style>
+
     <style name="Line">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
