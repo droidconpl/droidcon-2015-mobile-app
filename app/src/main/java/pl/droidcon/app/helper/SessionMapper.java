@@ -8,6 +8,7 @@ import java.util.List;
 
 import io.realm.RealmList;
 import pl.droidcon.app.model.api.Session;
+import pl.droidcon.app.model.api.Speaker;
 import pl.droidcon.app.model.db.RealmSession;
 import pl.droidcon.app.model.db.RealmSpeaker;
 
@@ -71,7 +72,7 @@ public class SessionMapper implements Mapper<Session, RealmSession> {
         session.rating = realmSession.getRating();
 
         RealmList<RealmSpeaker> speakers = realmSession.getSpeakers();
-        session.setRealSpeakerList(speakerMapper.fromDBList(speakers));
+        session.setSpeakersList((ArrayList<Speaker>) speakerMapper.fromDBList(speakers));
         return session;
     }
 }

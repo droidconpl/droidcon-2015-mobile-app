@@ -22,4 +22,5 @@
     <string name="lunch_break">Lunch break</string>
     <string name="session">Session</string>
     <string name="barcamp">Barcamp</string>
+    <string name="speaker_full_name_format">%1$s %2$s</string>
 </resources>

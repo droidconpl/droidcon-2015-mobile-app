@@ -26,8 +26,10 @@ import pl.droidcon.app.model.common.SessionDay;
 import pl.droidcon.app.model.event.NewDataEvent;
 import pl.droidcon.app.model.ui.SwipeRefreshColorSchema;
 import pl.droidcon.app.rx.DataSubscription;
+import pl.droidcon.app.ui.activity.SessionActivity;
 import pl.droidcon.app.ui.adapter.AgendaAdapter;
 import pl.droidcon.app.ui.decoration.SpacesItemDecoration;
+import pl.droidcon.app.ui.view.RecyclerItemClickListener;
 import pl.droidcon.app.wrapper.SnackbarWrapper;
 import rx.Subscriber;
 import rx.Subscription;
@@ -38,7 +40,7 @@ import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
 
-public class AgendaFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class AgendaFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, RecyclerItemClickListener.OnItemClickListener {
 
     private static final String TAG = AgendaFragment.class.getSimpleName();
     private static final String SESSION_DAY_KEY = "sessionDay";
@@ -96,6 +98,7 @@ public class AgendaFragment extends Fragment implements SwipeRefreshLayout.OnRef
         LinearLayoutManager mLayoutManager = new GridLayoutManager(view.getContext(), 2);
         agendaList.setLayoutManager(mLayoutManager);
         agendaList.addItemDecoration(new SpacesItemDecoration(view.getContext().getResources().getDimension(R.dimen.list_element_margin)));
+        agendaList.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), this));
     }
 
     @Override
@@ -196,5 +199,11 @@ public class AgendaFragment extends Fragment implements SwipeRefreshLayout.OnRef
             showErrorSnackBar();
         }
         getSessions();
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+        Session session = agendaAdapter.getSessionByPosition(position);
+        SessionActivity.start(getContext(), session);
     }
 }

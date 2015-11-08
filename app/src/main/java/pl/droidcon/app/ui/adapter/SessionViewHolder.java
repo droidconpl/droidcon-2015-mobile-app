@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.StyleSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,14 +23,12 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import pl.droidcon.app.R;
 import pl.droidcon.app.dagger.DroidconInjector;
+import pl.droidcon.app.helper.DateTimePrinter;
 import pl.droidcon.app.helper.UrlHelper;
 import pl.droidcon.app.model.api.Session;
 import pl.droidcon.app.model.api.Speaker;
 
 public class SessionViewHolder extends RecyclerView.ViewHolder {
-
-    private static final String DATE_PATTERN = "EE. HH:mm";
-    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormat.forPattern(DATE_PATTERN);
 
     @Bind(R.id.session_picture)
     ImageView sessionPicture;
@@ -66,9 +63,9 @@ public class SessionViewHolder extends RecyclerView.ViewHolder {
         spannableString.setSpan(new StyleSpan(Typeface.BOLD), startIndex, endIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         sessionTitle.setText(spannableString);
 
-        sessionDate.setText(session.date.toString(DATE_TIME_FORMATTER));
+        sessionDate.setText(DateTimePrinter.toPrintableStringWithDay(session.date));
 
-        List<Speaker> realSpeakerList = session.getRealSpeakerList();
+        List<Speaker> realSpeakerList = session.getSpeakersList();
         if (realSpeakerList.isEmpty()) {
             //todo: what to show here:
             sessionPicture.setImageResource(R.drawable.droidcon_krakow_logo);

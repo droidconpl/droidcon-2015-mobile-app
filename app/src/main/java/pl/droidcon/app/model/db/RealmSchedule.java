@@ -4,13 +4,20 @@ package pl.droidcon.app.model.db;
 import io.realm.RealmObject;
 
 public class RealmSchedule extends RealmObject {
-    private RealmSession realmSession;
+    private int realmSessionId;
 
-    public RealmSession getRealmSession() {
-        return realmSession;
+    public RealmSchedule() {
     }
 
-    public void setRealmSession(RealmSession realmSession) {
-        this.realmSession = realmSession;
+    public RealmSchedule(int realmSessionId) {
+        this.realmSessionId = realmSessionId;
+    }
+
+    public int getRealmSessionId() {
+        return realmSessionId;
+    }
+
+    public void setRealmSessionId(int realmSessionId) {
+        this.realmSessionId = realmSessionId;
     }
 }
