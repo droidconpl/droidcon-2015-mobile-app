@@ -22,9 +22,6 @@ import pl.droidcon.app.helper.UrlHelper;
 import pl.droidcon.app.model.api.Speaker;
 import pl.droidcon.app.ui.transformation.CircleTransform;
 
-/**
- * Created by whiter
- */
 public class SpeakerDialog extends AppCompatDialogFragment {
 
     private static final String SPEAKER_EXTRA = "speaker";
