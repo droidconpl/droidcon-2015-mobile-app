@@ -1,5 +1,9 @@
 package pl.droidcon.app.model.api;
 
+import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import org.joda.time.DateTime;
@@ -21,7 +25,27 @@ import java.util.List;
 }
  */
 
-public class Session {
+public class Session implements Parcelable {
+
+    public static final Creator<Session> CREATOR = new Creator<Session>() {
+        @Override
+        public Session createFromParcel(Parcel source) {
+            return new Session(source);
+        }
+
+        @Override
+        public Session[] newArray(int size) {
+            return new Session[size];
+        }
+    };
+
+    private static final String ID = "id";
+    private static final String DATE_TIME = "date_time";
+    private static final String TITLE = "title";
+    private static final String DESCRIPTION = "description";
+    private static final String RATING = "rating";
+    private static final String SPEAKERS_IDS = "speakers_ids";
+    private static final String SPEAKERS_LIST = "speakers_list";
 
     public int id;
     public DateTime date;
@@ -30,17 +54,32 @@ public class Session {
     public double rating;
 
     @SerializedName("people")
-    public List<Integer> speakers = new ArrayList<>();
+    public ArrayList<Integer> speakersIds = new ArrayList<>();
 
-    private List<Speaker> realSpeakerList = new ArrayList<>();
+    private ArrayList<Speaker> speakersList = new ArrayList<>();
 
 
-    public void setRealSpeakerList(List<Speaker> realSpeakerList) {
-        this.realSpeakerList = realSpeakerList;
+    public Session() {
+
     }
 
-    public List<Speaker> getRealSpeakerList() {
-        return realSpeakerList;
+    private Session(Parcel source) {
+        Bundle bundle = source.readBundle(getClass().getClassLoader());
+        id = bundle.getInt(ID);
+        date = (DateTime) bundle.getSerializable(DATE_TIME);
+        title = bundle.getString(TITLE);
+        description = bundle.getString(DESCRIPTION);
+        rating = bundle.getDouble(RATING);
+        speakersIds = bundle.getIntegerArrayList(SPEAKERS_IDS);
+        speakersList = bundle.getParcelableArrayList(SPEAKERS_LIST);
+    }
+
+    public void setSpeakersList(ArrayList<Speaker> speakersList) {
+        this.speakersList = speakersList;
+    }
+
+    public List<Speaker> getSpeakersList() {
+        return speakersList;
     }
 
     @Override
@@ -51,7 +90,26 @@ public class Session {
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", rating=" + rating +
-                ", speakers=" + speakers +
+                ", speakersIds=" + speakersIds +
+                ", speakersList=" + speakersList +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        Bundle bundle = new Bundle(getClass().getClassLoader());
+        bundle.putInt(ID, id);
+        bundle.putSerializable(DATE_TIME, date);
+        bundle.putString(TITLE, title);
+        bundle.putString(DESCRIPTION, description);
+        bundle.putDouble(RATING, rating);
+        bundle.putIntegerArrayList(SPEAKERS_IDS, speakersIds);
+        bundle.putParcelableArrayList(SPEAKERS_LIST, speakersList);
+        dest.writeBundle(bundle);
     }
 }

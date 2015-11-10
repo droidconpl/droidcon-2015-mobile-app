@@ -59,7 +59,7 @@ public class SpeakerMapper implements Mapper<Speaker, RealmSpeaker> {
         Speaker speaker = new Speaker();
         speaker.id = realmSpeaker.getId();
         speaker.firstName = realmSpeaker.getFirstName();
-        speaker.lastName = realmSpeaker.getFirstName();
+        speaker.lastName = realmSpeaker.getLastName();
         speaker.bio = realmSpeaker.getBio();
         speaker.imageUrl = realmSpeaker.getImageUrl();
         return speaker;

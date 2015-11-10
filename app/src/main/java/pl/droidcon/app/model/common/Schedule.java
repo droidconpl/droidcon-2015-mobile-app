@@ -1,25 +1,22 @@
 package pl.droidcon.app.model.common;
 
 
-import pl.droidcon.app.model.api.Session;
-
 public class Schedule {
-    private Session session;
+    private int sessionId;
 
 
-
-    public Schedule(Session session) {
-        this.session = session;
+    public Schedule(int sessionId) {
+        this.sessionId = sessionId;
     }
 
-    public Session getSession() {
-        return session;
+    public int getSessionId() {
+        return sessionId;
     }
 
     @Override
     public String toString() {
         return "Schedule{" +
-                "session=" + session +
+                "sessionId=" + sessionId +
                 '}';
     }
 }

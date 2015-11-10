@@ -58,7 +58,7 @@ public abstract class OnSubscribeRealm<T> implements Observable.OnSubscribe<T> {
             subscriber.onError(e);
             withError = true;
         }
-        if (object != null && !interrupted && !withError) {
+        if (!interrupted && !withError) {
             subscriber.onNext(object);
         }
 

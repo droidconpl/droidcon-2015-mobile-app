@@ -26,4 +26,5 @@
     <string name="event_more_info_title">More informations:  </string>
     <string name="event_website_link">droidcon.pl/</string>
     <string name="event_description">Want to hear about latest Android technology and talk to experienced Android expert speakers? Be a part of it! Join second edition of droidcon Kraków!</string>
+    <string name="speaker_full_name_format">%1$s %2$s</string>
 </resources>

@@ -64,7 +64,7 @@ public class ScheduleViewHolder extends RecyclerView.ViewHolder implements View.
         if (session == null) {
             image.setImageDrawable(null);
         } else {
-            List<Speaker> realSpeakerList = session.getRealSpeakerList();
+            List<Speaker> realSpeakerList = session.getSpeakersList();
             if (!realSpeakerList.isEmpty()) {
                 String url = UrlHelper.url(realSpeakerList.get(0).imageUrl);
                 Picasso.with(itemView.getContext())

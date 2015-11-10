@@ -14,7 +14,7 @@ public class SpeakerResponse {
     @Override
     public String toString() {
         return "SpeakerResponse{" +
-                "speakers=" + speakers +
+                "speakersIds=" + speakers +
                 '}';
     }
 }

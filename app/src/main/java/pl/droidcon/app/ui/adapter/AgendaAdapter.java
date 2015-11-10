@@ -1,5 +1,6 @@
 package pl.droidcon.app.ui.adapter;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,5 +35,10 @@ public class AgendaAdapter extends RecyclerView.Adapter<SessionViewHolder> {
     @Override
     public int getItemCount() {
         return sessions.size();
+    }
+
+    @NonNull
+    public Session getSessionByPosition(int position){
+        return sessions.get(position);
     }
 }

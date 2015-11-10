@@ -41,6 +41,6 @@ public class ScheduleMapper implements Mapper<Schedule, RealmSchedule> {
 
     @Override
     public Schedule fromDB(RealmSchedule realmSchedule) {
-        return new Schedule(sessionMapper.fromDB(realmSchedule.getRealmSession()));
+        return new Schedule(realmSchedule.getRealmSessionId());
     }
 }

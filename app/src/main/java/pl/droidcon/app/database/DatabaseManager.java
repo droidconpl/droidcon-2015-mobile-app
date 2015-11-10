@@ -18,6 +18,7 @@ import pl.droidcon.app.model.api.AgendaResponse;
 import pl.droidcon.app.model.api.Session;
 import pl.droidcon.app.model.api.SpeakerResponse;
 import pl.droidcon.app.model.common.SessionDay;
+import pl.droidcon.app.model.db.RealmSchedule;
 import pl.droidcon.app.model.db.RealmSession;
 import pl.droidcon.app.model.db.RealmSpeaker;
 import pl.droidcon.app.rx.RealmObservable;
@@ -45,7 +46,7 @@ public class DatabaseManager {
         return RealmObservable.results(context, new Func1<Realm, RealmResults<RealmSession>>() {
             @Override
             public RealmResults<RealmSession> call(Realm realm) {
-                Log.d(TAG, "getting sessions from db for day=" +sessionDay + " and transforming to base models");
+                Log.d(TAG, "getting sessions from db for day=" + sessionDay + " and transforming to base models");
                 //its a hack
                 Date beginDate = sessionDay.when.toDate();
                 Date endOfDate = sessionDay.when.plusHours(23).toDate();
@@ -62,6 +63,54 @@ public class DatabaseManager {
         });
     }
 
+
+    public Observable<Boolean> isFavourite(final Session session) {
+        return RealmObservable.object(context, new Func1<Realm, RealmSchedule>() {
+            @Override
+            public RealmSchedule call(Realm realm) {
+                return realm.where(RealmSchedule.class)
+                        .equalTo("realmSessionId", session.id)
+                        .findFirst();
+            }
+        }).map(new Func1<RealmSchedule, Boolean>() {
+            @Override
+            public Boolean call(RealmSchedule realmSchedule) {
+                return realmSchedule != null;
+            }
+        });
+    }
+
+    public Observable<RealmSchedule> addToFavourite(final Session session) {
+        return RealmObservable.object(context, new Func1<Realm, RealmSchedule>() {
+            @Override
+            public RealmSchedule call(Realm realm) {
+                RealmSchedule realmSchedule = new RealmSchedule(session.id);
+                return realm.copyToRealm(realmSchedule);
+            }
+        });
+    }
+
+    public Observable<Boolean> removeFromFavourite(final Session session) {
+        return RealmObservable.object(context, new Func1<Realm, RealmSchedule>() {
+            @Override
+            public RealmSchedule call(Realm realm) {
+                RealmSchedule realmSchedule = realm.where(RealmSchedule.class)
+                        .equalTo("realmSessionId", session.id)
+                        .findFirst();
+                if (realmSchedule != null) {
+                    realmSchedule.removeFromRealm();
+                }
+
+                return realmSchedule;
+            }
+        }).map(new Func1<RealmSchedule, Boolean>() {
+            @Override
+            public Boolean call(RealmSchedule realmSchedule) {
+                return realmSchedule != null;
+            }
+        });
+    }
+
     public void saveData(AgendaResponse agendaResponse, SpeakerResponse speakerResponse) {
         List<RealmSession> sessionDBs = sessionMapper.mapList(agendaResponse.sessions);
         List<RealmSpeaker> speakerDBs = speakerMapper.mapList(speakerResponse.speakers);
@@ -73,7 +122,7 @@ public class DatabaseManager {
         List<RealmSpeaker> realmSpeakers = realm.copyToRealmOrUpdate(speakerDBs);
 
         for (Session session : agendaResponse.sessions) {
-            List<RealmSpeaker> sessionsSpeaker = speakerMapper.matchFromApi(realmSpeakers, session.speakers);
+            List<RealmSpeaker> sessionsSpeaker = speakerMapper.matchFromApi(realmSpeakers, session.speakersIds);
             RealmSession sessionDB = realm
                     .where(RealmSession.class)
                     .equalTo("id", session.id)
