@@ -108,7 +108,7 @@
 
     <style name="map_and_info_place_address" parent="map_and_info_base"></style>
 
-    <style name="map_and_info_open_action">
+    <style name="map_and_info_open_action" parent="@android:style/Widget.Button">
         <item name="android:background">@drawable/button_backgroud</item>
         <item name="android:textColor">@color/textColorHeader</item>
         <item name="android:paddingLeft">8dp</item>
