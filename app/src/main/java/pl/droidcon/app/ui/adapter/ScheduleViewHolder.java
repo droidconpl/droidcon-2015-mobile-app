@@ -9,7 +9,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -82,8 +82,10 @@ public class ScheduleViewHolder extends RecyclerView.ViewHolder implements View.
         List<Speaker> realSpeakerList = session.getSpeakersList();
         if (!realSpeakerList.isEmpty()) {
             String url = UrlHelper.url(realSpeakerList.get(0).imageUrl);
-            Picasso.with(itemView.getContext())
+            Glide.with(itemView.getContext())
                     .load(url)
+                    .override(512, 512)
+                    .fitCenter()
                     .into(image);
         } else {
             image.setImageDrawable(null);

@@ -16,7 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -231,8 +231,10 @@ public class SessionActivity extends BaseActivity implements SpeakerList.Speaker
         public Object instantiateItem(ViewGroup container, int position) {
             View itemView = LayoutInflater.from(context).inflate(R.layout.speaker_pager_item, container, false);
             ImageView imageView = (ImageView) itemView.findViewById(R.id.speaker_photo);
-            Picasso.with(context)
+            Glide.with(context)
                     .load(UrlHelper.url(speakers.get(position).imageUrl))
+                    .fitCenter()
+                    .crossFade()
                     .into(imageView);
             container.addView(imageView);
             return imageView;
