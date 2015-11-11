@@ -82,13 +82,20 @@
 
     <style name="map_and_info_container"></style>
 
-    <style name="map_and_info_header"></style>
+    <style name="map_and_info_header">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 
-    <style name="map_and_info_description"></style>
+    <style name="map_and_info_description">
+        <item name="android:textSize">16sp</item>
+    </style>
 
     <style name="map_and_info_place_title"></style>
 
     <style name="map_and_info_place_address"></style>
 
-    <style name="map_and_info_open_action"></style>
+    <style name="map_and_info_open_action">
+        <item name="android:background">@drawable/button_backgroud</item>
+    </style>
 </resources>
