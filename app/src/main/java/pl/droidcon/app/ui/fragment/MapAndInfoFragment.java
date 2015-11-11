@@ -40,6 +40,19 @@ public class MapAndInfoFragment extends BaseFragment {
             }
         });
 
+        inflate.findViewById(R.id.location_open_party).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Uri gmmIntentUri = Uri.parse("geo:50.0453021,19.933825?q=" + Uri.encode("Forum Przestrzenie, Marii Konopnickiej 28, Kraków"));
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+
+                if (mapIntent.resolveActivity(getContext().getPackageManager()) != null) {
+                    startActivity(mapIntent);
+                }
+            }
+        });
+
         return inflate;
     }
 
