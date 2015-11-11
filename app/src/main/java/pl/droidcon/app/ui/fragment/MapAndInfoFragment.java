@@ -53,6 +53,19 @@ public class MapAndInfoFragment extends BaseFragment {
             }
         });
 
+        inflate.findViewById(R.id.location_open_hackaton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Uri gmmIntentUri = Uri.parse("geo:50.0570504,19.9129173?q=" + Uri.encode("Base Lab, Leona Wyczółkowskiego 7, Kraków"));
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+
+                if (mapIntent.resolveActivity(getContext().getPackageManager()) != null) {
+                    startActivity(mapIntent);
+                }
+            }
+        });
+
         return inflate;
     }
 
