@@ -1,5 +1,7 @@
 package pl.droidcon.app.helper;
 
+import org.joda.time.DateTime;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,12 +10,6 @@ import pl.droidcon.app.model.common.Schedule;
 import pl.droidcon.app.model.db.RealmSchedule;
 
 public class ScheduleMapper implements Mapper<Schedule, RealmSchedule> {
-
-    private SessionMapper sessionMapper;
-
-    public ScheduleMapper(SessionMapper sessionMapper) {
-        this.sessionMapper = sessionMapper;
-    }
 
     @Override
     public RealmSchedule map(Schedule schedule) {
@@ -41,6 +37,6 @@ public class ScheduleMapper implements Mapper<Schedule, RealmSchedule> {
 
     @Override
     public Schedule fromDB(RealmSchedule realmSchedule) {
-        return new Schedule(realmSchedule.getRealmSessionId());
+        return new Schedule(realmSchedule.getRealmSessionId(), new DateTime(realmSchedule.getScheduleDate()));
     }
 }

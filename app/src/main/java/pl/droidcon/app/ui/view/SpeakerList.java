@@ -12,7 +12,6 @@ import android.widget.LinearLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.ButterKnife;
 import pl.droidcon.app.model.api.Speaker;
 
 public class SpeakerList extends LinearLayout {
@@ -41,7 +40,6 @@ public class SpeakerList extends LinearLayout {
     }
 
     private void init(Context context, AttributeSet attributeSet, int defStyleAttr, int defStyleRes) {
-        ButterKnife.bind(this, this);
         setGravity(Gravity.CENTER_VERTICAL);
         setOrientation(VERTICAL);
         if (isInEditMode()) {

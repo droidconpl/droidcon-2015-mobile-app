@@ -6,7 +6,9 @@ import pl.droidcon.app.model.common.Slot;
 import pl.droidcon.app.rx.DataSubscription;
 import pl.droidcon.app.ui.activity.MainActivity;
 import pl.droidcon.app.ui.activity.SessionActivity;
+import pl.droidcon.app.ui.adapter.ScheduleViewHolder;
 import pl.droidcon.app.ui.adapter.SessionViewHolder;
+import pl.droidcon.app.ui.dialog.SessionChooserDialog;
 import pl.droidcon.app.ui.fragment.schedule.ScheduleFragment;
 import pl.droidcon.app.ui.fragment.schedule.ScheduleMainFragment;
 import pl.droidcon.app.ui.fragment.agenda.AgendaFragment;
@@ -29,4 +31,8 @@ interface DroidconGraph {
     void inject(Slot slot);
 
     void inject(SessionActivity sessionActivity);
+
+    void inject(ScheduleViewHolder scheduleViewHolder);
+
+    void inject(SessionChooserDialog sessionChooserDialog);
 }

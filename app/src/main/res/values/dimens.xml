@@ -4,8 +4,10 @@
     <dimen name="list_element_margin">8dp</dimen>
 
     <dimen name="list_item_height">72dp</dimen>
+    <dimen name="list_item_expanded_height">200dp</dimen>
 
     <dimen name="slot_outline_size">2dip</dimen>
     <dimen name="slot_round_size">5dip</dimen>
     <dimen name="slot_padding">0dp</dimen>
+    <dimen name="min_dialog_width">300dp</dimen>
 </resources>

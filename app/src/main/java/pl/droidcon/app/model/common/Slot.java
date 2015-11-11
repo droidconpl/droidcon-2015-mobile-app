@@ -53,8 +53,35 @@ public class Slot {
         return slot;
     }
 
+    public static Slot ofSession(Session session) {
+        Slot slot = new Slot();
+        slot.setType(Type.SESSION);
+        slot.setTitle(session.title);
+        slot.setDateTime(session.date);
+        slot.setSession(session);
+        return slot;
+    }
+
+    public static Slot ofDeletedSchedule(Schedule schedule){
+        Slot slot = new Slot();
+        slot.setType(Type.SESSION);
+        slot.setTitle(Type.SESSION.getDescription());
+        slot.setDateTime(schedule.getDateTime());
+        return slot;
+    }
+
     @Inject
     Resources resources;
+
+    @Override
+    public boolean equals(Object o) {
+        return o != null && o instanceof Slot && (o == this || ((Slot) o).dateTime.equals(dateTime));
+    }
+
+    @Override
+    public int hashCode() {
+        return dateTime.hashCode();
+    }
 
     private Slot() {
         DroidconInjector.get().inject(this);
@@ -68,12 +95,15 @@ public class Slot {
         this.slotType = type;
     }
 
+    void setTitle(@NonNull String title) {
+        this.title = title;
+    }
+
     void setTitle(@StringRes int titleStringRes) {
         this.title = resources.getString(titleStringRes);
     }
 
-
-    public void attachSession(@NonNull Session session){
+    void setSession(Session session) {
         this.session = session;
     }
 
@@ -90,9 +120,6 @@ public class Slot {
     }
 
     public String getDisplayTitle() {
-        if (session != null) {
-            return session.title;
-        }
         return title;
     }
 }
