@@ -25,6 +25,7 @@ public class LogicModule {
         return new DataSubscription();
     }
 
+    @Singleton
     @Provides
     public DatabaseManager provideDatabaseManager() {
         return new DatabaseManager();
@@ -41,7 +42,7 @@ public class LogicModule {
     }
 
     @Provides
-    public ScheduleMapper provideScheduleMapper(SessionMapper sessionMapper) {
-        return new ScheduleMapper(sessionMapper);
+    public ScheduleMapper provideScheduleMapper() {
+        return new ScheduleMapper();
     }
 }

@@ -11,18 +11,34 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import pl.droidcon.app.R;
 import pl.droidcon.app.dagger.DroidconInjector;
+import pl.droidcon.app.database.DataObserver;
 import pl.droidcon.app.database.DatabaseManager;
 import pl.droidcon.app.factory.SlotFactory;
+import pl.droidcon.app.model.api.Session;
+import pl.droidcon.app.model.common.Schedule;
 import pl.droidcon.app.model.common.SessionDay;
+import pl.droidcon.app.model.common.Slot;
+import pl.droidcon.app.ui.activity.SessionActivity;
 import pl.droidcon.app.ui.adapter.ScheduleAdapter;
 import pl.droidcon.app.ui.adapter.ScheduleViewHolder;
 import pl.droidcon.app.ui.decoration.ScheduleItemDecoration;
+import pl.droidcon.app.ui.dialog.SessionChooserDialog;
+import rx.Observable;
+import rx.Subscriber;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
 public class ScheduleFragment extends Fragment implements ScheduleViewHolder.ScheduleClickListener {
@@ -54,6 +70,13 @@ public class ScheduleFragment extends Fragment implements ScheduleViewHolder.Sch
         super.onCreate(savedInstanceState);
         sessionDay = (SessionDay) getArguments().getSerializable(SESSION_DAY_KEY);
         DroidconInjector.get().inject(this);
+        databaseManager.registerDataObserver(scheduleDataObserver);
+    }
+
+    @Override
+    public void onDestroy() {
+        databaseManager.unregisterDataObserver(scheduleDataObserver);
+        super.onDestroy();
     }
 
     @Nullable
@@ -72,22 +95,89 @@ public class ScheduleFragment extends Fragment implements ScheduleViewHolder.Sch
         scheduleList.addItemDecoration(new ScheduleItemDecoration(view.getContext().getResources().getDimension(R.dimen.list_element_margin)));
         scheduleAdapter = new ScheduleAdapter(SlotFactory.createSlotsForDay(sessionDay), this);
         scheduleList.setAdapter(scheduleAdapter);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
         compositeSubscription = new CompositeSubscription();
+        getSchedules();
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
         compositeSubscription.clear();
     }
 
+    private void getSchedules() {
+        Subscription subscription = databaseManager.schedules(sessionDay)
+                .flatMap(new Func1<List<Schedule>, Observable<List<Session>>>() {
+                    @Override
+                    public Observable<List<Session>> call(List<Schedule> schedules) {
+                        List<Integer> ids = new ArrayList<>();
+                        for (Schedule schedule : schedules) {
+                            ids.add(schedule.getSessionId());
+                        }
+                        return databaseManager.sessions(ids);
+                    }
+                })
+                .flatMap(new Func1<List<Session>, Observable<List<Slot>>>() {
+                    @Override
+                    public Observable<List<Slot>> call(final List<Session> sessions) {
+                        return Observable.create(new Observable.OnSubscribe<List<Slot>>() {
+                            @Override
+                            public void call(Subscriber<? super List<Slot>> subscriber) {
+                                List<Slot> slots = new ArrayList<>();
+                                for (Session session : sessions) {
+                                    slots.add(Slot.ofSession(session));
+                                }
+                                subscriber.onNext(slots);
+                            }
+                        });
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<List<Slot>>() {
+                    @Override
+                    public void call(List<Slot> slots) {
+                        scheduleAdapter.attachSessionSlots(slots);
+                        notifyAdapter();
+                    }
+                });
+        compositeSubscription.add(subscription);
+    }
+
+
     @Override
     public void onScheduleClicked(View view, int position) {
-        //todo: show selected slot if already set or maybe show proposition about filling with available data?
+        Slot slot = scheduleAdapter.getSlot(position);
+        if (Slot.Type.SESSION == slot.getSlotType()) {
+            if (slot.getSession() == null) {
+                SessionChooserDialog.newInstance(slot.getDateTime()).show(getActivity().getSupportFragmentManager(), TAG);
+            } else {
+                SessionActivity.start(getContext(), slot.getSession());
+            }
+        }
     }
+
+    private void notifyAdapter() {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                scheduleAdapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+
+    private DataObserver<Schedule> scheduleDataObserver = new DataObserver<Schedule>(Schedule.class) {
+        @Override
+        public void onInsert(Schedule data) {
+            getSchedules();
+        }
+
+        @Override
+        public void onDelete(Schedule data) {
+            scheduleAdapter.removeScheduleFromSlots(data);
+            notifyAdapter();
+        }
+    };
 }

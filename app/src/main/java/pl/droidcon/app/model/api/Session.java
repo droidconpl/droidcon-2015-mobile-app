@@ -3,6 +3,7 @@ package pl.droidcon.app.model.api;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -25,7 +26,7 @@ import java.util.List;
 }
  */
 
-public class Session implements Parcelable {
+public class Session implements Parcelable, Comparable<Session> {
 
     public static final Creator<Session> CREATOR = new Creator<Session>() {
         @Override
@@ -111,5 +112,10 @@ public class Session implements Parcelable {
         bundle.putIntegerArrayList(SPEAKERS_IDS, speakersIds);
         bundle.putParcelableArrayList(SPEAKERS_LIST, speakersList);
         dest.writeBundle(bundle);
+    }
+
+    @Override
+    public int compareTo(@NonNull Session another) {
+        return date.compareTo(another.date);
     }
 }
