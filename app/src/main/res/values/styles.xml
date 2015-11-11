@@ -104,7 +104,10 @@
         <item name="android:paddingBottom">8dp</item>
     </style>
 
-    <style name="map_and_info_place_title" parent="map_and_info_base"></style>
+    <style name="map_and_info_place_title" parent="map_and_info_base">
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">4dp</item>
+    </style>
 
     <style name="map_and_info_place_address" parent="map_and_info_base"></style>
 
