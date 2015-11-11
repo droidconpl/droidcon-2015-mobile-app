@@ -1,5 +1,7 @@
 package pl.droidcon.app.ui.fragment;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -20,11 +22,51 @@ public class MapAndInfoFragment extends BaseFragment {
     }
 
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.map_fragment, container, false);
+        View inflate = inflater.inflate(R.layout.map_fragment, container, false);
+
+        inflate.findViewById(R.id.location_open_venue).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Uri gmmIntentUri = Uri.parse("geo:50.0472738,19.9309747?q=" + Uri.encode("Q Hotel, Wygrana 6,30-311 Kraków"));
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+
+                if (mapIntent.resolveActivity(getContext().getPackageManager()) != null) {
+                    startActivity(mapIntent);
+                }
+            }
+        });
+
+        inflate.findViewById(R.id.location_open_party).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Uri gmmIntentUri = Uri.parse("geo:50.0453021,19.933825?q=" + Uri.encode("Forum Przestrzenie, Marii Konopnickiej 28, Kraków"));
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+
+                if (mapIntent.resolveActivity(getContext().getPackageManager()) != null) {
+                    startActivity(mapIntent);
+                }
+            }
+        });
+
+        inflate.findViewById(R.id.location_open_hackaton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Uri gmmIntentUri = Uri.parse("geo:50.0570504,19.9129173?q=" + Uri.encode("Base Lab, Leona Wyczółkowskiego 7, Kraków"));
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+
+                if (mapIntent.resolveActivity(getContext().getPackageManager()) != null) {
+                    startActivity(mapIntent);
+                }
+            }
+        });
+
+        return inflate;
     }
 
     @Override

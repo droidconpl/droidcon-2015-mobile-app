@@ -79,4 +79,42 @@
         <item name="android:layout_marginBottom">@dimen/list_element_margin</item>
         <item name="android:layout_marginTop">@dimen/list_element_margin</item>
     </style>
+
+    <style name="map_and_info_container">
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">12dp</item>
+    </style>
+
+    <style name="map_and_info_base">
+        <item name="android:textColor">@color/textColorPrimary</item>
+
+
+    </style>
+
+    <style name="map_and_info_header" parent="map_and_info_base">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:paddingBottom">8dp</item>
+    </style>
+
+    <style name="map_and_info_description" parent="map_and_info_base">
+        <item name="android:textSize">16sp</item>
+        <item name="android:paddingBottom">8dp</item>
+    </style>
+
+    <style name="map_and_info_place_title" parent="map_and_info_base">
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">4dp</item>
+    </style>
+
+    <style name="map_and_info_place_address" parent="map_and_info_base"></style>
+
+    <style name="map_and_info_open_action" parent="@android:style/Widget.Button">
+        <item name="android:background">@drawable/button_backgroud</item>
+        <item name="android:textColor">@color/textColorHeader</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
+    </style>
 </resources>
