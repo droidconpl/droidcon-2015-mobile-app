@@ -9,4 +9,10 @@
         android:layout_height="wrap_content"
         android:text="@string/map_and_info" />
 
+    <Button
+        android:id="@+id/location_open_venue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Open location" />
+
 </LinearLayout>
