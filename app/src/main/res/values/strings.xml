@@ -52,4 +52,6 @@
 
     <string name="fav_added">Added to schedule</string>
     <string name="fav_removed">Removed from schedule</string>
+    <string name="schedule_overlap_title">Warning</string>
+    <string name="schedule_overlap_message"><![CDATA[You have already choose <b>%1$s</b> for slot at <b>%2$s</b>. Do you want to replace it with <b>%3$s</b>?]]></string>
 </resources>
