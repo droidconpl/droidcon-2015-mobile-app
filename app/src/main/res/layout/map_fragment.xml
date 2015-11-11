@@ -1,176 +1,179 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-
-    <RelativeLayout
-        style="@style/map_and_info_container"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/map_and_info_venue_title"
-            style="@style/map_and_info_header"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text="@string/map_and_info_venue_title" />
+        <RelativeLayout
+            style="@style/map_and_info_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/map_and_info_venue_description"
-            style="@style/map_and_info_description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/map_and_info_venue_title"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/map_and_info_venue_description" />
+            <TextView
+                android:id="@+id/map_and_info_venue_title"
+                style="@style/map_and_info_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="@string/map_and_info_venue_title" />
 
-        <TextView
-            android:id="@+id/map_and_info_venue_location"
-            style="@style/map_and_info_place_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/map_and_info_venue_description"
-            android:layout_toLeftOf="@+id/location_open_venue"
-            android:text="@string/map_and_info_venue_location" />
+            <TextView
+                android:id="@+id/map_and_info_venue_description"
+                style="@style/map_and_info_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/map_and_info_venue_title"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/map_and_info_venue_description" />
 
-        <TextView
-            android:id="@+id/map_and_info_venue_location_address"
-            style="@style/map_and_info_place_address"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/map_and_info_venue_location"
-            android:layout_toLeftOf="@+id/location_open_venue"
-            android:text="@string/map_and_info_venue_location_address" />
+            <TextView
+                android:id="@+id/map_and_info_venue_location"
+                style="@style/map_and_info_place_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/map_and_info_venue_description"
+                android:layout_toLeftOf="@+id/location_open_venue"
+                android:text="@string/map_and_info_venue_location" />
 
-        <Button
-            android:id="@+id/location_open_venue"
-            style="@style/map_and_info_open_action"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/map_and_info_venue_description"
-            android:text="@string/map_and_info_venue_action" />
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/map_and_info_venue_location_address"
+                style="@style/map_and_info_place_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/map_and_info_venue_location"
+                android:layout_toLeftOf="@+id/location_open_venue"
+                android:text="@string/map_and_info_venue_location_address" />
 
-
-    <RelativeLayout
-        style="@style/map_and_info_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/map_and_info_party_title"
-            style="@style/map_and_info_header"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text="@string/map_and_info_party_title" />
-
-        <TextView
-            android:id="@+id/map_and_info_party_description"
-            style="@style/map_and_info_description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/map_and_info_party_title"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/map_and_info_party_description" />
-
-        <TextView
-            android:id="@+id/map_and_info_party_location"
-            style="@style/map_and_info_place_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/map_and_info_party_description"
-            android:layout_toLeftOf="@+id/location_open_party"
-            android:text="@string/map_and_info_party_location" />
-
-        <TextView
-            android:id="@+id/map_and_info_party_location_address"
-            style="@style/map_and_info_place_address"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/map_and_info_party_location"
-            android:layout_toLeftOf="@+id/location_open_party"
-            android:text="@string/map_and_info_venue_location_address" />
-
-        <Button
-            android:id="@+id/location_open_party"
-            style="@style/map_and_info_open_action"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/map_and_info_party_description"
-            android:text="@string/map_and_info_party_action" />
-    </RelativeLayout>
+            <Button
+                android:id="@+id/location_open_venue"
+                style="@style/map_and_info_open_action"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/map_and_info_venue_description"
+                android:text="@string/map_and_info_venue_action" />
+        </RelativeLayout>
 
 
-    <RelativeLayout
-        style="@style/map_and_info_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        <RelativeLayout
+            style="@style/map_and_info_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/map_and_info_hackaton_title"
-            style="@style/map_and_info_header"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text="@string/map_and_info_hackaton_title" />
+            <TextView
+                android:id="@+id/map_and_info_party_title"
+                style="@style/map_and_info_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="@string/map_and_info_party_title" />
 
-        <TextView
-            android:id="@+id/map_and_info_hackaton_description"
-            style="@style/map_and_info_description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/map_and_info_hackaton_title"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/map_and_info_hackaton_description" />
+            <TextView
+                android:id="@+id/map_and_info_party_description"
+                style="@style/map_and_info_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/map_and_info_party_title"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/map_and_info_party_description" />
 
-        <TextView
-            android:id="@+id/map_and_info_hackaton_location"
-            style="@style/map_and_info_place_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/map_and_info_hackaton_description"
-            android:layout_toLeftOf="@+id/location_open_hackaton"
-            android:text="@string/map_and_info_hackaton_location" />
+            <TextView
+                android:id="@+id/map_and_info_party_location"
+                style="@style/map_and_info_place_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/map_and_info_party_description"
+                android:layout_toLeftOf="@+id/location_open_party"
+                android:text="@string/map_and_info_party_location" />
 
-        <TextView
-            android:id="@+id/map_and_info_hackaton_location_address"
-            style="@style/map_and_info_place_address"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/map_and_info_hackaton_location"
-            android:layout_toLeftOf="@+id/location_open_hackaton"
-            android:text="@string/map_and_info_hackaton_location_address" />
+            <TextView
+                android:id="@+id/map_and_info_party_location_address"
+                style="@style/map_and_info_place_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/map_and_info_party_location"
+                android:layout_toLeftOf="@+id/location_open_party"
+                android:text="@string/map_and_info_venue_location_address" />
 
-        <Button
-            android:id="@+id/location_open_hackaton"
-            style="@style/map_and_info_open_action"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/map_and_info_hackaton_description"
-            android:text="@string/map_and_info_hackaton_action" />
-    </RelativeLayout>
+            <Button
+                android:id="@+id/location_open_party"
+                style="@style/map_and_info_open_action"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/map_and_info_party_description"
+                android:text="@string/map_and_info_party_action" />
+        </RelativeLayout>
 
 
-</LinearLayout>
+        <RelativeLayout
+            style="@style/map_and_info_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/map_and_info_hackaton_title"
+                style="@style/map_and_info_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="@string/map_and_info_hackaton_title" />
+
+            <TextView
+                android:id="@+id/map_and_info_hackaton_description"
+                style="@style/map_and_info_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/map_and_info_hackaton_title"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/map_and_info_hackaton_description" />
+
+            <TextView
+                android:id="@+id/map_and_info_hackaton_location"
+                style="@style/map_and_info_place_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/map_and_info_hackaton_description"
+                android:layout_toLeftOf="@+id/location_open_hackaton"
+                android:text="@string/map_and_info_hackaton_location" />
+
+            <TextView
+                android:id="@+id/map_and_info_hackaton_location_address"
+                style="@style/map_and_info_place_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/map_and_info_hackaton_location"
+                android:layout_toLeftOf="@+id/location_open_hackaton"
+                android:text="@string/map_and_info_hackaton_location_address" />
+
+            <Button
+                android:id="@+id/location_open_hackaton"
+                style="@style/map_and_info_open_action"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/map_and_info_hackaton_description"
+                android:text="@string/map_and_info_hackaton_action" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>
