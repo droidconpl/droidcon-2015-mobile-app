@@ -6,11 +6,13 @@
 
 
     <RelativeLayout
+        style="@style/map_and_info_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/map_and_info_venue_title"
+            style="@style/map_and_info_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
@@ -18,6 +20,7 @@
 
         <TextView
             android:id="@+id/map_and_info_venue_description"
+            style="@style/map_and_info_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/map_and_info_venue_title"
@@ -26,6 +29,7 @@
 
         <TextView
             android:id="@+id/map_and_info_venue_location"
+            style="@style/map_and_info_place_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -36,6 +40,7 @@
 
         <TextView
             android:id="@+id/map_and_info_venue_location_address"
+            style="@style/map_and_info_place_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -46,6 +51,7 @@
 
         <Button
             android:id="@+id/location_open_venue"
+            style="@style/map_and_info_open_action"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -56,11 +62,13 @@
 
 
     <RelativeLayout
+        style="@style/map_and_info_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/map_and_info_party_title"
+            style="@style/map_and_info_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
@@ -68,6 +76,7 @@
 
         <TextView
             android:id="@+id/map_and_info_party_description"
+            style="@style/map_and_info_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/map_and_info_party_title"
@@ -76,16 +85,18 @@
 
         <TextView
             android:id="@+id/map_and_info_party_location"
+            style="@style/map_and_info_place_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/map_and_info_party_description"
-            android:layout_toLeftOf="@+id/location_open_venue"
+            android:layout_toLeftOf="@+id/location_open_party"
             android:text="@string/map_and_info_party_location" />
 
         <TextView
             android:id="@+id/map_and_info_party_location_address"
+            style="@style/map_and_info_place_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -96,6 +107,7 @@
 
         <Button
             android:id="@+id/location_open_party"
+            style="@style/map_and_info_open_action"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -106,11 +118,13 @@
 
 
     <RelativeLayout
+        style="@style/map_and_info_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/map_and_info_hackaton_title"
+            style="@style/map_and_info_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
@@ -118,6 +132,7 @@
 
         <TextView
             android:id="@+id/map_and_info_hackaton_description"
+            style="@style/map_and_info_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/map_and_info_hackaton_title"
@@ -126,6 +141,7 @@
 
         <TextView
             android:id="@+id/map_and_info_hackaton_location"
+            style="@style/map_and_info_place_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -136,6 +152,7 @@
 
         <TextView
             android:id="@+id/map_and_info_hackaton_location_address"
+            style="@style/map_and_info_place_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -146,6 +163,7 @@
 
         <Button
             android:id="@+id/location_open_hackaton"
+            style="@style/map_and_info_open_action"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"

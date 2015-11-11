@@ -79,4 +79,16 @@
         <item name="android:layout_marginBottom">@dimen/list_element_margin</item>
         <item name="android:layout_marginTop">@dimen/list_element_margin</item>
     </style>
+
+    <style name="map_and_info_container"></style>
+
+    <style name="map_and_info_header"></style>
+
+    <style name="map_and_info_description"></style>
+
+    <style name="map_and_info_place_title"></style>
+
+    <style name="map_and_info_place_address"></style>
+
+    <style name="map_and_info_open_action"></style>
 </resources>
