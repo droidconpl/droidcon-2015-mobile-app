@@ -1,12 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:padding="@dimen/screen_edge_margin">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/settings" />
+        android:orientation="vertical">
 
-</LinearLayout>
+        <pl.droidcon.app.ui.view.SettingButton
+            android:id="@+id/settings_notify_about_my_sessions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/list_element_margin"
+            android:paddingTop="@dimen/list_element_margin"
+            app:sb_description="@string/settings_notify_about_my_sessions_description"
+            app:sb_title="@string/settings_notify_about_my_sessions" />
+
+
+        <View style="@style/Line" />
+
+        <pl.droidcon.app.ui.view.SettingButton
+            android:id="@+id/settings_notify_about_feedback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/list_element_margin"
+            android:paddingTop="@dimen/list_element_margin"
+            app:sb_description="@string/settings_notify_about_feedback_description"
+            app:sb_title="@string/settings_notify_about_feedback" />
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>
