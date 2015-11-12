@@ -2,6 +2,7 @@ package pl.droidcon.app.ui.activity;
 
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -33,13 +34,17 @@ import pl.droidcon.app.helper.DateTimePrinter;
 import pl.droidcon.app.helper.UrlHelper;
 import pl.droidcon.app.model.api.Session;
 import pl.droidcon.app.model.api.Speaker;
+import pl.droidcon.app.model.common.Schedule;
+import pl.droidcon.app.model.common.ScheduleCollision;
 import pl.droidcon.app.model.db.RealmSchedule;
+import pl.droidcon.app.ui.dialog.ScheduleOverlapDialog;
 import pl.droidcon.app.ui.dialog.SpeakerDialog;
 import pl.droidcon.app.ui.view.SpeakerList;
 import pl.droidcon.app.wrapper.SnackbarWrapper;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
@@ -151,6 +156,37 @@ public class SessionActivity extends BaseActivity implements SpeakerList.Speaker
         favouriteClickListener.alreadyFavourite = isFavourite;
     }
 
+
+    private void checkAndAddToFavourite() {
+        Subscription subscription = databaseManager.canSessionBeSchedule(session)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<ScheduleCollision>() {
+                    @Override
+                    public void call(ScheduleCollision scheduleCollision) {
+                        if (scheduleCollision.isCollision()) {
+                            getCollisionSessionAndShowOverlapDialog(scheduleCollision.getSchedule());
+                        } else {
+                            addToFavourites();
+                        }
+                    }
+                });
+        compositeSubscription.add(subscription);
+    }
+
+    private void getCollisionSessionAndShowOverlapDialog(Schedule schedule) {
+        Subscription subscription = databaseManager.session(schedule.getSessionId())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Session>() {
+                    @Override
+                    public void call(Session session) {
+                        showOverlapDialog(session);
+                    }
+                });
+        compositeSubscription.add(subscription);
+    }
+
     private void addToFavourites() {
         Subscription subscription = databaseManager.addToFavourite(session)
                 .subscribeOn(Schedulers.io())
@@ -201,6 +237,32 @@ public class SessionActivity extends BaseActivity implements SpeakerList.Speaker
         compositeSubscription.add(subscription);
     }
 
+    private void showOverlapDialog(final Session collisionSession) {
+        ScheduleOverlapDialog
+                .newInstance(collisionSession, session, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        replaceSchedule(collisionSession);
+                    }
+                })
+                .show(getSupportFragmentManager(), TAG);
+    }
+
+    private void replaceSchedule(Session oldSession) {
+        Subscription subscription = databaseManager.removeFromFavourite(oldSession)
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .subscribe(new Action1<Boolean>() {
+                    @Override
+                    public void call(Boolean removed) {
+                        if (removed) {
+                            addToFavourites();
+                        }
+                    }
+                });
+        compositeSubscription.add(subscription);
+    }
+
     private class FavouriteClickListener implements View.OnClickListener {
 
         private boolean alreadyFavourite;
@@ -208,7 +270,7 @@ public class SessionActivity extends BaseActivity implements SpeakerList.Speaker
         @Override
         public void onClick(View v) {
             if (!alreadyFavourite) {
-                addToFavourites();
+                checkAndAddToFavourite();
             } else {
                 removeFromFavourites();
             }

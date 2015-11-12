@@ -26,6 +26,7 @@ import pl.droidcon.app.model.api.AgendaResponse;
 import pl.droidcon.app.model.api.Session;
 import pl.droidcon.app.model.api.SpeakerResponse;
 import pl.droidcon.app.model.common.Schedule;
+import pl.droidcon.app.model.common.ScheduleCollision;
 import pl.droidcon.app.model.common.SessionDay;
 import pl.droidcon.app.model.db.RealmSchedule;
 import pl.droidcon.app.model.db.RealmSession;
@@ -219,6 +220,26 @@ public class DatabaseManager {
             @Override
             public Boolean call(RealmSchedule realmSchedule) {
                 return realmSchedule != null;
+            }
+        });
+    }
+
+    public Observable<ScheduleCollision> canSessionBeSchedule(final Session session) {
+        return RealmObservable.object(context, new Func1<Realm, RealmSchedule>() {
+            @Override
+            public RealmSchedule call(Realm realm) {
+                return realm.where(RealmSchedule.class)
+                        .equalTo("scheduleDate", session.date.toDate())
+                        .findFirst();
+            }
+        }).map(new Func1<RealmSchedule, ScheduleCollision>() {
+            @Override
+            public ScheduleCollision call(RealmSchedule realmSchedule) {
+                if (realmSchedule == null) {
+                    return new ScheduleCollision(null, false);
+                } else {
+                    return new ScheduleCollision(scheduleMapper.fromDB(realmSchedule), true);
+                }
             }
         });
     }
