@@ -1,24 +1,13 @@
 package pl.droidcon.app.ui.view;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.text.Html;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
-
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.RequestCreator;
-import com.squareup.picasso.Target;
 
 import pl.droidcon.app.R;
 import pl.droidcon.app.helper.UrlHelper;
 import pl.droidcon.app.model.api.Speaker;
-import pl.droidcon.app.ui.transformation.CircleTransform;
 
 
 public class SpeakerListItem extends SimpleListItem {

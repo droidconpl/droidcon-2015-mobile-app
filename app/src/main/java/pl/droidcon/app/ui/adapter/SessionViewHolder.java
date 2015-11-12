@@ -10,10 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -67,12 +64,13 @@ public class SessionViewHolder extends RecyclerView.ViewHolder {
 
         List<Speaker> realSpeakerList = session.getSpeakersList();
         if (realSpeakerList.isEmpty()) {
-            //todo: what to show here:
             sessionPicture.setImageResource(R.drawable.droidcon_krakow_logo);
         } else {
             String url = UrlHelper.url(realSpeakerList.get(0).imageUrl);
-            Picasso.with(sessionPicture.getContext())
+            Glide.with(sessionPicture.getContext())
                     .load(url)
+                    .fitCenter()
+                    .crossFade()
                     .into(sessionPicture);
         }
     }

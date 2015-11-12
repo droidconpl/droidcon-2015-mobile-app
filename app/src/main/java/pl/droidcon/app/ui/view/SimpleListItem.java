@@ -4,13 +4,12 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.text.Html;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -18,14 +17,13 @@ import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.RequestCreator;
-import com.squareup.picasso.Target;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import pl.droidcon.app.R;
-import pl.droidcon.app.ui.transformation.CircleTransform;
 
 
 public class SimpleListItem extends LinearLayout {
@@ -98,35 +96,22 @@ public class SimpleListItem extends LinearLayout {
     }
 
     protected void setImage(@NonNull String imageUrl) {
-        load(Picasso.with(getContext()).load(imageUrl));
+        Glide.with(getContext())
+                .load(imageUrl)
+                .asBitmap()
+                .centerCrop()
+                .into(new SimpleTarget<Bitmap>(64, 64) {
+                    @Override
+                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                        RoundedBitmapDrawable roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(getResources(), resource);
+                        roundedBitmapDrawable.setCircular(true);
+                        description.setCompoundDrawablesWithIntrinsicBounds(roundedBitmapDrawable, null, null, null);
+                    }
+                });
     }
 
     protected void setDescription(String text) {
         description.setText(Html.fromHtml(text));
     }
 
-    protected void load(RequestCreator requestCreator) {
-        requestCreator
-                .resize(64, 64)
-                .transform(new CircleTransform())
-                .into(bitmapTarget);
-    }
-
-    protected Target bitmapTarget = new Target() {
-        @Override
-        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-            Log.d(TAG, "onBitmapLoaded");
-            description.setCompoundDrawablesWithIntrinsicBounds(new BitmapDrawable(getResources(), bitmap), null, null, null);
-        }
-
-        @Override
-        public void onBitmapFailed(Drawable errorDrawable) {
-            Log.d(TAG, "onBitmapFailed");
-        }
-
-        @Override
-        public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-        }
-    };
 }
