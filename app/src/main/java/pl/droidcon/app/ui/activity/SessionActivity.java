@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -35,6 +36,7 @@ import pl.droidcon.app.model.api.Speaker;
 import pl.droidcon.app.model.db.RealmSchedule;
 import pl.droidcon.app.ui.dialog.SpeakerDialog;
 import pl.droidcon.app.ui.view.SpeakerList;
+import pl.droidcon.app.wrapper.SnackbarWrapper;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -69,9 +71,13 @@ public class SessionActivity extends BaseActivity implements SpeakerList.Speaker
     SpeakerList speakerListView;
     @Bind(R.id.favourite_button)
     FloatingActionButton favouriteButton;
+    @Bind(R.id.root_view)
+    CoordinatorLayout rootView;
 
     @Inject
     DatabaseManager databaseManager;
+    @Inject
+    SnackbarWrapper snackbarWrapper;
 
     private CompositeSubscription compositeSubscription;
     private FavouriteClickListener favouriteClickListener = new FavouriteClickListener();
@@ -138,9 +144,9 @@ public class SessionActivity extends BaseActivity implements SpeakerList.Speaker
 
     private void setRightFloatingActionButtonAction(boolean isFavourite) {
         if (isFavourite) {
-            favouriteButton.setImageResource(R.drawable.ic_favorite_border_black_24dp);
-        } else {
             favouriteButton.setImageResource(R.drawable.ic_favorite_black_24dp);
+        } else {
+            favouriteButton.setImageResource(R.drawable.ic_favorite_border_black_24dp);
         }
         favouriteClickListener.alreadyFavourite = isFavourite;
     }
@@ -164,6 +170,7 @@ public class SessionActivity extends BaseActivity implements SpeakerList.Speaker
                     public void onNext(RealmSchedule realmSchedule) {
                         if (realmSchedule != null) {
                             setRightFloatingActionButtonAction(true);
+                            snackbarWrapper.showSnackbar(rootView, R.string.fav_added);
                         }
                     }
                 });
@@ -188,6 +195,7 @@ public class SessionActivity extends BaseActivity implements SpeakerList.Speaker
                     @Override
                     public void onNext(Boolean removeResult) {
                         setRightFloatingActionButtonAction(!removeResult);
+                        snackbarWrapper.showSnackbar(rootView, R.string.fav_removed);
                     }
                 });
         compositeSubscription.add(subscription);
