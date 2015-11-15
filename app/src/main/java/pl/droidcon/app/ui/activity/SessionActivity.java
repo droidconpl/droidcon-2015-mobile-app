@@ -37,6 +37,7 @@ import pl.droidcon.app.model.api.Speaker;
 import pl.droidcon.app.model.common.Schedule;
 import pl.droidcon.app.model.common.ScheduleCollision;
 import pl.droidcon.app.model.db.RealmSchedule;
+import pl.droidcon.app.reminder.SessionReminder;
 import pl.droidcon.app.ui.dialog.ScheduleOverlapDialog;
 import pl.droidcon.app.ui.dialog.SpeakerDialog;
 import pl.droidcon.app.ui.view.SpeakerList;
@@ -55,9 +56,14 @@ public class SessionActivity extends BaseActivity implements SpeakerList.Speaker
     private static final String SESSION_EXTRA = "session";
 
     public static void start(Context context, Session session) {
+        Intent intent = getSessionIntent(context, session);
+        context.startActivity(intent);
+    }
+
+    public static Intent getSessionIntent(Context context, Session session) {
         Intent intent = new Intent(context, SessionActivity.class);
         intent.putExtra(SESSION_EXTRA, session);
-        context.startActivity(intent);
+        return intent;
     }
 
     private Session session;
@@ -83,6 +89,8 @@ public class SessionActivity extends BaseActivity implements SpeakerList.Speaker
     DatabaseManager databaseManager;
     @Inject
     SnackbarWrapper snackbarWrapper;
+    @Inject
+    SessionReminder sessionReminder;
 
     private CompositeSubscription compositeSubscription;
     private FavouriteClickListener favouriteClickListener = new FavouriteClickListener();
@@ -205,6 +213,7 @@ public class SessionActivity extends BaseActivity implements SpeakerList.Speaker
                     @Override
                     public void onNext(RealmSchedule realmSchedule) {
                         if (realmSchedule != null) {
+                            sessionReminder.addSessionToReminding(session);
                             setRightFloatingActionButtonAction(true);
                             snackbarWrapper.showSnackbar(rootView, R.string.fav_added);
                         }
@@ -230,6 +239,7 @@ public class SessionActivity extends BaseActivity implements SpeakerList.Speaker
 
                     @Override
                     public void onNext(Boolean removeResult) {
+                        sessionReminder.removeSessionFromReminding(session);
                         setRightFloatingActionButtonAction(!removeResult);
                         snackbarWrapper.showSnackbar(rootView, R.string.fav_removed);
                     }
@@ -248,13 +258,14 @@ public class SessionActivity extends BaseActivity implements SpeakerList.Speaker
                 .show(getSupportFragmentManager(), TAG);
     }
 
-    private void replaceSchedule(Session oldSession) {
+    private void replaceSchedule(final Session oldSession) {
         Subscription subscription = databaseManager.removeFromFavourite(oldSession)
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
                 .subscribe(new Action1<Boolean>() {
                     @Override
                     public void call(Boolean removed) {
+                        sessionReminder.removeSessionFromReminding(oldSession);
                         if (removed) {
                             addToFavourites();
                         }

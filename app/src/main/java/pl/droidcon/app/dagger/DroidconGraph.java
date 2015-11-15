@@ -3,9 +3,12 @@ package pl.droidcon.app.dagger;
 
 import pl.droidcon.app.database.DatabaseManager;
 import pl.droidcon.app.model.common.Slot;
+import pl.droidcon.app.reminder.SessionReminder;
+import pl.droidcon.app.reminder.SessionReminderImpl;
 import pl.droidcon.app.rx.DataSubscription;
 import pl.droidcon.app.ui.activity.MainActivity;
 import pl.droidcon.app.ui.activity.SessionActivity;
+import pl.droidcon.app.ui.activity.SettingsActivity;
 import pl.droidcon.app.ui.adapter.ScheduleViewHolder;
 import pl.droidcon.app.ui.adapter.SessionViewHolder;
 import pl.droidcon.app.ui.dialog.SessionChooserDialog;
@@ -35,4 +38,8 @@ interface DroidconGraph {
     void inject(ScheduleViewHolder scheduleViewHolder);
 
     void inject(SessionChooserDialog sessionChooserDialog);
+
+    void inject(SettingsActivity.PreferencesFragment preferencesFragment);
+
+    void inject(SessionReminderImpl sessionReminder);
 }

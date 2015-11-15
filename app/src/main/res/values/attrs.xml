@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <declare-styleable name="SettingButton">
-        <attr name="sb_title" format="string|reference" localization="suggested" />
-        <attr name="sb_description" format="string|reference" localization="suggested" />
-    </declare-styleable>
-</resources>

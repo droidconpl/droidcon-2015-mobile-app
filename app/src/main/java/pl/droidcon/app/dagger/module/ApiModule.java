@@ -15,7 +15,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import io.realm.RealmObject;
-import pl.droidcon.app.converter.DateTimeConverter;
+import pl.droidcon.app.http.DateTimeConverter;
 import pl.droidcon.app.http.RestService;
 import retrofit.Endpoint;
 import retrofit.Endpoints;

@@ -13,10 +13,9 @@ import java.util.Map;
 import pl.droidcon.app.R;
 import pl.droidcon.app.ui.fragment.AboutFragment;
 import pl.droidcon.app.ui.fragment.BaseFragment;
-import pl.droidcon.app.ui.fragment.schedule.ScheduleMainFragment;
 import pl.droidcon.app.ui.fragment.MapAndInfoFragment;
-import pl.droidcon.app.ui.fragment.SettingsFragment;
 import pl.droidcon.app.ui.fragment.agenda.AgendaMainFragment;
+import pl.droidcon.app.ui.fragment.schedule.ScheduleMainFragment;
 
 public class DrawerFragmentFactory {
 
@@ -32,9 +31,7 @@ public class DrawerFragmentFactory {
     public void saveInstanceState(Bundle outState, FragmentManager fragmentManager) {
         outState.putInt(CURRENT_FRAGMENT, currentFragmentMenuId);
         BaseFragment fragmentByMenuItemId = getFragmentByMenuItemId(currentFragmentMenuId);
-        if (fragmentByMenuItemId != null) {
-            fragmentManager.putFragment(outState, fragmentByMenuItemId.getFragmentTag(), fragmentByMenuItemId);
-        }
+        fragmentManager.putFragment(outState, fragmentByMenuItemId.getFragmentTag(), fragmentByMenuItemId);
     }
 
     public void restoreState(@Nullable Bundle savedInstanceState, FragmentManager fragmentManager) {
@@ -58,9 +55,9 @@ public class DrawerFragmentFactory {
         return currentFragmentMenuId;
     }
 
-    @Nullable
+    @NonNull
     public BaseFragment getFragmentByMenuItemId(@IdRes int menuItemId) {
-        BaseFragment fragment = null;
+        BaseFragment fragment;
 
         switch (menuItemId) {
             case R.id.drawer_agenda:
@@ -75,9 +72,8 @@ public class DrawerFragmentFactory {
             case R.id.drawer_about:
                 fragment = getFragment(AboutFragment.TAG);
                 break;
-            case R.id.drawer_settings:
-                fragment = getFragment(SettingsFragment.TAG);
-                break;
+            default:
+                throw new UnsupportedOperationException("Unsupported fragment menuId=" + menuItemId);
         }
         return fragment;
     }
@@ -87,7 +83,6 @@ public class DrawerFragmentFactory {
         putFragment(ScheduleMainFragment.TAG, ScheduleMainFragment.newInstance());
         putFragment(MapAndInfoFragment.TAG, MapAndInfoFragment.newInstance());
         putFragment(AboutFragment.TAG, AboutFragment.newInstance());
-        putFragment(SettingsFragment.TAG, SettingsFragment.newInstance());
     }
 
     private void createFragments(@NonNull Bundle savedState, @NonNull FragmentManager fragmentManager) {
@@ -103,14 +98,10 @@ public class DrawerFragmentFactory {
         BaseFragment savedAboutFragment = getSavedFragment(fragmentManager, savedState, AboutFragment.TAG);
         BaseFragment aboutFragment = savedAboutFragment == null ? AboutFragment.newInstance() : savedAboutFragment;
 
-        BaseFragment savedSettingsFragment = getSavedFragment(fragmentManager, savedState, SettingsFragment.TAG);
-        BaseFragment settingsFragment = savedSettingsFragment == null ? SettingsFragment.newInstance() : savedSettingsFragment;
-
         putFragment(AgendaMainFragment.TAG, agendaMainFragment);
         putFragment(ScheduleMainFragment.TAG, favouritesFragment);
         putFragment(MapAndInfoFragment.TAG, mapAndInfoFragment);
         putFragment(AboutFragment.TAG, aboutFragment);
-        putFragment(SettingsFragment.TAG, settingsFragment);
     }
 
     private BaseFragment getSavedFragment(@NonNull FragmentManager fragmentManager, @NonNull Bundle savedState, @NonNull String tag) {

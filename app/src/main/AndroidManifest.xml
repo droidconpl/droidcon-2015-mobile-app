@@ -22,7 +22,9 @@
         </activity>
 
         <activity android:name=".ui.activity.SessionActivity" />
+        <activity android:name=".ui.activity.SettingsActivity" />
 
+        <receiver android:name=".reminder.ReminderReceiver" />
     </application>
 
 </manifest>
