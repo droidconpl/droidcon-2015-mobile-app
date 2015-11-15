@@ -3,6 +3,7 @@ package pl.droidcon.app.dagger;
 
 import pl.droidcon.app.database.DatabaseManager;
 import pl.droidcon.app.model.common.Slot;
+import pl.droidcon.app.reminder.ReminderPersistenceImpl;
 import pl.droidcon.app.reminder.SessionReminder;
 import pl.droidcon.app.reminder.SessionReminderImpl;
 import pl.droidcon.app.rx.DataSubscription;
@@ -42,4 +43,6 @@ interface DroidconGraph {
     void inject(SettingsActivity.PreferencesFragment preferencesFragment);
 
     void inject(SessionReminderImpl sessionReminder);
+
+    void inject(ReminderPersistenceImpl reminderPersistence);
 }

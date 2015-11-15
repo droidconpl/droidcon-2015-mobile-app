@@ -6,12 +6,15 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import org.joda.time.DateTime;
 
 import pl.droidcon.app.model.api.Session;
 
 public class ReminderImpl implements Reminder {
+
+    private static final String TAG = ReminderImpl.class.getSimpleName();
 
     private AlarmManager alarmManager;
 
@@ -25,8 +28,14 @@ public class ReminderImpl implements Reminder {
     @Override
     public void setRemind(@NonNull Session session) {
         PendingIntent pendingIntent = createIntentForRemind(session);
-        DateTime dateTime = DateTime.now().plusSeconds(10);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, dateTime.getMillis(), pendingIntent);
+        DateTime now = DateTime.now();
+        DateTime sessionDate = session.date.minusMinutes(1);//now.plusSeconds(10);//
+        if (!sessionDate.isAfter(now)) {
+            Log.w(TAG, "Not setting reminder for passed session");
+            return;
+        }
+        Log.d(TAG, "Setting reminder on " + sessionDate);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, sessionDate.getMillis(), pendingIntent);
     }
 
     @Override

@@ -9,12 +9,15 @@ import pl.droidcon.app.dagger.module.ApiModule;
 import pl.droidcon.app.dagger.module.LogicModule;
 import pl.droidcon.app.dagger.module.UIModule;
 import pl.droidcon.app.database.DatabaseManager;
+import pl.droidcon.app.reminder.SessionReminder;
 
 @Singleton
 @Component(modules = {UIModule.class, ApiModule.class, LogicModule.class, AndroidModule.class})
 public interface DroidconComponent extends DroidconGraph {
 
-    DatabaseManager get();
+    DatabaseManager databaseManager();
+
+    SessionReminder sessionReminder();
 
     final class Initializer {
         private Initializer() {

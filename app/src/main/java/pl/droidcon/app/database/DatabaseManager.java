@@ -21,6 +21,7 @@ import io.realm.RealmResults;
 import pl.droidcon.app.dagger.DroidconInjector;
 import pl.droidcon.app.helper.ScheduleMapper;
 import pl.droidcon.app.helper.SessionMapper;
+import pl.droidcon.app.helper.SessionNotificationMapper;
 import pl.droidcon.app.helper.SpeakerMapper;
 import pl.droidcon.app.model.api.AgendaResponse;
 import pl.droidcon.app.model.api.Session;
@@ -28,8 +29,10 @@ import pl.droidcon.app.model.api.SpeakerResponse;
 import pl.droidcon.app.model.common.Schedule;
 import pl.droidcon.app.model.common.ScheduleCollision;
 import pl.droidcon.app.model.common.SessionDay;
+import pl.droidcon.app.model.common.SessionNotification;
 import pl.droidcon.app.model.db.RealmSchedule;
 import pl.droidcon.app.model.db.RealmSession;
+import pl.droidcon.app.model.db.RealmSessionNotification;
 import pl.droidcon.app.model.db.RealmSpeaker;
 import pl.droidcon.app.rx.RealmObservable;
 import rx.Observable;
@@ -48,6 +51,8 @@ public class DatabaseManager {
     SessionMapper sessionMapper;
     @Inject
     ScheduleMapper scheduleMapper;
+    @Inject
+    SessionNotificationMapper sessionNotificationMapper;
 
     private Map<Class, List<DataObserver>> dataObserverMap;
 
@@ -240,6 +245,51 @@ public class DatabaseManager {
                 } else {
                     return new ScheduleCollision(scheduleMapper.fromDB(realmSchedule), true);
                 }
+            }
+        });
+    }
+
+    public Observable<RealmSessionNotification> addToNotification(final SessionNotification sessionNotification) {
+        return RealmObservable.object(context, new Func1<Realm, RealmSessionNotification>() {
+            @Override
+            public RealmSessionNotification call(Realm realm) {
+                RealmSessionNotification realmSessionNotification = sessionNotificationMapper.map(sessionNotification);
+                return realm.copyToRealm(realmSessionNotification);
+            }
+        });
+    }
+
+    public Observable<Boolean> removeFromNotification(final SessionNotification sessionNotification) {
+        return RealmObservable.object(context, new Func1<Realm, RealmSessionNotification>() {
+            @Override
+            public RealmSessionNotification call(Realm realm) {
+                RealmSessionNotification notification = realm.where(RealmSessionNotification.class)
+                        .equalTo("sessionId", sessionNotification.getSessionId())
+                        .findFirst();
+                if (notification != null) {
+                    notification.removeFromRealm();
+                }
+                return notification;
+            }
+        }).map(new Func1<RealmSessionNotification, Boolean>() {
+            @Override
+            public Boolean call(RealmSessionNotification sessionNotification) {
+                return sessionNotification != null;
+            }
+        });
+    }
+
+    public Observable<List<SessionNotification>> notifications() {
+        return RealmObservable.results(context, new Func1<Realm, RealmResults<RealmSessionNotification>>() {
+            @Override
+            public RealmResults<RealmSessionNotification> call(Realm realm) {
+                return realm.where(RealmSessionNotification.class)
+                        .findAll();
+            }
+        }).map(new Func1<RealmResults<RealmSessionNotification>, List<SessionNotification>>() {
+            @Override
+            public List<SessionNotification> call(RealmResults<RealmSessionNotification> realmSessionNotifications) {
+                return sessionNotificationMapper.fromDBList(realmSessionNotifications);
             }
         });
     }

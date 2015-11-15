@@ -9,6 +9,7 @@ import dagger.Provides;
 import pl.droidcon.app.database.DatabaseManager;
 import pl.droidcon.app.helper.ScheduleMapper;
 import pl.droidcon.app.helper.SessionMapper;
+import pl.droidcon.app.helper.SessionNotificationMapper;
 import pl.droidcon.app.helper.SpeakerMapper;
 import pl.droidcon.app.reminder.Reminder;
 import pl.droidcon.app.reminder.ReminderImpl;
@@ -52,6 +53,11 @@ public class LogicModule {
     @Provides
     public ScheduleMapper provideScheduleMapper() {
         return new ScheduleMapper();
+    }
+
+    @Provides
+    public SessionNotificationMapper provideSessionNotificationMapper() {
+        return new SessionNotificationMapper();
     }
 
     @Provides

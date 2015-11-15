@@ -10,8 +10,13 @@ import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
 import pl.droidcon.app.R;
+import pl.droidcon.app.dagger.DroidconInjector;
 import pl.droidcon.app.model.api.Session;
+import pl.droidcon.app.model.common.SessionNotification;
 import pl.droidcon.app.ui.activity.SessionActivity;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 
 public class ReminderReceiver extends BroadcastReceiver {
@@ -27,13 +32,30 @@ public class ReminderReceiver extends BroadcastReceiver {
     }
 
     @Override
-    public void onReceive(Context context, Intent intent) {
+    public void onReceive(final Context context, Intent intent) {
         Log.d(TAG, "received");
         final Session session = (Session) intent.getExtras().get(SESSION_KEY);
         if (session == null) {
             Log.e(TAG, "Session received null");
             return;
         }
+
+        DroidconInjector.get().databaseManager()
+                .removeFromNotification(SessionNotification.of(session))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Boolean>() {
+                    @Override
+                    public void call(Boolean aBoolean) {
+                        Log.d(TAG, "Removed remind notification for session " + session.title);
+                        if (aBoolean) {
+                            showNotification(context, session);
+                        }
+                    }
+                });
+    }
+
+    private void showNotification(Context context, Session session) {
         Intent sessionIntent = SessionActivity.getSessionIntent(context, session);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, session.id, sessionIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -43,7 +65,7 @@ public class ReminderReceiver extends BroadcastReceiver {
                 .setContentTitle(context.getString(R.string.app_name))
                 .setContentText(context.getString(R.string.received_session_notification, session.title))
                 .setContentIntent(pendingIntent)
-                .setDefaults(Notification.DEFAULT_VIBRATE)
+                .setDefaults(Notification.DEFAULT_ALL)
                 .setAutoCancel(true)
                 .build();
 

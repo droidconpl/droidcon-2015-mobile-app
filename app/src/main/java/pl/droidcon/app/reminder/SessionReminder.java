@@ -15,4 +15,6 @@ public interface SessionReminder {
     void addSessionToReminding(@NonNull Session session);
 
     void removeSessionFromReminding(@NonNull Session session);
+
+    void restoreReminders();
 }
