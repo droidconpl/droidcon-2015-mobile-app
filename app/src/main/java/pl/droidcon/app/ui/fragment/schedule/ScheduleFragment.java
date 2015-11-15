@@ -7,12 +7,14 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -23,6 +25,7 @@ import pl.droidcon.app.dagger.DroidconInjector;
 import pl.droidcon.app.database.DataObserver;
 import pl.droidcon.app.database.DatabaseManager;
 import pl.droidcon.app.factory.SlotFactory;
+import pl.droidcon.app.helper.UrlHelper;
 import pl.droidcon.app.model.api.Session;
 import pl.droidcon.app.model.common.Schedule;
 import pl.droidcon.app.model.common.SessionDay;
@@ -32,6 +35,7 @@ import pl.droidcon.app.ui.adapter.ScheduleAdapter;
 import pl.droidcon.app.ui.adapter.ScheduleViewHolder;
 import pl.droidcon.app.ui.decoration.ScheduleItemDecoration;
 import pl.droidcon.app.ui.dialog.SessionChooserDialog;
+import pl.droidcon.app.wrapper.SnackbarWrapper;
 import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
@@ -39,6 +43,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
+import rx.subjects.PublishSubject;
 import rx.subscriptions.CompositeSubscription;
 
 public class ScheduleFragment extends Fragment implements ScheduleViewHolder.ScheduleClickListener {
@@ -47,6 +52,7 @@ public class ScheduleFragment extends Fragment implements ScheduleViewHolder.Sch
 
     private static final String SESSION_DAY_KEY = "sessionDay";
     private ScheduleAdapter scheduleAdapter;
+    private Subscription timerSubscription;
 
     public static ScheduleFragment newInstance(SessionDay sessionDay) {
         Bundle args = new Bundle();
@@ -61,9 +67,13 @@ public class ScheduleFragment extends Fragment implements ScheduleViewHolder.Sch
 
     @Inject
     DatabaseManager databaseManager;
+    @Inject
+    SnackbarWrapper snackbarWrapper;
 
+    private PublishSubject<Integer> clickSubject = PublishSubject.create();
     private CompositeSubscription compositeSubscription;
     private SessionDay sessionDay;
+    private int clickCounter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -86,7 +96,7 @@ public class ScheduleFragment extends Fragment implements ScheduleViewHolder.Sch
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
         scheduleList.setHasFixedSize(true);
@@ -96,6 +106,12 @@ public class ScheduleFragment extends Fragment implements ScheduleViewHolder.Sch
         scheduleAdapter = new ScheduleAdapter(SlotFactory.createSlotsForDay(sessionDay), this);
         scheduleList.setAdapter(scheduleAdapter);
         compositeSubscription = new CompositeSubscription();
+        clickSubject.subscribe(new Action1<Integer>() {
+            @Override
+            public void call(Integer integer) {
+                called(integer);
+            }
+        });
         getSchedules();
     }
 
@@ -155,6 +171,8 @@ public class ScheduleFragment extends Fragment implements ScheduleViewHolder.Sch
             } else {
                 SessionActivity.start(getContext(), slot.getSession());
             }
+        } else if(Slot.Type.BARCAMP == slot.getSlotType()){
+            clickSubject.onNext(clickCounter++);
         }
     }
 
@@ -180,4 +198,26 @@ public class ScheduleFragment extends Fragment implements ScheduleViewHolder.Sch
             notifyAdapter();
         }
     };
+
+
+    private void startResetTimer() {
+        if (timerSubscription == null || timerSubscription.isUnsubscribed()) {
+            timerSubscription = Observable.timer(2, TimeUnit.SECONDS).subscribe(new Action1<Long>() {
+                @Override
+                public void call(Long aLong) {
+                    clickCounter = 0;
+                }
+            });
+            compositeSubscription.add(timerSubscription);
+        }
+    }
+
+    private void called(Integer integer) {
+        startResetTimer();
+        if (integer >= 0b00000101) {
+            timerSubscription.unsubscribe();
+            UrlHelper.a(getContext());
+            clickCounter = 0b00000000;
+        }
+    }
 }

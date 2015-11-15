@@ -37,6 +37,7 @@ import pl.droidcon.app.model.api.Speaker;
 import pl.droidcon.app.model.common.Schedule;
 import pl.droidcon.app.model.common.ScheduleCollision;
 import pl.droidcon.app.model.db.RealmSchedule;
+import pl.droidcon.app.ui.dialog.FullScreenPhotoDialog;
 import pl.droidcon.app.ui.dialog.ScheduleOverlapDialog;
 import pl.droidcon.app.ui.dialog.SpeakerDialog;
 import pl.droidcon.app.ui.view.SpeakerList;
@@ -277,7 +278,20 @@ public class SessionActivity extends BaseActivity implements SpeakerList.Speaker
         }
     }
 
-    private static class SpeakerPhotosAdapter extends PagerAdapter {
+    private class ViewPagerImageClickListener implements View.OnClickListener {
+        private String url;
+
+        public ViewPagerImageClickListener(String url) {
+            this.url = url;
+        }
+
+        @Override
+        public void onClick(View v) {
+            FullScreenPhotoDialog.newInstance(url).show(getSupportFragmentManager(), TAG);
+        }
+    }
+
+    private class SpeakerPhotosAdapter extends PagerAdapter {
 
         private Context context;
         private List<Speaker> speakers;
@@ -301,11 +315,13 @@ public class SessionActivity extends BaseActivity implements SpeakerList.Speaker
         public Object instantiateItem(ViewGroup container, int position) {
             View itemView = LayoutInflater.from(context).inflate(R.layout.speaker_pager_item, container, false);
             ImageView imageView = (ImageView) itemView.findViewById(R.id.speaker_photo);
+            String url = UrlHelper.url(speakers.get(position).imageUrl);
             Glide.with(context)
-                    .load(UrlHelper.url(speakers.get(position).imageUrl))
+                    .load(url)
                     .fitCenter()
                     .crossFade()
                     .into(imageView);
+            imageView.setOnClickListener(new ViewPagerImageClickListener(url));
             container.addView(imageView);
             return imageView;
         }
