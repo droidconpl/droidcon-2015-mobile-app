@@ -43,6 +43,7 @@ public final class SlotFactory {
         slots.add(Slot.ofType(Type.SESSION, DAY_ONE, 15, 45));
         slots.add(Slot.ofType(Type.SESSION, DAY_ONE, 16, 40));
         slots.add(Slot.ofType(Type.CLOSING_1_DAY, DAY_ONE, 17, 10));
+        slots.add(Slot.ofType(Type.AFTER_PARTY, DAY_ONE, 17, 30));
 
         return slots;
     }

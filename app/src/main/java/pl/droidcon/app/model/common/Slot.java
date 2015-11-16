@@ -24,7 +24,8 @@ public class Slot {
         SESSION(R.string.session),
         COFFEE_BREAK(R.string.coffee_break),
         BARCAMP(R.string.barcamp),
-        LUNCH_BREAK(R.string.lunch_break);
+        LUNCH_BREAK(R.string.lunch_break),
+        AFTER_PARTY(R.string.after_party);
 
         @StringRes
         private int description;
