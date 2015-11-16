@@ -75,6 +75,8 @@ public class SessionActivity extends BaseActivity implements SpeakerList.Speaker
     Toolbar toolbar;
     @Bind(R.id.session_description)
     TextView description;
+    @Bind(R.id.session_title)
+    TextView title;
     @Bind(R.id.session_date)
     TextView date;
     @Bind(R.id.indicator)
@@ -116,7 +118,8 @@ public class SessionActivity extends BaseActivity implements SpeakerList.Speaker
     }
 
     private void fillDetails() {
-        setToolbarTitle(session.title);
+        setToolbarTitle(null);
+        title.setText(session.title);
         List<Speaker> speakersList = session.getSpeakersList();
         speakerPhotos.setAdapter(new SpeakerPhotosAdapter(this, speakersList));
         description.setText(session.description);
