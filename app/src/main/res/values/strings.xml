@@ -2,7 +2,7 @@
     <string name="app_name">Droidcon Kraków 2015</string>
     <!--MENU-->
     <string name="agenda">Agenda</string>
-    <string name="favourites">Favourites</string>
+    <string name="favourites">My schedule</string>
 
     <string name="about">About</string>
     <string name="settings">Settings</string>
