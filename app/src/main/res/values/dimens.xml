@@ -10,4 +10,5 @@
     <dimen name="slot_round_size">1dip</dimen>
     <dimen name="slot_padding">0dp</dimen>
     <dimen name="min_dialog_width">300dp</dimen>
+    <dimen name="schedule_element_label_bottom_padding">20dp</dimen>
 </resources>

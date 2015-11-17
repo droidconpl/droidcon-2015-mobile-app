@@ -10,6 +10,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 
 import javax.inject.Inject;
 
@@ -41,6 +44,8 @@ public class ScheduleViewHolder extends RecyclerView.ViewHolder implements View.
     View clickable;
     @Bind(R.id.schedule_icon)
     ImageView icon;
+    @Bind(R.id.slot_view_session_title)
+    TextView sessionTitle;
 
     @Inject
     Resources resources;
@@ -59,6 +64,11 @@ public class ScheduleViewHolder extends RecyclerView.ViewHolder implements View.
         ViewGroup.LayoutParams layoutParams = itemView.getLayoutParams();
         hour.setText(DateTimePrinter.toPrintableString(slot.getDateTime()));
         title.setText(slot.getDisplayTitle());
+        sessionTitle.setText(slot.getDisplayTitle());
+        // be sure to reset title widget
+        // show & hide
+        title.setVisibility(View.VISIBLE);
+        sessionTitle.setVisibility(View.GONE);
 
         int resId = -1;
         int height = resources.getDimensionPixelSize(R.dimen.list_item_height);
@@ -123,10 +133,30 @@ public class ScheduleViewHolder extends RecyclerView.ViewHolder implements View.
                     .load(url)
                     .override(512, 512)
                     .fitCenter()
+                    .listener(new AvatarRequestListener())
                     .into(image);
         } else {
             resetPhoto();
         }
     }
 
+
+    class AvatarRequestListener implements RequestListener<String, GlideDrawable> {
+
+        @Override
+        public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+            return false;
+        }
+
+        @Override
+        public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+            // hide & show
+            title.setVisibility(View.GONE);
+            sessionTitle.setVisibility(View.VISIBLE);
+            sessionTitle.setSingleLine(false);
+            sessionTitle.setEllipsize(null);
+            sessionTitle.setMaxLines(2);
+            return false;
+        }
+    }
 }
