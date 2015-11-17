@@ -22,6 +22,7 @@ import pl.droidcon.app.database.DatabaseManager;
 import pl.droidcon.app.helper.DateTimePrinter;
 import pl.droidcon.app.model.api.Session;
 import pl.droidcon.app.model.db.RealmSchedule;
+import pl.droidcon.app.reminder.SessionReminder;
 import pl.droidcon.app.ui.view.SessionList;
 import rx.Subscriber;
 import rx.Subscription;
@@ -49,6 +50,8 @@ public class SessionChooserDialog extends AppCompatDialogFragment implements Ses
 
     @Inject
     DatabaseManager databaseManager;
+    @Inject
+    SessionReminder sessionReminder;
 
     @Bind(R.id.session_date)
     TextView sessionDateTextView;
@@ -120,13 +123,14 @@ public class SessionChooserDialog extends AppCompatDialogFragment implements Ses
     }
 
     @Override
-    public void onSessionClicked(Session session) {
+    public void onSessionClicked(final Session session) {
         Subscription subscription = databaseManager.addToFavourite(session)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<RealmSchedule>() {
                     @Override
                     public void call(RealmSchedule realmSchedule) {
+                        sessionReminder.addSessionToReminding(session);
                         dismiss();
                     }
                 });

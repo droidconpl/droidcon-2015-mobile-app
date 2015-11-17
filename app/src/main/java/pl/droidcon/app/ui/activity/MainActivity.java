@@ -84,28 +84,51 @@ public class MainActivity extends BaseActivity {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
-                menuItem.setChecked(true);
                 drawerLayout.closeDrawers();
-                openFragment(menuItem.getItemId());
+                boolean checked = openDrawerMenu(menuItem.getItemId());
+                checkRightDrawerMenuItem(menuItem, checked);
                 return true;
             }
         });
 
-        openFragment(drawerFragmentFactory.getLastFragmentOrDefault());
+        openDrawerMenu(drawerFragmentFactory.getLastFragmentOrDefault());
     }
 
+
+    /**
+     * open drawer menu item and return flag indicating should element be checked
+     *
+     * @param menuItemId id of drawer menu item
+     * @return true if element should be checked
+     */
+    private boolean openDrawerMenu(@IdRes int menuItemId) {
+        if (R.id.drawer_settings == menuItemId) {
+            SettingsActivity.start(this);
+            return false;
+        } else {
+            openFragment(menuItemId);
+            return true;
+        }
+    }
+
+    private void checkRightDrawerMenuItem(MenuItem menuItem, boolean checked) {
+        if (checked) {
+            menuItem.setChecked(true);
+            return;
+        }
+        int lastFragmentOrDefault = drawerFragmentFactory.getLastFragmentOrDefault();
+        navigationView.getMenu().findItem(lastFragmentOrDefault).setChecked(true);
+    }
 
     private void openFragment(@IdRes int menuItemId) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         BaseFragment fragment = drawerFragmentFactory.getFragmentByMenuItemId(menuItemId);
 
-        if (fragment != null) {
-            drawerFragmentFactory.setCurrentFragmentMenuId(menuItemId);
-            fragmentManager.beginTransaction()
-                    .replace(R.id.content, fragment)
-                    .commit();
-            setToolbarTitle(fragment.getTitle());
-        }
+        drawerFragmentFactory.setCurrentFragmentMenuId(menuItemId);
+        fragmentManager.beginTransaction()
+                .replace(R.id.content, fragment)
+                .commit();
+        setToolbarTitle(fragment.getTitle());
     }
 
 }

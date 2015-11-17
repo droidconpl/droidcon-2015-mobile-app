@@ -1,4 +1,4 @@
-package pl.droidcon.app.converter;
+package pl.droidcon.app.http;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;

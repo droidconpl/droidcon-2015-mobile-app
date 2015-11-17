@@ -23,7 +23,7 @@
     <string name="session">Session</string>
     <string name="barcamp">Barcamp</string>
     <string name="event_date">4th-6th December 2015</string>
-    <string name="event_more_info_title">More informations:  </string>
+    <string name="event_more_info_title">More information:  </string>
     <string name="event_website_link">droidcon.pl/</string>
     <string name="event_description">Want to hear about latest Android technology and talk to experienced Android expert speakers? Be a part of it! Join second edition of droidcon Kraków!</string>
     <string name="speaker_full_name_format">%1$s %2$s</string>
@@ -54,4 +54,11 @@
     <string name="fav_removed">Removed from schedule</string>
     <string name="schedule_overlap_title">Warning</string>
     <string name="schedule_overlap_message"><![CDATA[You have already choose <b>%1$s</b> for slot at <b>%2$s</b>. Do you want to replace it with <b>%3$s</b>?]]></string>
+    <string name="settings_notify_about_my_sessions">Notify me about selected sessions</string>
+    <string name="settings_notify_about_my_sessions_description">Display a notification when selected sessions are about to begin</string>
+
+    <string name="received_session_notification">Session %1$s is about to start!</string>
+
+    <!-- NOT TRANSLATABLE-->
+    <string name="preference_notify_sessions" translatable="false">notify_sessions</string>
 </resources>
