@@ -22,7 +22,7 @@ public class AgendaAdapter extends RecyclerView.Adapter<SessionViewHolder> {
     @Override
     public SessionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.session_element, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.agenda_element, parent, false);
 
         return new SessionViewHolder(v);
     }
