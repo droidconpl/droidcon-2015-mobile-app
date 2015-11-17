@@ -115,6 +115,8 @@
         <item name="android:paddingRight">8dp</item>
     </style>
 
+    <style name="map_and_info_place_address" parent="map_and_info_base"/>
+
     <style name="IconButton">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">50dp</item>
