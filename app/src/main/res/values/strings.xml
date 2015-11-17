@@ -20,7 +20,8 @@
     <string name="closing_second_day">Closing second day</string>
     <string name="coffee_break">Coffee break</string>
     <string name="lunch_break">Lunch break</string>
-    <string name="session">Session</string>
+    <string name="session">Click to choose</string>
+    <string name="slot_type_icon">Icon of slot type</string>
     <string name="barcamp">Barcamp</string>
     <string name="after_party">After party</string>
     <string name="event_date">4th-6th December 2015</string>

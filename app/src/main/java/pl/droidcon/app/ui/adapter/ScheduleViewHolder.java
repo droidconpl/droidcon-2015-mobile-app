@@ -1,17 +1,15 @@
 package pl.droidcon.app.ui.adapter;
 
 import android.content.res.Resources;
-import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -22,7 +20,6 @@ import pl.droidcon.app.dagger.DroidconInjector;
 import pl.droidcon.app.helper.DateTimePrinter;
 import pl.droidcon.app.helper.UrlHelper;
 import pl.droidcon.app.model.api.Session;
-import pl.droidcon.app.model.api.Speaker;
 import pl.droidcon.app.model.common.Slot;
 
 
@@ -41,7 +38,9 @@ public class ScheduleViewHolder extends RecyclerView.ViewHolder implements View.
     @Bind(R.id.slot_view_title)
     TextView title;
     @Bind(R.id.slot_view_clickable)
-    FrameLayout clickable;
+    View clickable;
+    @Bind(R.id.schedule_icon)
+    ImageView icon;
 
     @Inject
     Resources resources;
@@ -60,16 +59,47 @@ public class ScheduleViewHolder extends RecyclerView.ViewHolder implements View.
         ViewGroup.LayoutParams layoutParams = itemView.getLayoutParams();
         hour.setText(DateTimePrinter.toPrintableString(slot.getDateTime()));
         title.setText(slot.getDisplayTitle());
-        if (Slot.Type.SESSION != slot.getSlotType()) {
-            image.setImageResource(R.drawable.droidcon_krakow_logo);
-            layoutParams.height = resources.getDimensionPixelSize(R.dimen.list_item_height);
-        } else if (slot.getSession() != null) {
-            layoutParams.height = resources.getDimensionPixelSize(R.dimen.list_item_expanded_height);
-            setSessionPhoto(slot.getSession());
-        } else {
-            image.setImageDrawable(null);
-            layoutParams.height = resources.getDimensionPixelSize(R.dimen.list_item_height);
+
+        int resId = -1;
+        int height = resources.getDimensionPixelSize(R.dimen.list_item_height);
+        switch (slot.getSlotType()) {
+            case REGISTRATION:
+            case OPENING_1_DAY:
+            case CLOSING_1_DAY:
+            case OPENING_2_DAY:
+            case CLOSING_2_DAY:
+            case BARCAMP:
+                resId = R.drawable.ic_icon_droid;
+                resetPhoto();
+                break;
+            case SESSION:
+                height = getSessionSlotHeight(slot.getSession(), height);
+                setSessionPhoto(slot.getSession());
+                break;
+            case LUNCH_BREAK:
+            case COFFEE_BREAK:
+                resId = R.drawable.ic_icon_coffee;
+                resetPhoto();
+                break;
+            case AFTER_PARTY:
+                resId = R.drawable.ic_icon_party;
+                resetPhoto();
+                break;
         }
+        if (resId != -1) {
+            icon.setVisibility(View.VISIBLE);
+            icon.setImageResource(resId);
+            title.setSingleLine(true);
+            title.setEllipsize(TextUtils.TruncateAt.END);
+            title.setMaxLines(1);
+        } else {
+            title.setSingleLine(false);
+            title.setEllipsize(null);
+            title.setMaxLines(2);
+            icon.setVisibility(View.GONE);
+            icon.setImageDrawable(null);
+        }
+        layoutParams.height = height;
         itemView.setLayoutParams(layoutParams);
     }
 
@@ -78,17 +108,24 @@ public class ScheduleViewHolder extends RecyclerView.ViewHolder implements View.
         scheduleClickListener.onScheduleClicked(v, getAdapterPosition());
     }
 
-    private void setSessionPhoto(@NonNull Session session) {
-        List<Speaker> realSpeakerList = session.getSpeakersList();
-        if (!realSpeakerList.isEmpty()) {
-            String url = UrlHelper.url(realSpeakerList.get(0).imageUrl);
+    private void resetPhoto() {
+        image.setImageDrawable(null);
+    }
+
+    private int getSessionSlotHeight(@Nullable Session session, int defaultValue) {
+        return session == null ? defaultValue : resources.getDimensionPixelSize(R.dimen.list_item_expanded_height);
+    }
+
+    private void setSessionPhoto(@Nullable Session session) {
+        if (session != null && !session.getSpeakersList().isEmpty()) {
+            String url = UrlHelper.url(session.getSpeakersList().get(0).imageUrl);
             Glide.with(itemView.getContext())
                     .load(url)
                     .override(512, 512)
                     .fitCenter()
                     .into(image);
         } else {
-            image.setImageDrawable(null);
+            resetPhoto();
         }
     }
 

@@ -3,7 +3,7 @@
     <solid android:color="@color/grey" />
     <stroke
         android:width="@dimen/slot_outline_size"
-        android:color="@color/grey_outline" />
+        android:color="@color/accentColor" />
     <corners android:radius="@dimen/slot_round_size" />
     <padding
         android:bottom="@dimen/slot_padding"

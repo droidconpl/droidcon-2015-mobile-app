@@ -50,8 +50,7 @@
         <item name="android:ellipsize">end</item>
         <item name="android:singleLine">true</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Title</item>
-        <item name="android:textAllCaps">true</item>
-        <item name="android:textColor">@color/textColorHeader</item>
+        <item name="android:textColor">@color/primaryColor</item>
     </style>
 
     <style name="SlotStyle">
@@ -108,8 +107,6 @@
         <item name="android:paddingTop">8dp</item>
         <item name="android:paddingBottom">4dp</item>
     </style>
-
-    <style name="map_and_info_place_address" parent="map_and_info_base"></style>
 
     <style name="map_and_info_open_action" parent="@android:style/Widget.Button">
         <item name="android:background">@drawable/button_backgroud</item>
