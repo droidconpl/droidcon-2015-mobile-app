@@ -6,8 +6,9 @@
     <dimen name="list_item_height">72dp</dimen>
     <dimen name="list_item_expanded_height">200dp</dimen>
 
-    <dimen name="slot_outline_size">2dip</dimen>
-    <dimen name="slot_round_size">5dip</dimen>
+    <dimen name="slot_outline_size">0.5dip</dimen>
+    <dimen name="slot_round_size">1dip</dimen>
     <dimen name="slot_padding">0dp</dimen>
     <dimen name="min_dialog_width">300dp</dimen>
+    <dimen name="schedule_element_label_bottom_padding">20dp</dimen>
 </resources>

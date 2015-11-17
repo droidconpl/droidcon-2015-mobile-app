@@ -18,6 +18,13 @@ public class SpeakerMapper implements Mapper<Speaker, RealmSpeaker> {
         realmSpeaker.setLastName(speaker.lastName);
         realmSpeaker.setBio(speaker.bio);
         realmSpeaker.setImageUrl(speaker.imageUrl);
+        realmSpeaker.setWebsiteTitle(speaker.websiteTitle);
+        realmSpeaker.setWebsiteLink(speaker.websiteLink);
+        realmSpeaker.setFacebookLink(speaker.facebookLink);
+        realmSpeaker.setTwitterHandler(speaker.twitterHandler);
+        realmSpeaker.setGithubLink(speaker.githubLink);
+        realmSpeaker.setLinkedIn(speaker.linkedIn);
+        realmSpeaker.setGooglePlus(speaker.googlePlus);
         return realmSpeaker;
     }
 
@@ -62,6 +69,13 @@ public class SpeakerMapper implements Mapper<Speaker, RealmSpeaker> {
         speaker.lastName = realmSpeaker.getLastName();
         speaker.bio = realmSpeaker.getBio();
         speaker.imageUrl = realmSpeaker.getImageUrl();
+        speaker.websiteTitle = realmSpeaker.getWebsiteTitle();
+        speaker.websiteLink = realmSpeaker.getWebsiteLink();
+        speaker.facebookLink = realmSpeaker.getFacebookLink();
+        speaker.twitterHandler = realmSpeaker.getTwitterHandler();
+        speaker.githubLink = realmSpeaker.getGithubLink();
+        speaker.linkedIn = realmSpeaker.getLinkedIn();
+        speaker.googlePlus = realmSpeaker.getGooglePlus();
         return speaker;
     }
 }

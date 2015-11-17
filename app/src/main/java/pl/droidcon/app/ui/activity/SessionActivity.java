@@ -19,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.joanzapata.iconify.IconDrawable;
+import com.joanzapata.iconify.fonts.FontAwesomeIcons;
 
 import java.util.List;
 
@@ -75,6 +77,8 @@ public class SessionActivity extends BaseActivity implements SpeakerList.Speaker
     Toolbar toolbar;
     @Bind(R.id.session_description)
     TextView description;
+    @Bind(R.id.session_title)
+    TextView title;
     @Bind(R.id.session_date)
     TextView date;
     @Bind(R.id.indicator)
@@ -116,7 +120,8 @@ public class SessionActivity extends BaseActivity implements SpeakerList.Speaker
     }
 
     private void fillDetails() {
-        setToolbarTitle(session.title);
+        setToolbarTitle(null);
+        title.setText(session.title);
         List<Speaker> speakersList = session.getSpeakersList();
         speakerPhotos.setAdapter(new SpeakerPhotosAdapter(this, speakersList));
         description.setText(session.description);
@@ -157,11 +162,13 @@ public class SessionActivity extends BaseActivity implements SpeakerList.Speaker
     }
 
     private void setRightFloatingActionButtonAction(boolean isFavourite) {
+        IconDrawable iconDrawable;
         if (isFavourite) {
-            favouriteButton.setImageResource(R.drawable.ic_favorite_black_24dp);
+            iconDrawable = new IconDrawable(this, FontAwesomeIcons.fa_heart);
         } else {
-            favouriteButton.setImageResource(R.drawable.ic_favorite_border_black_24dp);
+            iconDrawable = new IconDrawable(this, FontAwesomeIcons.fa_heart_o);
         }
+        favouriteButton.setImageDrawable(iconDrawable.colorRes(R.color.primaryColor).sizeDp(24));
         favouriteClickListener.alreadyFavourite = isFavourite;
     }
 

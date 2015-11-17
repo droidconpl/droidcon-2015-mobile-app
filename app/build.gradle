@@ -59,6 +59,8 @@ dependencies {
 
     compile 'com.makeramen:roundedimageview:2.2.0'
     compile 'me.relex:circleindicator:1.1.5@aar'
+    compile 'com.joanzapata.iconify:android-iconify-entypo:2.1.0'
+    compile 'com.joanzapata.iconify:android-iconify-fontawesome:2.1.0'
 
     testCompile 'junit:junit:4.12'
     testCompile "org.robolectric:robolectric:3.0"
