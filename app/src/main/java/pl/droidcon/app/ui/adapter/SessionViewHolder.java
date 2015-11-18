@@ -39,7 +39,7 @@ public class SessionViewHolder extends RecyclerView.ViewHolder {
     @Inject
     Resources resources;
 
-    Session session;
+    private Session session;
 
     public SessionViewHolder(View itemView) {
         super(itemView);
@@ -73,5 +73,9 @@ public class SessionViewHolder extends RecyclerView.ViewHolder {
                     .crossFade()
                     .into(sessionPicture);
         }
+    }
+
+    public Session getSession() {
+        return session;
     }
 }
