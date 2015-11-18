@@ -1,8 +1,6 @@
 package pl.droidcon.app.helper;
 
 
-import android.util.Log;
-
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
@@ -33,6 +31,7 @@ public class SessionMapper implements Mapper<Session, RealmSession> {
         realmSession.setDisplayHour(session.sessionDisplayHour);
         realmSession.setDayId(session.dayId);
         realmSession.setSingleItem(session.singleItem);
+        realmSession.setLeft(session.left);
         return realmSession;
     }
 
@@ -78,6 +77,7 @@ public class SessionMapper implements Mapper<Session, RealmSession> {
         session.sessionDisplayHour = realmSession.getDisplayHour();
         session.dayId = realmSession.getDayId();
         session.singleItem = realmSession.isSingleItem();
+        session.left = realmSession.isLeft();
         RealmList<RealmSpeaker> speakers = realmSession.getSpeakers();
         session.setSpeakersList((ArrayList<Speaker>) speakerMapper.fromDBList(speakers));
         return session;

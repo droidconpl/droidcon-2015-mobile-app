@@ -17,6 +17,7 @@ public class RealmSession extends RealmObject {
     private String displayHour;
     private int dayId;
     private boolean singleItem;
+    private boolean left;
 
     private RealmList<RealmSpeaker> speakers;
 
@@ -91,5 +92,13 @@ public class RealmSession extends RealmObject {
 
     public void setSingleItem(boolean singleItem) {
         this.singleItem = singleItem;
+    }
+
+    public boolean isLeft() {
+        return left;
+    }
+
+    public void setLeft(boolean left) {
+        this.left = left;
     }
 }

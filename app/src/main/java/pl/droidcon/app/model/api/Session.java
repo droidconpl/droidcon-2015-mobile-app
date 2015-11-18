@@ -34,6 +34,7 @@ public class Session implements Parcelable, Comparable<Session> {
     private static final String SESSION_DISPLAY_HOUR = "session_display_hour";
     private static final String DAY_ID = "day_id";
     private static final String SINGLE_ITEM = "single_item";
+    private static final String LEFT = "left";
 
     public int id;
     public DateTime date;
@@ -44,6 +45,7 @@ public class Session implements Parcelable, Comparable<Session> {
     public int dayId;
     public ArrayList<Integer> speakersIds = new ArrayList<>();
     public boolean singleItem;
+    public boolean left;
 
     private ArrayList<Speaker> speakersList = new ArrayList<>();
 
@@ -64,6 +66,7 @@ public class Session implements Parcelable, Comparable<Session> {
         sessionDisplayHour = bundle.getString(SESSION_DISPLAY_HOUR);
         dayId = bundle.getInt(DAY_ID);
         singleItem = bundle.getBoolean(SINGLE_ITEM);
+        left = bundle.getBoolean(LEFT);
     }
 
     public void setSpeakersList(ArrayList<Speaker> speakersList) {
@@ -92,11 +95,20 @@ public class Session implements Parcelable, Comparable<Session> {
         bundle.putString(SESSION_DISPLAY_HOUR, sessionDisplayHour);
         bundle.putInt(DAY_ID, dayId);
         bundle.putBoolean(SINGLE_ITEM, singleItem);
+        bundle.putBoolean(LEFT, left);
         dest.writeBundle(bundle);
     }
 
     @Override
     public int compareTo(@NonNull Session another) {
-        return date.compareTo(another.date);
+        int dateComparison = date.compareTo(another.date);
+        if (dateComparison == 0) {
+            if (id > another.id) {
+                return 1;
+            } else {
+                return -1;
+            }
+        }
+        return dateComparison;
     }
 }

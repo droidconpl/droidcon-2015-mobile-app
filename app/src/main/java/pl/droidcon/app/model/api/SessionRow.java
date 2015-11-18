@@ -48,7 +48,7 @@ public class SessionRow {
         leftSession.description = sessionRow.sessionDescription.get(0);
         leftSession.speakersIds = (ArrayList<Integer>) sessionRow.speakerIds.get(0);
         leftSession.roomId = sessionRow.roomId.get(0);
-
+        leftSession.left = true;
 
         Session rightSession = new Session();
         rightSession.date = sessionRow.sessionDate;
@@ -60,7 +60,7 @@ public class SessionRow {
         rightSession.description = sessionRow.sessionDescription.get(1);
         rightSession.speakersIds = (ArrayList<Integer>) sessionRow.speakerIds.get(1);
         rightSession.roomId = sessionRow.roomId.get(1);
-
+        rightSession.left = false;
 
         if (!TextUtils.isEmpty(rightSession.title)) {
             sessions.add(rightSession);

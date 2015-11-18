@@ -4,6 +4,7 @@ import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import pl.droidcon.app.model.api.Session;
 import pl.droidcon.app.ui.adapter.SessionViewHolder;
 
 public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
@@ -16,13 +17,13 @@ public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
         SessionViewHolder sessionViewHolder = (SessionViewHolder) parent.getChildViewHolder(view);
-        if (sessionViewHolder.getSession().singleItem) {
+        Session session = sessionViewHolder.getSession();
+        if (session.singleItem) {
             // single element on list
             outRect.right = space;
             outRect.left = space;
         } else {
-            int childPosition = parent.getChildAdapterPosition(view);
-            if (childPosition % 2 == 0) {
+            if (session.left) {
                 // left element
                 outRect.right = (int) (space * 0.5f);
                 outRect.left = space;
