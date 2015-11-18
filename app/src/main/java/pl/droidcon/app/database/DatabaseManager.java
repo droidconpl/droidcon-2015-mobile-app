@@ -25,6 +25,7 @@ import pl.droidcon.app.helper.SessionNotificationMapper;
 import pl.droidcon.app.helper.SpeakerMapper;
 import pl.droidcon.app.model.api.AgendaResponse;
 import pl.droidcon.app.model.api.Session;
+import pl.droidcon.app.model.api.SessionRow;
 import pl.droidcon.app.model.api.SpeakerResponse;
 import pl.droidcon.app.model.common.Schedule;
 import pl.droidcon.app.model.common.ScheduleCollision;
@@ -295,7 +296,13 @@ public class DatabaseManager {
     }
 
     public void saveData(AgendaResponse agendaResponse, SpeakerResponse speakerResponse) {
-        List<RealmSession> sessionDBs = sessionMapper.mapList(agendaResponse.sessions);
+        List<SessionRow> sessionRows = agendaResponse.sessions;
+        List<Session> sessions = new ArrayList<>();
+        for (SessionRow sessionRow : sessionRows) {
+            sessions.addAll(SessionRow.toSessions(sessionRow));
+        }
+
+        List<RealmSession> sessionDBs = sessionMapper.mapList(sessions);
         List<RealmSpeaker> speakerDBs = speakerMapper.mapList(speakerResponse.speakers);
 
         Realm realm = Realm.getDefaultInstance();
@@ -304,7 +311,7 @@ public class DatabaseManager {
         realm.copyToRealmOrUpdate(sessionDBs);
         List<RealmSpeaker> realmSpeakers = realm.copyToRealmOrUpdate(speakerDBs);
 
-        for (Session session : agendaResponse.sessions) {
+        for (Session session : sessions) {
             List<RealmSpeaker> sessionsSpeaker = speakerMapper.matchFromApi(realmSpeakers, session.speakersIds);
             RealmSession sessionDB = realm
                     .where(RealmSession.class)

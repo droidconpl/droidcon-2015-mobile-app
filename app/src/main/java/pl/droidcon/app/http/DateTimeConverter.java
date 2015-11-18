@@ -16,7 +16,7 @@ import java.lang.reflect.Type;
 
 public class DateTimeConverter implements JsonDeserializer<DateTime>, JsonSerializer<DateTime> {
 
-    private static final String DATE_PATTERN = "yyyy-MM-dd HH:mm:ss";
+    private static final String DATE_PATTERN = "yyyy-MM-dd HH:mm";
     private static final org.joda.time.format.DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormat.forPattern(DATE_PATTERN);
 
     @Override

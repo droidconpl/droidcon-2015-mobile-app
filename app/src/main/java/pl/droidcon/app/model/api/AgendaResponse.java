@@ -5,5 +5,5 @@ import java.util.List;
 
 public class AgendaResponse {
 
-    public List<Session> sessions = new ArrayList<>();
+    public List<SessionRow> sessions = new ArrayList<>();
 }

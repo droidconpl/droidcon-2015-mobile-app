@@ -13,6 +13,29 @@ import pl.droidcon.app.model.api.Session;
 
 public class AgendaAdapter extends RecyclerView.Adapter<SessionViewHolder> {
 
+    private enum ViewType {
+        NORMAL_SESSION(0),
+        LARGE_SESSION(1);
+        private int viewType;
+
+        ViewType(int viewType) {
+            this.viewType = viewType;
+        }
+
+        public int getViewType() {
+            return viewType;
+        }
+
+        public static ViewType of(int viewType) {
+            for (ViewType value : values()) {
+                if (viewType == value.getViewType()) {
+                    return value;
+                }
+            }
+            throw new IllegalArgumentException("Not supported view type");
+        }
+    }
+
     private List<Session> sessions;
 
     public AgendaAdapter(List<Session> sessions) {
@@ -21,10 +44,22 @@ public class AgendaAdapter extends RecyclerView.Adapter<SessionViewHolder> {
 
     @Override
     public SessionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.agenda_element, parent, false);
-
+        ViewType type = ViewType.of(viewType);
+        View v = null;
+        switch (type) {
+            case NORMAL_SESSION:
+                v = LayoutInflater.from(parent.getContext()).inflate(R.layout.agenda_element, parent, false);
+                break;
+            case LARGE_SESSION:
+                v = LayoutInflater.from(parent.getContext()).inflate(R.layout.agenda_large_element, parent, false);
+                break;
+        }
         return new SessionViewHolder(v);
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return getSessionByPosition(position).singleItem ? ViewType.LARGE_SESSION.getViewType() : ViewType.NORMAL_SESSION.getViewType();
     }
 
     @Override
@@ -38,7 +73,7 @@ public class AgendaAdapter extends RecyclerView.Adapter<SessionViewHolder> {
     }
 
     @NonNull
-    public Session getSessionByPosition(int position){
+    public Session getSessionByPosition(int position) {
         return sessions.get(position);
     }
 }

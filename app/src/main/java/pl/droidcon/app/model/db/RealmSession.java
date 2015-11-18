@@ -13,7 +13,10 @@ public class RealmSession extends RealmObject {
     private Date date;
     private String title;
     private String description;
-    private double rating;
+    private int roomId;
+    private String displayHour;
+    private int dayId;
+    private boolean singleItem;
 
     private RealmList<RealmSpeaker> speakers;
 
@@ -50,19 +53,43 @@ public class RealmSession extends RealmObject {
         this.description = description;
     }
 
-    public double getRating() {
-        return rating;
-    }
-
-    public void setRating(double rating) {
-        this.rating = rating;
-    }
-
     public RealmList<RealmSpeaker> getSpeakers() {
         return speakers;
     }
 
     public void setSpeakers(RealmList<RealmSpeaker> speakers) {
         this.speakers = speakers;
+    }
+
+    public int getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(int roomId) {
+        this.roomId = roomId;
+    }
+
+    public String getDisplayHour() {
+        return displayHour;
+    }
+
+    public void setDisplayHour(String displayHour) {
+        this.displayHour = displayHour;
+    }
+
+    public int getDayId() {
+        return dayId;
+    }
+
+    public void setDayId(int dayId) {
+        this.dayId = dayId;
+    }
+
+    public boolean isSingleItem() {
+        return singleItem;
+    }
+
+    public void setSingleItem(boolean singleItem) {
+        this.singleItem = singleItem;
     }
 }

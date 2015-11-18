@@ -11,6 +11,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -124,7 +125,7 @@ public class SessionActivity extends BaseActivity implements SpeakerList.Speaker
         title.setText(session.title);
         List<Speaker> speakersList = session.getSpeakersList();
         speakerPhotos.setAdapter(new SpeakerPhotosAdapter(this, speakersList));
-        description.setText(session.description);
+        description.setText(Html.fromHtml(session.description));
         date.setText(DateTimePrinter.toPrintableStringWithDay(session.date));
         indicator.setViewPager(speakerPhotos);
         if (speakersList.size() == 1) {

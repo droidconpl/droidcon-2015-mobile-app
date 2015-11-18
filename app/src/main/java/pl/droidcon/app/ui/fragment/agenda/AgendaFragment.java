@@ -95,7 +95,14 @@ public class AgendaFragment extends Fragment implements SwipeRefreshLayout.OnRef
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeColors(swipeRefreshColorSchema.getColors());
         agendaList.setHasFixedSize(true);
-        LinearLayoutManager mLayoutManager = new GridLayoutManager(view.getContext(), 2);
+        GridLayoutManager mLayoutManager = new GridLayoutManager(view.getContext(), 2);
+        mLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                //return 2 for single item as single item occupies all width
+                return agendaAdapter.getSessionByPosition(position).singleItem ? 2 : 1;
+            }
+        });
         agendaList.setLayoutManager(mLayoutManager);
         agendaList.addItemDecoration(new SpacesItemDecoration(view.getContext().getResources().getDimension(R.dimen.list_element_margin)));
         agendaList.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), this));

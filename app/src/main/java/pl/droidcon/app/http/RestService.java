@@ -7,7 +7,7 @@ import rx.Observable;
 
 public interface RestService {
 
-    @GET("/model/sessions.json")
+    @GET("/model/agenda.json")
     Observable<AgendaResponse> getAgenda();
 
     @GET("/model/speakers.json")
