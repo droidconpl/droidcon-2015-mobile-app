@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -186,6 +185,9 @@ public class AgendaFragment extends Fragment implements SwipeRefreshLayout.OnRef
     @Override
     public void onItemClick(View view, int position) {
         Session session = agendaAdapter.getSessionByPosition(position);
+        if (session.getSpeakersList().isEmpty()) {
+            return;
+        }
         SessionActivity.start(getContext(), session);
     }
 }
