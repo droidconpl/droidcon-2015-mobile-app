@@ -10,8 +10,8 @@
     <string name="drawer_close">Menu close</string>
     <string name="day_one">Day 1</string>
     <string name="day_two">Day 2</string>
+    <string name="day_three">Day 3</string>
     <string name="loading_error">Please check your internet connection</string>
-    <string name="session_topic">Topic: %1$s</string>
     <string name="speaker_photo">Speaker photo</string>
     <string name="registration">Registration</string>
     <string name="opening_first_day">Opening first day</string>

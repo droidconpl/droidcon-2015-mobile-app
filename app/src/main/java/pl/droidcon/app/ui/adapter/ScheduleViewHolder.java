@@ -87,6 +87,9 @@ public class ScheduleViewHolder extends RecyclerView.ViewHolder implements View.
                 setSessionPhoto(slot.getSession());
                 break;
             case LUNCH_BREAK:
+                resId = R.drawable.ic_icon_fork;
+                resetPhoto();
+                break;
             case COFFEE_BREAK:
                 resId = R.drawable.ic_icon_coffee;
                 resetPhoto();
