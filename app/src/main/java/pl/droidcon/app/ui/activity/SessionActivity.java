@@ -19,9 +19,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.FontAwesomeIcons;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -335,10 +335,8 @@ public class SessionActivity extends BaseActivity implements SpeakerList.Speaker
             View itemView = LayoutInflater.from(context).inflate(R.layout.speaker_pager_item, container, false);
             ImageView imageView = (ImageView) itemView.findViewById(R.id.speaker_photo);
             String url = UrlHelper.url(speakers.get(position).imageUrl);
-            Glide.with(context)
+            Picasso.with(context)
                     .load(url)
-                    .fitCenter()
-                    .crossFade()
                     .into(imageView);
             imageView.setOnClickListener(new ViewPagerImageClickListener(url));
             container.addView(imageView);

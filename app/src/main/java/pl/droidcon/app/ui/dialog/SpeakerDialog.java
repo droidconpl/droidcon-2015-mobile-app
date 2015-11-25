@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -21,10 +22,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.joanzapata.iconify.widget.IconButton;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -81,7 +81,8 @@ public class SpeakerDialog extends AppCompatDialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         View view = LayoutInflater.from(getContext()).inflate(R.layout.speaker_dialog, null);
         ButterKnife.bind(this, view);
-        Glide.with(getContext()).load(UrlHelper.url(speaker.imageUrl)).asBitmap().centerCrop().into(target);
+        int size = (int) getResources().getDimension(R.dimen.speaker_dialog_avatar_size);
+        Picasso.with(getContext()).load(UrlHelper.url(speaker.imageUrl)).resize(size, size).into(avatarTarget);
         speakerFullName.setText(getString(R.string.speaker_full_name_format, speaker.firstName, speaker.lastName));
         speakerBio.setText(Html.fromHtml(speaker.bio));
         speakerTitle.setText(speaker.websiteTitle);
@@ -100,7 +101,7 @@ public class SpeakerDialog extends AppCompatDialogFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        Glide.clear(target);
+//        Glide.clear(target);
         ButterKnife.unbind(this);
     }
 
@@ -137,12 +138,29 @@ public class SpeakerDialog extends AppCompatDialogFragment {
         }
     }
 
-    private SimpleTarget<Bitmap> target = new SimpleTarget<Bitmap>(128, 128) {
+//    private SimpleTarget<Bitmap> target = new SimpleTarget<Bitmap>(128, 128) {
+//        @Override
+//        public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+
+//        }
+//    };
+
+    private Target avatarTarget = new Target() {
         @Override
-        public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-            RoundedBitmapDrawable roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(getResources(), resource);
+        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+            RoundedBitmapDrawable roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(getResources(), bitmap);
             roundedBitmapDrawable.setCircular(true);
             speakerPhoto.setImageDrawable(roundedBitmapDrawable);
+        }
+
+        @Override
+        public void onBitmapFailed(Drawable errorDrawable) {
+
+        }
+
+        @Override
+        public void onPrepareLoad(Drawable placeHolderDrawable) {
+
         }
     };
 

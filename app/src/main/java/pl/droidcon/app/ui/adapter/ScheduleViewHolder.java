@@ -9,10 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
 
@@ -132,34 +130,30 @@ public class ScheduleViewHolder extends RecyclerView.ViewHolder implements View.
     private void setSessionPhoto(@Nullable Session session) {
         if (session != null && !session.getSpeakersList().isEmpty()) {
             String url = UrlHelper.url(session.getSpeakersList().get(0).imageUrl);
-            Glide.with(itemView.getContext())
+            Picasso.with(itemView.getContext())
                     .load(url)
-                    .override(512, 512)
-                    .fitCenter()
-                    .listener(new AvatarRequestListener())
-                    .into(image);
+                    .resize(512, 512)
+                    .centerCrop()
+                    .into(image, avatarCallback);
         } else {
             resetPhoto();
         }
     }
 
-
-    class AvatarRequestListener implements RequestListener<String, GlideDrawable> {
-
+    Callback avatarCallback = new Callback() {
         @Override
-        public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-            return false;
-        }
-
-        @Override
-        public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-            // hide & show
+        public void onSuccess() {
             title.setVisibility(View.GONE);
             sessionTitle.setVisibility(View.VISIBLE);
             sessionTitle.setSingleLine(false);
             sessionTitle.setEllipsize(null);
             sessionTitle.setMaxLines(2);
-            return false;
         }
-    }
+
+        @Override
+        public void onError() {
+
+        }
+    };
+
 }

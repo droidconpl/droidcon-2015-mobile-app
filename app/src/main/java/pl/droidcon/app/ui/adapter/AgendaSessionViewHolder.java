@@ -4,7 +4,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -51,10 +51,8 @@ public class AgendaSessionViewHolder extends BaseSessionViewHolder {
             sessionPicture.setImageResource(R.drawable.droidcon_krakow_logo);
         } else {
             String url = UrlHelper.url(realSpeakerList.get(0).imageUrl);
-            Glide.with(sessionPicture.getContext())
+            Picasso.with(sessionPicture.getContext())
                     .load(url)
-                    .fitCenter()
-                    .crossFade()
                     .into(sessionPicture);
         }
     }

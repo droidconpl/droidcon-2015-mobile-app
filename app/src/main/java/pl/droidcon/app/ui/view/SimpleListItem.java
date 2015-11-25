@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
@@ -17,9 +18,8 @@ import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -100,16 +100,25 @@ public class SimpleListItem extends LinearLayout {
     }
 
     protected void setImage(@NonNull String imageUrl) {
-        Glide.with(getContext())
+        Picasso.with(getContext())
                 .load(imageUrl)
-                .asBitmap()
-                .centerCrop()
-                .into(new SimpleTarget<Bitmap>(avatarSize, avatarSize) {
+                .resize(avatarSize, avatarSize)
+                .into(new Target() {
                     @Override
-                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                        RoundedBitmapDrawable roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(getResources(), resource);
+                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                        RoundedBitmapDrawable roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(getResources(), bitmap);
                         roundedBitmapDrawable.setCircular(true);
                         description.setCompoundDrawablesWithIntrinsicBounds(roundedBitmapDrawable, null, null, null);
+                    }
+
+                    @Override
+                    public void onBitmapFailed(Drawable errorDrawable) {
+
+                    }
+
+                    @Override
+                    public void onPrepareLoad(Drawable placeHolderDrawable) {
+
                     }
                 });
     }
