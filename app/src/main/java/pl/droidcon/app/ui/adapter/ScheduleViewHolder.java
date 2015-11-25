@@ -21,6 +21,7 @@ import pl.droidcon.app.dagger.DroidconInjector;
 import pl.droidcon.app.helper.DateTimePrinter;
 import pl.droidcon.app.helper.UrlHelper;
 import pl.droidcon.app.model.api.Session;
+import pl.droidcon.app.model.common.Room;
 import pl.droidcon.app.model.common.Slot;
 
 
@@ -44,6 +45,8 @@ public class ScheduleViewHolder extends RecyclerView.ViewHolder implements View.
     ImageView icon;
     @Bind(R.id.slot_view_session_title)
     TextView sessionTitle;
+    @Bind(R.id.slot_room_name)
+    TextView roomName;
 
     @Inject
     Resources resources;
@@ -67,6 +70,7 @@ public class ScheduleViewHolder extends RecyclerView.ViewHolder implements View.
         // show & hide
         title.setVisibility(View.VISIBLE);
         sessionTitle.setVisibility(View.GONE);
+        setRoomName(slot.getSession());
 
         int resId = -1;
         int height = resources.getDimensionPixelSize(R.dimen.list_item_height);
@@ -121,6 +125,17 @@ public class ScheduleViewHolder extends RecyclerView.ViewHolder implements View.
 
     private void resetPhoto() {
         image.setImageDrawable(null);
+    }
+
+    private void setRoomName(@Nullable Session session){
+        if(session == null){
+            roomName.setText(null);
+            return;
+        }
+
+        int stringRes = Room.valueOfRoomId(session.roomId).getStringRes();
+        String room = resources.getString(stringRes);
+        roomName.setText(room);
     }
 
     private int getSessionSlotHeight(@Nullable Session session, int defaultValue) {
