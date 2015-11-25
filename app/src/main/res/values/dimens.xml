@@ -12,4 +12,9 @@
     <dimen name="min_dialog_width">300dp</dimen>
     <dimen name="schedule_element_label_bottom_padding">20dp</dimen>
     <dimen name="agenda_element_height">160dp</dimen>
+
+    <dimen name="agenda_title_text_size">16sp</dimen>
+    <dimen name="agenda_date_text_size">13sp</dimen>
+    <!-- pixels for glide-->
+    <dimen name="speaker_photo_avatar_size">64px</dimen>
 </resources>

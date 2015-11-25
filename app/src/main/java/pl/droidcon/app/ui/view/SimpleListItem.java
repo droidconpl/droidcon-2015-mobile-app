@@ -35,6 +35,8 @@ public class SimpleListItem extends LinearLayout {
     @Bind(R.id.speaker_list_item_full_name)
     TextView title;
 
+    private int avatarSize;
+
     public SimpleListItem(Context context) {
         this(context, null);
     }
@@ -65,6 +67,8 @@ public class SimpleListItem extends LinearLayout {
         setBackgroundResource(typedValue.resourceId);
         setClickable(true);
         setFocusable(true);
+
+        avatarSize = (int) context.getResources().getDimension(R.dimen.speaker_photo_avatar_size);
 
         getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -100,7 +104,7 @@ public class SimpleListItem extends LinearLayout {
                 .load(imageUrl)
                 .asBitmap()
                 .centerCrop()
-                .into(new SimpleTarget<Bitmap>(64, 64) {
+                .into(new SimpleTarget<Bitmap>(avatarSize, avatarSize) {
                     @Override
                     public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                         RoundedBitmapDrawable roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(getResources(), resource);

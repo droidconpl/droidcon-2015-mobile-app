@@ -1,0 +1,8 @@
+<resources>
+    <dimen name="agenda_element_height">250dp</dimen>
+    <dimen name="agenda_title_text_size">18sp</dimen>
+    <dimen name="agenda_date_text_size">15sp</dimen>
+    <dimen name="list_item_expanded_height">280dp</dimen>
+    <!-- pixels for glide-->
+    <dimen name="speaker_photo_avatar_size">96px</dimen>
+</resources>
