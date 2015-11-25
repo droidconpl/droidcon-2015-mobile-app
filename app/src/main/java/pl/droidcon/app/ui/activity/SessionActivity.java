@@ -37,6 +37,7 @@ import pl.droidcon.app.helper.DateTimePrinter;
 import pl.droidcon.app.helper.UrlHelper;
 import pl.droidcon.app.model.api.Session;
 import pl.droidcon.app.model.api.Speaker;
+import pl.droidcon.app.model.common.Room;
 import pl.droidcon.app.model.common.Schedule;
 import pl.droidcon.app.model.common.ScheduleCollision;
 import pl.droidcon.app.model.db.RealmSchedule;
@@ -82,6 +83,8 @@ public class SessionActivity extends BaseActivity implements SpeakerList.Speaker
     TextView title;
     @Bind(R.id.session_date)
     TextView date;
+    @Bind(R.id.session_room)
+    TextView sessionRoom;
     @Bind(R.id.indicator)
     CircleIndicator indicator;
     @Bind(R.id.speakers)
@@ -133,6 +136,8 @@ public class SessionActivity extends BaseActivity implements SpeakerList.Speaker
         }
         speakerListView.setSpeakers(speakersList, this);
         favouriteButton.setOnClickListener(favouriteClickListener);
+        int stringRes = Room.valueOfRoomId(session.roomId).getStringRes();
+        sessionRoom.setText(stringRes);
     }
 
     @Override
