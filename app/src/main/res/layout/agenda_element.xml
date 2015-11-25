@@ -25,15 +25,20 @@
 
     <LinearLayout
         style="@style/AgendaDataContainer.Dark"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent">
 
         <TextView
             android:id="@+id/session_title"
             style="@style/AgendaTitle"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="Data binding" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -50,8 +55,8 @@
             <View
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:background="@null"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:background="@null" />
 
             <TextView
                 android:id="@+id/session_room"

@@ -18,4 +18,5 @@
     <dimen name="speaker_photo_avatar_size">64px</dimen>
     <dimen name="icon_button_size">24sp</dimen>
     <dimen name="speaker_dialog_avatar_size">128dp</dimen>
+    <dimen name="agenda_element_description_height">64dp</dimen>
 </resources>
