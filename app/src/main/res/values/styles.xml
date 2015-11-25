@@ -145,6 +145,7 @@
         <item name="android:ellipsize">end</item>
         <item name="android:textColor">@color/primaryColor</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Title</item>
+        <item name="android:textSize">16sp</item>
     </style>
     
     <style name="AgendaDate">
@@ -153,7 +154,8 @@
         <item name="android:singleLine">true</item>
         <item name="android:ellipsize">end</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body1</item>
-        <item name="android:textColor">@color/accentColor</item>
+        <item name="android:textColor">@color/textColorHeader</item>
+        <item name="android:textSize">13sp</item>
     </style>
 
     <style name="AgendaDataContainer">
@@ -162,5 +164,20 @@
         <item name="android:minWidth">64dp</item>
         <item name="android:orientation">vertical</item>
         <item name="android:layout_margin">0.5dp</item>
+    </style>
+
+    <style name="AgendaRoom">
+        <item name="android:layout_marginLeft">@dimen/list_element_margin</item>
+        <item name="android:layout_marginRight">@dimen/list_element_margin</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body1</item>
+        <item name="android:textColor">@color/textColorHeader</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+    <style name="AgendaDataContainer.Dark">
+        <item name="android:background">@color/element_background3</item>
     </style>
 </resources>

@@ -62,6 +62,8 @@
     <string name="received_session_notification">Session %1$s is about to start!</string>
 
     <string name="hide">Hide</string>
+    <string name="room_1">Room 1</string>
+    <string name="room_2">Room 2</string>
     <!-- NOT TRANSLATABLE-->
     <string name="preference_notify_sessions" translatable="false">notify_sessions</string>
 </resources>

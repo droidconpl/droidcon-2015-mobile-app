@@ -15,6 +15,7 @@
     <!--<color name="element_background">#6fd9d9d9</color>-->
     <color name="element_background">#3fd9d9d9</color>
     <color name="element_background2">#CFFFFFFF</color>
+    <color name="element_background3">#CF3d3d3d</color>
 
     <color name="grey">#F5F5F5</color>
     <color name="grey_outline">#EEE</color>

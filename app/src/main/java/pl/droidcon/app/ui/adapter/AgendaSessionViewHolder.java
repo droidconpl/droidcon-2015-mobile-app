@@ -15,6 +15,7 @@ import pl.droidcon.app.helper.DateTimePrinter;
 import pl.droidcon.app.helper.UrlHelper;
 import pl.droidcon.app.model.api.Session;
 import pl.droidcon.app.model.api.Speaker;
+import pl.droidcon.app.model.common.Room;
 
 public class AgendaSessionViewHolder extends BaseSessionViewHolder {
 
@@ -25,6 +26,8 @@ public class AgendaSessionViewHolder extends BaseSessionViewHolder {
     TextView sessionTitle;
     @Bind(R.id.session_date)
     TextView sessionDate;
+    @Bind(R.id.session_room)
+    TextView sessionRoom;
 
     private Session session;
 
@@ -37,9 +40,11 @@ public class AgendaSessionViewHolder extends BaseSessionViewHolder {
     public void attachSession(Session session) {
         this.session = session;
 
+        Room room = Room.valueOfRoomId(session.roomId);
+        sessionRoom.setText(room.getStringRes());
         sessionTitle.setText(session.title);
 
-        sessionDate.setText(DateTimePrinter.toPrintableStringWithDay(session.date));
+        sessionDate.setText(DateTimePrinter.toPrintableString(session.date));
 
         List<Speaker> realSpeakerList = session.getSpeakersList();
         if (realSpeakerList.isEmpty()) {
