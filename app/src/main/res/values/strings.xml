@@ -50,7 +50,7 @@
     <string name="map_and_info_hackaton_description">Hackaton is hosted by Base Lab. Come and hack more Android stuff you just learned on the conference</string>
     <string name="map_and_info_hackaton_action">Open Hackaton Location</string>
     <string name="map_and_info_hackaton_location">Base Lab</string>
-    <string name="map_and_info_hackaton_location_address">Leona Wyczółkowskiego 7, Kraków</string>
+    <string name="map_and_info_hackaton_location_address">ul. Wyczółkowskiego 7, Kraków</string>
 
     <string name="fav_added">Added to schedule</string>
     <string name="fav_removed">Removed from schedule</string>

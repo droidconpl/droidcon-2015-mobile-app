@@ -63,6 +63,7 @@
                 android:text="@string/map_and_info_venue_action" />
         </RelativeLayout>
 
+        <View style="@style/Line" />
 
         <RelativeLayout
             style="@style/map_and_info_container"
@@ -119,6 +120,7 @@
                 android:text="@string/map_and_info_party_action" />
         </RelativeLayout>
 
+        <View style="@style/Line" />
 
         <RelativeLayout
             style="@style/map_and_info_container"
