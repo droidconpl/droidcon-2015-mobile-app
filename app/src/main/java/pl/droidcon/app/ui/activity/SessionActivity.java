@@ -35,6 +35,8 @@ import pl.droidcon.app.dagger.DroidconInjector;
 import pl.droidcon.app.database.DatabaseManager;
 import pl.droidcon.app.helper.DateTimePrinter;
 import pl.droidcon.app.helper.UrlHelper;
+import pl.droidcon.app.http.RatingsService;
+import pl.droidcon.app.model.api.RatingsResponse;
 import pl.droidcon.app.model.api.Session;
 import pl.droidcon.app.model.api.Speaker;
 import pl.droidcon.app.model.common.Room;
@@ -101,6 +103,9 @@ public class SessionActivity extends BaseActivity implements SpeakerList.Speaker
     @Inject
     SessionReminder sessionReminder;
 
+    @Inject
+    RatingsService ratingsService;
+
     private CompositeSubscription compositeSubscription;
     private FavouriteClickListener favouriteClickListener = new FavouriteClickListener();
 
@@ -115,6 +120,7 @@ public class SessionActivity extends BaseActivity implements SpeakerList.Speaker
         compositeSubscription = new CompositeSubscription();
         fillDetails();
         checkIsFavourite();
+        fetchRatings();
     }
 
     @Override
@@ -286,6 +292,29 @@ public class SessionActivity extends BaseActivity implements SpeakerList.Speaker
                     }
                 });
         compositeSubscription.add(subscription);
+    }
+
+    void fetchRatings(){
+        Subscription subscribe = ratingsService.getGists()
+                .observeOn(Schedulers.newThread())
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<RatingsResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(RatingsResponse ratingsResponse) {
+
+                    }
+                });
+        compositeSubscription.add(subscribe);
     }
 
     private class FavouriteClickListener implements View.OnClickListener {
