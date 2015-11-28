@@ -90,24 +90,32 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/list_element_margin"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                     android:textAllCaps="true"
-                    tools:text="room 1"/>
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                    tools:text="room 1" />
 
 
             </LinearLayout>
 
 
-            <View style="@style/Line" />
+            <View
+                style="@style/Line"
+                android:layout_marginLeft="@dimen/list_element_margin"
+                android:layout_marginRight="@dimen/list_element_margin" />
 
             <TextView
                 android:id="@+id/session_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/list_element_margin"
+                android:paddingRight="@dimen/list_element_margin"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 tools:text="Content description" />
 
-            <View style="@style/Line" />
+            <View
+                style="@style/Line"
+                android:layout_marginLeft="@dimen/list_element_margin"
+                android:layout_marginRight="@dimen/list_element_margin" />
 
 
             <pl.droidcon.app.ui.view.SpeakerList

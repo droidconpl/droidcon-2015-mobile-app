@@ -94,7 +94,7 @@
 
     <style name="map_and_info_base">
         <item name="android:textColor">@color/textColorPrimary</item>
-
+        <item name="android:layout_marginRight">4dp</item>
 
     </style>
 
@@ -119,6 +119,7 @@
         <item name="android:textColor">@color/textColorHeader</item>
         <item name="android:paddingLeft">8dp</item>
         <item name="android:paddingRight">8dp</item>
+        <item name="android:layout_width">140dp</item>
     </style>
 
     <style name="map_and_info_place_address" parent="map_and_info_base"/>
