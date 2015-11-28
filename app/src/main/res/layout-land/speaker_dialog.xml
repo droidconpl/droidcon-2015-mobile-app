@@ -20,7 +20,8 @@
             android:contentDescription="@string/speaker_photo" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:id="@+id/speaker_data_container"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toEndOf="@+id/speaker_photo"
@@ -47,53 +48,49 @@
                 android:textColor="@color/textColorHeader"
                 tools:text="Android developer @ com.pl" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.joanzapata.iconify.widget.IconButton
+                    android:id="@+id/website_link"
+                    style="@style/IconButton.First"
+                    android:text="{entypo-globe}" />
+
+                <com.joanzapata.iconify.widget.IconButton
+                    android:id="@+id/facebook_link"
+                    style="@style/IconButton"
+                    android:text="{entypo-facebook}" />
+
+                <com.joanzapata.iconify.widget.IconButton
+                    android:id="@+id/twitter_link"
+                    style="@style/IconButton"
+                    android:text="{entypo-twitter}" />
+
+                <com.joanzapata.iconify.widget.IconButton
+                    android:id="@+id/github_link"
+                    style="@style/IconButton"
+                    android:text="{entypo-github}" />
+
+                <com.joanzapata.iconify.widget.IconButton
+                    android:id="@+id/linkedin_link"
+                    style="@style/IconButton"
+                    android:text="{entypo-linkedin}" />
+
+                <com.joanzapata.iconify.widget.IconButton
+                    android:id="@+id/google_link"
+                    style="@style/IconButton"
+                    android:text="{entypo-google}" />
+
+            </LinearLayout>
+
 
         </LinearLayout>
 
 
     </RelativeLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/primaryColor"
-        android:paddingLeft="@dimen/screen_edge_margin"
-        android:paddingStart="@dimen/screen_edge_margin"
-        android:paddingEnd="@dimen/screen_edge_margin"
-        android:paddingRight="@dimen/screen_edge_margin"
-        android:orientation="horizontal">
-
-        <com.joanzapata.iconify.widget.IconButton
-            android:id="@+id/website_link"
-            style="@style/IconButton"
-            android:text="{entypo-globe}"/>
-
-        <com.joanzapata.iconify.widget.IconButton
-            android:id="@+id/facebook_link"
-            style="@style/IconButton"
-            android:text="{entypo-facebook}" />
-
-        <com.joanzapata.iconify.widget.IconButton
-            android:id="@+id/twitter_link"
-            style="@style/IconButton"
-            android:text="{entypo-twitter}" />
-
-        <com.joanzapata.iconify.widget.IconButton
-            android:id="@+id/github_link"
-            style="@style/IconButton"
-            android:text="{entypo-github}" />
-
-        <com.joanzapata.iconify.widget.IconButton
-            android:id="@+id/linkedin_link"
-            style="@style/IconButton"
-            android:text="{entypo-linkedin}" />
-
-        <com.joanzapata.iconify.widget.IconButton
-            android:id="@+id/google_link"
-            style="@style/IconButton"
-            android:text="{entypo-google}" />
-
-    </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"

@@ -9,7 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
+
+import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -52,9 +53,8 @@ public class FullScreenPhotoDialog extends AppCompatDialogFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-        Glide.with(getContext())
+        Picasso.with(getContext())
                 .load(photoUrl)
-                .fitCenter()
                 .into(fullScreenPhoto);
     }
 
@@ -72,7 +72,7 @@ public class FullScreenPhotoDialog extends AppCompatDialogFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        Glide.clear(fullScreenPhoto);
+        Picasso.with(getContext()).cancelRequest(fullScreenPhoto);
         ButterKnife.unbind(this);
     }
 

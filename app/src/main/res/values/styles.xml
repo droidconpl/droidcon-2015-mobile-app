@@ -21,11 +21,8 @@
     </style>
 
     <style name="SlotViewHour">
-        <item name="android:layout_weight">1</item>
-        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginLeft">@dimen/screen_edge_margin</item>
-        <item name="android:layout_marginTop">@dimen/screen_edge_margin</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Title</item>
         <item name="android:textColor">@color/textColorSecondary</item>
     </style>
@@ -135,6 +132,57 @@
         <item name="android:padding">0dp</item>
         <item name="android:paddingStart">@dimen/list_element_margin</item>
         <item name="android:paddingLeft">@dimen/list_element_margin</item>
-        <item name="android:textSize">24dp</item>
+        <item name="android:textSize">@dimen/icon_button_size</item>
+    </style>
+
+    <style name="IconButton.First">
+        <item name="android:paddingLeft">0dp</item>
+        <item name="android:paddingStart">0dp</item>
+    </style>
+
+    <style name="AgendaTitle">
+        <item name="android:layout_marginLeft">@dimen/list_element_margin</item>
+        <item name="android:layout_marginRight">@dimen/list_element_margin</item>
+        <item name="android:layout_marginTop">@dimen/list_element_margin</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:textColor">@color/primaryColor</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Title</item>
+        <item name="android:textSize">@dimen/agenda_title_text_size</item>
+    </style>
+    
+    <style name="AgendaDate">
+        <item name="android:layout_marginLeft">@dimen/list_element_margin</item>
+        <item name="android:layout_marginRight">@dimen/list_element_margin</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body1</item>
+        <item name="android:textColor">@color/textColorHeader</item>
+        <item name="android:textSize">@dimen/agenda_date_text_size</item>
+    </style>
+
+    <style name="AgendaDataContainer">
+        <item name="android:layout_height">@dimen/agenda_element_description_height</item>
+        <item name="android:layout_gravity">bottom</item>
+        <item name="android:background">@color/element_background2</item>
+        <item name="android:minWidth">64dp</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:gravity">bottom</item>
+        <item name="android:layout_margin">0.5dp</item>
+    </style>
+
+    <style name="AgendaRoom">
+        <item name="android:layout_marginLeft">@dimen/list_element_margin</item>
+        <item name="android:layout_marginRight">@dimen/list_element_margin</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body1</item>
+        <item name="android:textColor">@color/textColorHeader</item>
+        <item name="android:textSize">@dimen/agenda_date_text_size</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+    <style name="AgendaDataContainer.Dark">
+        <item name="android:background">@color/element_background3</item>
     </style>
 </resources>

@@ -1,0 +1,10 @@
+<resources>
+    <dimen name="agenda_element_height">250dp</dimen>
+    <dimen name="agenda_title_text_size">18sp</dimen>
+    <dimen name="agenda_date_text_size">15sp</dimen>
+    <dimen name="list_item_expanded_height">280dp</dimen>
+    <dimen name="min_dialog_width">400dp</dimen>
+    <dimen name="speaker_photo_avatar_size">96px</dimen>
+    <dimen name="icon_button_size">24sp</dimen>
+    <dimen name="speaker_dialog_avatar_size">104dp</dimen>
+</resources>

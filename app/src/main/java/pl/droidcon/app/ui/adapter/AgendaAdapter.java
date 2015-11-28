@@ -11,11 +11,12 @@ import java.util.List;
 import pl.droidcon.app.R;
 import pl.droidcon.app.model.api.Session;
 
-public class AgendaAdapter extends RecyclerView.Adapter<SessionViewHolder> {
+public class AgendaAdapter extends RecyclerView.Adapter<BaseSessionViewHolder> {
 
     private enum ViewType {
         NORMAL_SESSION(0),
-        LARGE_SESSION(1);
+        LARGE_NON_SESSION(1),
+        LARGE_SESSION(2);
         private int viewType;
 
         ViewType(int viewType) {
@@ -43,27 +44,39 @@ public class AgendaAdapter extends RecyclerView.Adapter<SessionViewHolder> {
     }
 
     @Override
-    public SessionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public BaseSessionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         ViewType type = ViewType.of(viewType);
-        View v = null;
+        View v;
         switch (type) {
             case NORMAL_SESSION:
                 v = LayoutInflater.from(parent.getContext()).inflate(R.layout.agenda_element, parent, false);
-                break;
+                return new AgendaSessionViewHolder(v);
+            case LARGE_NON_SESSION:
+                v = LayoutInflater.from(parent.getContext()).inflate(R.layout.agenda_non_session_large_element, parent, false);
+                return new AgendaNonSessionLargeViewHolder(v);
             case LARGE_SESSION:
-                v = LayoutInflater.from(parent.getContext()).inflate(R.layout.agenda_large_element, parent, false);
-                break;
+                v = LayoutInflater.from(parent.getContext()).inflate(R.layout.agenda_session_large_element, parent, false);
+                return new AgendaSessionViewHolder(v);
         }
-        return new SessionViewHolder(v);
+
+        throw new IllegalStateException("Not valid viewType");
     }
 
     @Override
     public int getItemViewType(int position) {
-        return getSessionByPosition(position).singleItem ? ViewType.LARGE_SESSION.getViewType() : ViewType.NORMAL_SESSION.getViewType();
+        Session sessionByPosition = getSessionByPosition(position);
+        if (!sessionByPosition.singleItem) {
+            return ViewType.NORMAL_SESSION.getViewType();
+        }
+        if (sessionByPosition.getSpeakersList().isEmpty()) {
+            return ViewType.LARGE_NON_SESSION.getViewType();
+        } else {
+            return ViewType.LARGE_SESSION.getViewType();
+        }
     }
 
     @Override
-    public void onBindViewHolder(SessionViewHolder holder, int position) {
+    public void onBindViewHolder(BaseSessionViewHolder holder, int position) {
         holder.attachSession(sessions.get(position));
     }
 

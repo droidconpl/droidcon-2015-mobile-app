@@ -11,10 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.joda.time.DateTime;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import pl.droidcon.app.R;
 import pl.droidcon.app.dagger.DroidconInjector;
+import pl.droidcon.app.helper.DateTimePrinter;
 import pl.droidcon.app.model.common.SessionDay;
 import pl.droidcon.app.ui.fragment.BaseFragment;
 
@@ -78,13 +81,13 @@ public class ScheduleMainFragment extends BaseFragment {
 
         @Override
         public int getCount() {
-            return SessionDay.values().length;
+            return 2;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            int humanReadable = SessionDay.values()[position].humanReadableDateStringId;
-            return getString(humanReadable);
+            DateTime when = SessionDay.values()[position].when;
+            return DateTimePrinter.toPrintableDay(when);
         }
     }
 

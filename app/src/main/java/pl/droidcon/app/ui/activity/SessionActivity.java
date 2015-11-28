@@ -19,9 +19,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.FontAwesomeIcons;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -37,6 +37,7 @@ import pl.droidcon.app.helper.DateTimePrinter;
 import pl.droidcon.app.helper.UrlHelper;
 import pl.droidcon.app.model.api.Session;
 import pl.droidcon.app.model.api.Speaker;
+import pl.droidcon.app.model.common.Room;
 import pl.droidcon.app.model.common.Schedule;
 import pl.droidcon.app.model.common.ScheduleCollision;
 import pl.droidcon.app.model.db.RealmSchedule;
@@ -82,6 +83,8 @@ public class SessionActivity extends BaseActivity implements SpeakerList.Speaker
     TextView title;
     @Bind(R.id.session_date)
     TextView date;
+    @Bind(R.id.session_room)
+    TextView sessionRoom;
     @Bind(R.id.indicator)
     CircleIndicator indicator;
     @Bind(R.id.speakers)
@@ -133,6 +136,8 @@ public class SessionActivity extends BaseActivity implements SpeakerList.Speaker
         }
         speakerListView.setSpeakers(speakersList, this);
         favouriteButton.setOnClickListener(favouriteClickListener);
+        int stringRes = Room.valueOfRoomId(session.roomId).getStringRes();
+        sessionRoom.setText(stringRes);
     }
 
     @Override
@@ -335,10 +340,8 @@ public class SessionActivity extends BaseActivity implements SpeakerList.Speaker
             View itemView = LayoutInflater.from(context).inflate(R.layout.speaker_pager_item, container, false);
             ImageView imageView = (ImageView) itemView.findViewById(R.id.speaker_photo);
             String url = UrlHelper.url(speakers.get(position).imageUrl);
-            Glide.with(context)
+            Picasso.with(context)
                     .load(url)
-                    .fitCenter()
-                    .crossFade()
                     .into(imageView);
             imageView.setOnClickListener(new ViewPagerImageClickListener(url));
             container.addView(imageView);

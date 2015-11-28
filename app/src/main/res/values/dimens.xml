@@ -11,4 +11,12 @@
     <dimen name="slot_padding">0dp</dimen>
     <dimen name="min_dialog_width">300dp</dimen>
     <dimen name="schedule_element_label_bottom_padding">20dp</dimen>
+    <dimen name="agenda_element_height">160dp</dimen>
+
+    <dimen name="agenda_title_text_size">16sp</dimen>
+    <dimen name="agenda_date_text_size">13sp</dimen>
+    <dimen name="speaker_photo_avatar_size">64px</dimen>
+    <dimen name="icon_button_size">24sp</dimen>
+    <dimen name="speaker_dialog_avatar_size">128dp</dimen>
+    <dimen name="agenda_element_description_height">64dp</dimen>
 </resources>
