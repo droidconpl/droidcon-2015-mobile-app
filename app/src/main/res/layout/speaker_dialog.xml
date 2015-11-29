@@ -25,6 +25,7 @@
             android:layout_centerVertical="true"
             android:layout_toEndOf="@+id/speaker_photo"
             android:layout_toRightOf="@+id/speaker_photo"
+            android:layout_marginRight="8dp"
             android:orientation="vertical">
 
             <TextView
