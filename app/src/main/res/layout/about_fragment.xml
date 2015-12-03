@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:id="@+id/aboutContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="40dp"
-        android:padding="15dp">
+        android:padding="@dimen/screen_edge_margin">
 
         <LinearLayout
             android:id="@+id/event_layout"
@@ -114,4 +113,4 @@
                 android:textAppearance="?android:attr/textAppearanceLarge" />
         </LinearLayout>
     </RelativeLayout>
-</ScrollView>
+</android.support.v4.widget.NestedScrollView>
