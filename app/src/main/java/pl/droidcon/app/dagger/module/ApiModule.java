@@ -16,6 +16,7 @@ import dagger.Module;
 import dagger.Provides;
 import io.realm.RealmObject;
 import pl.droidcon.app.http.DateTimeConverter;
+import pl.droidcon.app.http.RatingsService;
 import pl.droidcon.app.http.RestService;
 import retrofit.Endpoint;
 import retrofit.Endpoints;
@@ -28,11 +29,23 @@ import retrofit.converter.GsonConverter;
 public class ApiModule {
 
     private final static String BASE_URL = "https://raw.githubusercontent.com/droidconpl/droidcon-2015-web/master";
+    private final static String GH_URL = "https://raw.githubusercontent.com/droidconpl/droidcon-2015-web/master";
 
     @Provides
     @Singleton
     RestService provideRestService(RestAdapter restAdapter) {
         return restAdapter.create(RestService.class);
+    }
+
+    @Provides
+    @Singleton
+    RatingsService provideRatingService(Client client, Gson gson) {
+        return new RestAdapter.Builder()
+                .setClient(client)
+                .setEndpoint(Endpoints.newFixedEndpoint(GH_URL))
+                .setConverter(new GsonConverter(gson))
+                .build()
+                .create(RatingsService.class);
     }
 
     @Provides
